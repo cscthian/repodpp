@@ -1,0 +1,50 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Lsita de Vouchers {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+        <section class="widget">
+          <h3>Lista de Voucher<span class="fw-semi-bold"> Guia</span></h3>
+          <br>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>COD</th>
+                  <th>Guia</th>
+                  <th>Voucher</th>
+                  <th>Fecha Cobro</th>
+                  <th>Fecha Registro Voucher</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for v in vouchers %}
+                    <tr>
+                      <td>
+                        {{v.pk}}
+                     </td>
+                      <td>
+                        {{v.guide.number}}
+                     </td>
+                     <td>
+                       {{v.voucher.number}}
+                    </td>
+                    <td>
+                      {{v.voucher.date}}
+                    </td>
+                    <td>
+                      {{v.voucher.created}}
+                    </td>
+
+                      {% empty %}
+                          <td colspan="7">No hay voucher para esta Guia :( </td>
+                    </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </dvi>
+{% endblock main %}

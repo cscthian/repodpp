@@ -1,0 +1,97 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Modificar Canilla {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Modificar datos<span class="fw-semi-bold">Canilla</span></h1>
+<div class="col-md-6">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="."><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+            <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <fieldset>
+                    <legend><strong>Ingrese</strong> Los Datos</legend>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Codigo</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                              <span class="input-group-addon">COD</span>
+                            {{form.cod}}
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Dni</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                              <span class="input-group-addon">DNI</span>
+                            {{form.dni}}
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Nombres</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                            {{form.name}}
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Seudonimo</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user-secret"></i></span>
+                                {{form.seudonimo}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="prepended-input">Tipo</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-ellipsis-v"></i></span>
+                                {{form.type_vendor}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="prepended-input">Linite de Credito</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                {{form.line_credit}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="prepended-input">Devolver</label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                {{form.plazo}}
+                            </div>
+                        </div>
+                        Dias Antes
+                    </div>
+                </fieldset>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-7">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="{% url 'entidad_app:vendor-list' %}" class="btn btn-inverse">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock main %}

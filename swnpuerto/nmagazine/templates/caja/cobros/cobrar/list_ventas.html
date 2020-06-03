@@ -1,0 +1,44 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Lista Ventas {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Ventas Registradas</span></h3>
+          <br>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Codigo</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                  <th>Monto</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in  list_ventas %}
+                  <tr>
+                      <td>{{ p.pk }}</td>
+                      <td>{{ p.detail_guide.magazine_day.magazine.name }}</td>
+                      <td>{{ p.count }}</td>
+                      <td>{{ p.detail_guide.precio_unitario }}</td>
+                      <td>{{ p.amount }}</td>
+                      <td>
+                        <a href="{% url 'pagos_app:venta-delete' p.pk %}" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                      </td>
+                      {% empty %}
+                          <td colspan="7">no hay Ventas Registradas Hoy :(</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </dvi>
+{% endblock main %}

@@ -1,0 +1,76 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Lista de Productos Registrados {% endblock title %}
+
+
+{% block main %}
+
+<div class="row" ng-app="MagazineApp" ng-controller="RegisEntregaProdCtrl as vm">
+<div class="col-md-12">
+  <toast></toast>
+    <section class="widget">
+      <h4><strong>Entrega de Productos</strong></h4>
+        <div class="widget-body">
+            <form role="form">
+                <fieldset>
+                    <legend>Codigo Vendedor</legend>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="bar" ng-keypress="vm.enter($event,1)" placeholder="codigo de vendedor" ng-model="vm.codigo">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="vm.cargar_pauta(vm.codigo, '{{user.type_user}}',1)"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <a ng-href="/entrega/list-producto-delete/{$ vm.codigo $}/1" class="btn btn-danger" title="Anular"><i class="fa fa-remove"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div ng-class="vm.class">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <span class="fw-semi-bold">NOMBRES:</span> {$ vm.vendedor $}
+                    </div>
+                </fieldset>
+                <section class="widget">
+                      <span class="label label-default">0 :Se Entregara en Otro Momento</span><span class="label label-danger"> -1 : Ya no se le Entregara el Producto</span>
+                     <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid_producto"></div>
+                </section>
+            </form>
+        </div>
+    </section>
+
+    <!-- seccion de botones de accion -->
+    <div class="row">
+        <div class="col-sm-12">
+              <section class="widget">
+                  <div class="widget-body">
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="bar" placeholder="Ingrese DNI del Receptor ..." ng-keypress="vm.enter2($event)" ng-model="vm.dni" ng-change="vm.validar_data()">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-success" ng-disabled="!vm.validado" ng-click="vm.enviar_data()"><i class="fa fa-floppy-o" aria-hidden="true"></i> REGISTRAR ENTREGA</button>
+                                            <button type="button" class="btn btn-default" ng-click="vm.limpiar()"><i class="fa fa-eraser" aria-hidden="true"></i> LIMPIAR</button>
+                                            <a type="button" ng-href="/panel/" class="btn btn-inverse"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <span ng-show="!vm.validado" class="text-danger">{$ vm.mje $}</span>
+                    </fieldset>
+                  </div>
+              </section>
+        </div>
+    </div>
+
+</div>
+</div>
+{% endblock main %}

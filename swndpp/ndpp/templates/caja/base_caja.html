@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load  staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'js/ui-grid/ui-grid.min.css' %}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+{% endblock css %}
+
+{% block paceloader %}
+
+{% endblock paceloader %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="{% static 'js/scrips.js' %}"></script>
+
+<!--librerias angularjs -->
+<script src="{% static 'js/angular.min.js' %}"></script>
+<script src="{% static 'js/angular-cookies.js' %}"></script>
+<script src="{% static 'js/angular-ui-router.min.js' %}"></script>
+
+<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+
+<script src="{% static 'js/ui-grid/ui-grid.min.js' %}"></script>
+
+<!--  seccion de codigo angular js neunapp -->
+<script src="{% static 'AngularApp/common/common.services.js' %}"></script>
+<!-- controlador princiapl angularjs neunapp-->
+<script src="{% static 'AngularApp/app.js' %}"></script>
+
+<!-- controlaodr para cobro en caja -->
+<script src="{% static 'AngularApp/app/caja/pagos/cobrosCtrl.js' %}"></script>
+{% endblock js %}

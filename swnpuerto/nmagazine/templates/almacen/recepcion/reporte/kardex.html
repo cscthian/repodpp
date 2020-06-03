@@ -1,0 +1,66 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Asignacion Nueva {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="ReportCtrl as vm" ng-init="vm.generar_kardex(10)">
+<h2 class="col-sm-offset-2 page-title">Entada y Salida de Productos </h2>
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <div class="row">
+      <div class="col-md-12">
+          <section class="widget">
+              <header>
+                  <h5>
+                      Filtrar <strong>Por:</strong>
+                  </h5>
+                  <div class="widget-controls">
+                      <a href="."><i class="fa fa-refresh"></i></a>
+                  </div>
+              </header>
+              <div class="widget-body">
+                  <form role="form">
+                      <div class="row">
+                          <div class="col-md-4">
+                              <fieldset>
+                                  <legend>
+                                      Diario o Producto
+                                  </legend>
+                                  <div class="input-group">
+                                      <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                    <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                                  </div>
+                              </fieldset>
+                          </div>
+                          <div class="col-md-4">
+                              <fieldset>
+                                  <legend>
+                                      Fecha Inicio
+                                  </legend>
+                                  <div class="input-group">
+                                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                      <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha1" ng-change="vm.rango_fecha()">
+                                  </div>
+                              </fieldset>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </section>
+      </div>
+  </div>
+
+
+  <section class="widget">
+        <strong>Lista de Productos Registrados</strong>
+       <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid"></div>
+  </section>
+    <section class="widget">
+
+      <button class="btn btn-sm btn-warning">Exportar</button>
+    </section>
+
+</div>
+</div>
+{% endblock main %}

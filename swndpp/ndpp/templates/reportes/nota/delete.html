@@ -1,0 +1,23 @@
+{% extends "reportes/base_reportes.html" %}
+
+{% block title %}Eliminar Nota de Credito{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <div class="callout">
+    <form action="{% url 'reportes_app:delete-nota_credito' object.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="card">
+          <div class="card-divider">
+            Eliminar Nota de Credito
+          </div>
+          <div class="card-section">
+            <h4>¿Esta seguro de Eliminar Nota de Credito: {{object.number}}?.</h4>
+            <p>
+              <button type="submit" class="button alert">Eliminar</button>
+              <a href="{% url 'reportes_app:update-voucher' object.voucher.pk %}" class="button secondary">Cancel</a>
+            </p>
+          </div>
+        </div>
+    </form>
+  </div>
+{% endblock content %}

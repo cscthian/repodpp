@@ -1,0 +1,75 @@
+{% extends "reportes/base_reportes.html" %}
+
+{% block title %}Registrar Nota de Credito{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <div class="grid-x align-center">
+    <div class="cell small-12 large-10 callout grid-x grid-padding-x align-center">
+      <h5 class="factura-titulo">Datos de Nota de Credito</h5>
+      <div class="small-12 medium-5 cell">
+        <label>Factura:
+          <input type="text" value="{{factura}}" disabled>
+        </label>
+      </div>
+      <div class="small-12 medium-5 cell">
+        <label>Nota de Credito:
+          {{form.number}}
+        </label>
+        {% for error in form.number.errors %}
+          <div class="small-12">
+            <p class="text-alert">
+              {{ error|escape }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="small-12 medium-5 cell">
+        <label>Fecha de Emision:
+          {{form.date_emition}}
+        </label>
+        {% for error in form.date_emition.errors %}
+          <div class="small-12">
+            <p class="text-alert">
+              {{ error|escape }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="small-12 medium-5 cell">
+        <label>Referencia:
+          {{form.reference}}
+        </label>
+        {% for error in form.reference.errors %}
+          <div class="small-12">
+            <p class="text-alert">
+              {{ error|escape }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="small-12 medium-5 cell">
+        <label>Monto:
+          {{form.amount}}
+        </label>
+        {% for error in form.amount.errors %}
+          <div class="small-12">
+            <p class="text-alert">
+              {{ error|escape }}
+            </p>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="small-12 medium-5 cell">
+        
+      </div>
+
+      <div class="grid-x grid-margin-x align-center">
+        <input type="submit" class="cell shrink button success" value="Guardar">
+        <a href="#" class="cell shrink button alert">Eliminar</a>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock content %}

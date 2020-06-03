@@ -1,0 +1,83 @@
+{% extends "base/dashboardAlmacen.html" %}
+{% block title %} Diarios y Productos {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="MagazineCtrl as vm">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Diarios y Productos Registrados</span></h3>
+          <br>
+          <div class="form-group">
+            <div class="input-group col-sm-4">
+                <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                <div class="input-group-btn">
+                    <a href="{% url 'recepcion_app:magazine-add' %}" class="btn btn-success" title="Nuevo Diario"><i class="fa fa-plus"></i></a>
+                    <a href="{% url 'recepcion_app:magazine-add_prod' %}" class="btn btn-info" title="Nuevo Producto"><i class="fa fa-list-alt"></i></a>
+                </div>
+            </div>
+            <legend></legend>
+            <select id="tipo" class="select" ng-model="vm.tipo">
+                <option value="Diario">Diarios</option>
+                <option value="Producto">Productos</option>
+                <option value="">Todo</option>
+            </select>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <a href="#" ng-click="order_by = 'pk'; not_order = !not_order">
+                      Codigo
+                      <span ng-show="order_by == 'pk' && !not_order" </span>
+                      <span ng-show="order_by == 'pk' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'provider'; not_order = !not_order">
+                      Proveedor
+                      <span ng-show="order_by == 'provider' && !not_order"</span>
+                      <span ng-show="order_by == 'provider' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'name'; not_order = !not_order">
+                      <strong>Diairio</strong>
+                      <span ng-show="order_by == 'name' && !not_order" </span>
+                      <span ng-show="order_by == 'name' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#">
+                      Accion
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="d in vm.diarios | orderBy:order_by:not_order |filter:{tipo:vm.tipo} | filter:vm.buscar">
+                  <td>{$ d.pk $}</td>
+                  <td>{$ d.provider $}</td>
+                  <td><strong>{$ d.name $}</strong></td>
+                  <td>
+                      <a ng-if="vm.tipo_diario(d.tipo)" ng-href="/almacen/recepcion/Diario/day/list/{$ d.pk $}/1" class="btn btn-success" title="Ver"><i class="fa fa-search"></i></a>
+                      <a ng-if="vm.tipo_producto(d.tipo)" ng-href="/almacen/recepcion/Diario/update/{$ d.pk $}/1" class="btn btn-success" title="Ver"><i class="fa fa-search"></i></a>
+
+
+                      <a ng-if="vm.tipo_diario(d.tipo)" ng-href="/almacen/recepcion/Diario/day/list/{$ d.pk $}/0" class="btn btn-warning" title="Modificar Diario"><i class="fa fa-pencil"></i></a>
+                      <a ng-if="vm.tipo_producto(d.tipo)" ng-href="/almacen/recepcion/Diario/update/{$ d.pk $}/0" class="btn btn-warning" title="Modificar Producto"><i class="fa fa-pencil"></i></a>
+
+                      <a ng-if="vm.tipo_diario(d.tipo)" ng-href="/almacen/recepcion/Diario/add/" class="btn btn-default" title="Copiar Plantilla"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+                      <a ng-if="vm.tipo_producto(d.tipo)" ng-href="/almacen/recepcion/producto/add/plantilla/{$ d.pk $}" class="btn btn-info" title="Copiar Plantilla"><i class="fa fa-files-o" aria-hidden="true"></i></a>
+
+                      <a ng-href="/almacen/recepcion/Diario/delete/{$ d.pk $}" class="btn btn-danger" title="Eliminar"><i class="fa fa-remove"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </dvi>
+
+{% endblock main %}

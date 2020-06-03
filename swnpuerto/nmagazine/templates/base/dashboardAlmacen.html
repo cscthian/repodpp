@@ -1,0 +1,112 @@
+{% extends "base/base_almacen.html" %}
+{% block title %}  DPP S.A.C {% endblock title %}
+
+        {% block rightmenu %}
+
+        <!-- every .sidebar-nav may have a title -->
+        <ul class="sidebar-nav">
+            <li class="active">
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-database"></i>
+                    </span>
+                    CATALOGOS
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-dashboard" class="collapse">
+                    <li><a href="{% url 'recepcion_app:magazine-list' %}" class="action-link">Diarios y Productos</a></li>
+                </ul>
+            </li>
+        </ul>
+        <h5 class="sidebar-nav-title">Procesos <a class="action-link" href="#"><i class="glyphicon glyphicon-refresh"></i></a></h5>
+        <ul class="sidebar-nav">
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a class="collapsed" href="#sidebar-forms" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-download"></i>
+                    </span>
+                    Recibir
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-forms" class="collapse">
+                    <li><a href="{% url 'recepcion_app:guide-add' %}">Registrar</a></li>
+                    <li><a href="{% url 'recepcion_app:guide-list' %}">Consultar</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="collapsed" href="#sidebar-ui" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-sign-in"></i>
+                    </span>
+                    Entregar
+                    <i class="fa fa-angle-sign-in"></i>
+                </a>
+                <ul id="sidebar-ui" class="collapse">
+                  <li><a href="{% url 'asignacion_app:entrada-pauta_dinamica' %}">Pauta Multiple</a></li>
+                    <li><a href="{% url 'asignacion_app:entrega-list' 0 %}">Pauta Unica</a></li>
+                    <li><a href="{% url 'asignacion_app:entrega-list_magazzine'%}">Pauta Diarios</a></li>
+                    <li><a href="{% url 'asignacion_app:entrega-list-prod' %}">Pauta Productos</a></li>
+                    <li><a href="{% url 'asignacion_app:entrega-list-consulta' %}">Consultas</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <i class="fa fa-plane"></i>
+                    </span>
+                    <a href="{% url 'devolucion_app:devolver-guias' %}">Devolver</a>
+                </a>
+            </li>
+
+            <li class="active">
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'asignacion_app:entrega-diario_dni' %}">
+                  <span class="icon">
+                      <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                  </span>
+                    Reparto Diarios
+                </a>
+            </li>
+
+            <li class="active">
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'asignacion_app:entrega-prod_add' %}">
+                    <span class="icon">
+                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                    </span>
+                    Reparto Productos
+                </a>
+            </li>
+
+        </ul>
+        <h5 class="sidebar-nav-title">Reeportes <a class="action-link" href="#"><i class="fa fa-area-chart"></i></a></h5>
+        <ul class="sidebar-nav">
+            <li>
+                <a class="collapsed" href="#sidebar-kar" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-server" aria-hidden="true"></i>
+                    </span>
+                    Kardex
+                    <i class="fa fa-angle-sign-in"></i>
+                </a>
+                <ul id="sidebar-kar" class="collapse">
+                  <li><a href="{% url 'kardex_app:guide-kardex' %}">Inventario</a></li>
+                  <li><a href="{% url 'kardex_app:guide-en_alamcen' %}">Constatar</a></li>
+                  <li><a href="{% url 'recepcion_app:magazine-prod_por_cobrar' %}">Productos Por Cobrar</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="collapsed" href="{% url 'recepcion_app:magazine-prod_por_cobrar' %}">
+                    <span class="icon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </span>
+                    Productos Por Cobrar
+                </a>
+            </li>
+        </ul>
+{% endblock rightmenu %}
+
+{% block main %}
+{% endblock main %}

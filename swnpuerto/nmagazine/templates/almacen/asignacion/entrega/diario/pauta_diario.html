@@ -1,0 +1,127 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Nueva Pauata Diario{% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="PautaDiarioCtrl as vm" ng-init="vm.limpiar({{object.pk}},{{object.count}})">
+<h2 class="col-sm-offset-2 page-title">Registrar Nueva Pauata Diario</h2>
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <section class="widget">
+    <div class="col-md-12">
+        <section class="widget">
+            <!-- .widget>header is generally a place for widget title and widget controls. see .widget in _base.scss -->
+            <header>
+                <h5>
+                    Diario: <strong>{$ vm.diario $}</strong>
+                </h5>
+                <div class="widget-controls">
+                    <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                    <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+            </header>
+            <div class="widget-body">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h6 class="name">Cantidad Actual:</h6>
+                        <p class="value">{{object.count}}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h6 class="name">Entregando</h6>
+                        <p class="value">{$ vm.por_entregar $}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h5 class="name" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">Resto</h5>
+                        <p class="value" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">{$ vm.resto $}</p>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar progress-bar-success" ng-class="{bardanger: vm.is_error, barwarning: vm.is_warning, barsuccess:vm.is_good}" role="progressbar" aria-valuenow="{$ vm.por_entregar $}"
+                         aria-valuemin="0" aria-valuemax="{{object.count}}" style="width: {$ vm.progres $};">
+                    </div>
+                </div>
+                <p>
+                    <small><span class="circle bg-warning"><i class="glyphicon glyphicon-chevron-up"></i></span></small>
+                    <span class="fw-semi-bold">Queda {$ vm.resto $} Diarios</span>
+                    desea entregar {$ vm.por_entregar $}</p>
+            </div>
+        </section>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button class="btn btn-sm btn-warning" ng-click="vm.generar_pauta({{object.pk}},{{object.count}})">Generar</button>
+        <button class="btn btn-sm btn-success" ng-click="vm.cargar_pauta({{object.pk}},{{object.count}})">Cargar</button>
+        <button class="btn btn-sm btn-primary" ng-click="vm.sugerir_pauta({{object.count}})">COPIAR PAUTA --></button>
+      </div>
+      <div class="col-md-3">
+        <input class="form-control" name="buscar" type="text"
+            placeholder="buscar..." ng-model="vm.buscar"
+        >
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" ng-model="vm.diario_c">
+            <option ng-repeat="p in vm.diarios | filter:vm.buscar" value="{$ p.pk $}">{$ p.magazine_day $} -- {$ p.count $}</option>
+        </select>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="widget">
+       <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid_voucher"></div>
+  </section>
+    <section class="widget">
+      <div class="col-md-12">
+              <div class="widget-body col-md-6">
+                  <div class="stats-row">
+                      <div class="stat-item">
+                          <h6 class="name">Cantidad Actual:</h6>
+                          <p class="value">{{object.count}}</p>
+                      </div>
+                      <div class="stat-item">
+                          <h6 class="name">Entregando</h6>
+                          <p class="value">{$ vm.por_entregar $}</p>
+                      </div>
+                      <div class="stat-item">
+                          <h5 class="name" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">Resto</h5>
+                          <p class="value" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">{$ vm.resto $}</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <br>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon1">GUIA</span>
+                  <input type="text" ng-model="vm.guide"class="form-control" placeholder="Nuevo Numero de Guia.." aria-describedby="basic-addon1">
+                </div>
+              </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <button class="btn btn-sm btn-default" ng-click="vm.limpiar({{object.pk}},{{object.count}})">Limpiar</button>
+              <button class="btn btn-sm btn-warning" ng-click="vm.exportar()">Pdf</button>
+              <button class="btn btn-sm btn-success" ng-click="vm.exportarExcel()">Excel</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row center">
+                <button class="btn btn-sm btn-primary col-sm-offset-2" ng-click="vm.enviar({{object.pk}})"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+                <button class="btn btn-sm btn-danger" ng-click="vm.habilitar_pauta({{object.pk}})"><i class="fa fa-check-circle" aria-hidden="true"></i> Habilitar</button>
+                <button class="btn btn-sm btn-defautl" ng-click="vm.deshabilitar_pauta({{object.pk}})"><i class="fa fa-thumbs-down" aria-hidden="true"></i> Deshabilitar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+</div>
+</div>
+{% endblock main %}

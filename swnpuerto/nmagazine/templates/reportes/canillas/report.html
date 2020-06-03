@@ -1,0 +1,111 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Rankin Canillas {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="RankincanillaCtrl as vm">
+
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-xs-12 col-md-3">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Ranking Canillas</h5>
+                        <a href="{% url 'reportes_app:vendor-report' %}" class="h3 no-margin fw-normal">Ventas</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+      </div>
+
+      <div class="col-xs-12 col-md-3">
+          <section class="widget bg-success text-white">
+              <div class="widget-body clearfix">
+                  <div class="row">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-battery-full" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Canillas en Tope</h5>
+                          <a href="{% url 'reportes_app:vendor-tope' %}" class="h3 no-margin fw-normal">Tope</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+        </div>
+
+      <div class="col-xs-12 col-md-3">
+          <section class="widget bg-primary text-white">
+              <div class="widget-body clearfix">
+                  <div class="row center">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-book" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Historial Canillas</h5>
+                          <a href="{% url 'reportes_app:vendor-historial' %}" class="h3 no-margin fw-normal">Historial</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+
+      <div class="col-xs-12 col-md-3">
+          <section class="widget bg-info text-white">
+              <div class="widget-body clearfix">
+                  <div class="row center">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Canilla Cero</h5>
+                          <a href="{% url 'reportes_app:vendor-cero' %}" class="h3 no-margin fw-normal">Cero</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+  </div>
+  <section class="widget">
+        <h3 class="text-primary"> Reporte Ranking Canillas (Mejores Vendedores) </h3>
+        <div class="row">
+            <div class="col-xs-12 col-md-2">
+                Seleccione un Diario:
+            </div>
+            <div class="col-xs-12 col-md-4">
+              <select class="form-control" ng-model="vm.magazine"
+              required ng-change="vm.generar_ranking(vm.magazine)">
+                  <option ng-repeat="d in vm.diarios | filter:vm.buscar" value="{$d.pk$}">{$ d.name $}</option>
+              </select>
+            </div>
+            <div class="col-xs-12 col-md-4">
+              <input class="form-control" name="buscar" type="text"
+                  placeholder="buscar..." ng-model="vm.buscar"
+              >
+            </div>
+        </div>
+        <hr>
+       <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid"></div>
+  </section>
+  <section class="widget">
+    <button class="btn btn-sm btn-warning" ng-click="vm.exportar_pdf()">PDF</button>
+    <button class="btn btn-sm btn-success" ng-click="vm.exportarExcel()">Excel</button>
+  </section>
+</div>
+</div>
+{% endblock main %}

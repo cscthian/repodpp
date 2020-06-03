@@ -1,0 +1,44 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %}Guias Pendientes{% endblock title %}
+
+{% block main %}
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 style="text-align:center;">Lista de guias no cerradas</h3>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div id="print-section">
+    <section class="widget">
+      <div class="row">
+        <legend></legend>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Guia</th>
+              <th>Fecha</th>
+              <th>Proveedor</th>
+              <th>estado</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for g in guias  %}
+              <tr>
+                <td>{{g.number}}</td>
+                <td>{{g.created}}</td>
+                <td>{{g.provider}}</td>
+                <td><a href="{% url 'pagos_app:guias-pendientes-detalle' g.pk %}" class="btn btn-success"><i class="fa fa-sign-out"></i>Ver</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <legend></legend>
+        <legend></legend>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock main %}

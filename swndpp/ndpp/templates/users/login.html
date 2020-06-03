@@ -1,0 +1,40 @@
+{% extends "users/base_users.html" %}
+
+{% block title %}login DPP{% endblock title %}
+
+{% block content %}
+<div class="main-login">
+  <div class="callout login">
+    <div class="login-copy">
+      <h1 class="login-copy__title">
+        Bienvenido a Dpp
+      </h1>
+      <p class="login-copy__text">
+        Sistema web dpp, Distribuidora de periodicos y publicaciones.
+      </p>
+    </div>
+    <div class="login-form">
+      <div class="icon-car-1">
+
+      </div>
+      <form method="post" class="login-form__formulario">{% csrf_token %}
+        {% if form.errors %}
+          <p class="login-form__error">
+            Usuario o contraseña incorrectos!!!
+          </p>
+        {% endif %}
+        <div class="row">
+          <div class="small-12 columns">
+            {{ form.username }}
+          </div>
+          <div class="small-12 columns">
+            {{ form.password }}
+          </div>
+          <button type="submit" class="button small expanded login-form__button">Entrar</button>
+          <a href="#" class="login-form__forgot">Olvide mi contraseña</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,97 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Asignacion Nueva {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="EntregaCtrl as vm">
+<h2 class="col-sm-offset-2 page-title">Registrar Entrega</h2>
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <section class="widget">
+    <div class="col-md-12">
+        <section class="widget">
+            <!-- .widget>header is generally a place for widget title and widget controls. see .widget in _base.scss -->
+            <header>
+                <h5>
+                    Diario/Producto: <strong>{$ vm.diario $}</strong>
+                </h5>
+                <div class="widget-controls">
+                    <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                    <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+            </header>
+            <div class="widget-body">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h6 class="name">Cantidad Actual:</h6>
+                        <p class="value">{{object.count}}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h6 class="name">Entregando</h6>
+                        <p class="value">{$ vm.por_entregar $}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h5 class="name" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">Resto</h5>
+                        <p class="value" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">{$ vm.resto $}</p>
+                    </div>
+                </div>
+                <div class="progress progress-xs">
+                    <div class="progress-bar progress-bar-success" ng-class="{bardanger: vm.is_error, barwarning: vm.is_warning, barsuccess:vm.is_good}" role="progressbar" aria-valuenow="{$ vm.por_entregar $}"
+                         aria-valuemin="0" aria-valuemax="{{object.count}}" style="width: {$ vm.progres $};">
+                    </div>
+                </div>
+                <p>
+                    <small><span class="circle bg-warning"><i class="glyphicon glyphicon-chevron-up"></i></span></small>
+                    <span class="fw-semi-bold">Queda {$ vm.resto $} Diarios</span>
+                    desea entregar {$ vm.por_entregar $}</p>
+            </div>
+        </section>
+    </div>
+    <div class="row">
+      {% if tipo != '0' %}
+        <button class="btn btn-sm btn-success" ng-click="vm.cargar_pauta({{object.pk}},{{object.count}})">Cargar</button>
+      {%endif%}
+      <button class="btn btn-sm btn-danger" ng-click="vm.generar_pauta({{object.pk}},{{object.count}})">Generar</button>
+    </div>
+    <span class="text-primary">{$ vm.msj $}</span>
+  </section>
+
+  <section class="widget">
+       <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid_voucher"></div>
+  </section>
+    <section class="widget">
+      <div class="col-md-12">
+              <div class="widget-body">
+                  <div class="stats-row">
+                      <div class="stat-item">
+                          <h6 class="name">Cantidad Actual:</h6>
+                          <p class="value">{{object.count}}</p>
+                      </div>
+                      <div class="stat-item">
+                          <h6 class="name">Entregando</h6>
+                          <p class="value">{$ vm.por_entregar $}</p>
+                      </div>
+                      <div class="stat-item">
+                          <h5 class="name" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">Resto</h5>
+                          <p class="value" ng-class="{danger: vm.is_error, warnig: vm.is_warning, success:vm.is_good}">{$ vm.resto $}</p>
+                      </div>
+                  </div>
+              </div>
+      </div>
+      {% if tipo == '1' %}
+      <button class="btn btn-sm btn-primary" ng-click="vm.enviar({{object.pk}})">Guardar</button>
+      <button class="btn btn-sm btn-default" ng-click="vm.limpiar({{object.pk}},{{object.count}})">Limpiar</button>
+      {% else %}
+        {% if tipo == '2' %}
+          <span class="text-danger">No se puede modificar una asigancion que ya tiene pagos </span>
+        {% endif %}
+      {% endif %}
+
+
+      <button class="btn btn-sm btn-warning" ng-click="vm.exportar()">Exportar</button>
+    </section>
+
+</div>
+</div>
+{% endblock main %}

@@ -1,0 +1,13 @@
+{% extends "recepcion/base_recepcion.html" %}
+
+{% block title %}Agregar Producto{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <h2>Seleccione un dia a Editar</h2>
+  {% for key,value in days %}
+    <div class="callout days">
+      <a href="{% url 'recepcion_app:magazine-update' key pk tipo %}">{{value}}</a>
+    </div>
+  {% endfor %}
+{% endblock content %}

@@ -1,0 +1,239 @@
+{% extends "reportes/base_reportes.html" %}
+
+{% block title %}Datos de Factura{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+<!-- FORMULARIO DE DATOS DE FACTURA-->
+
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x align-center callout">
+      <h5 class="factura-titulo">Datos de Factura</h5>
+      <div class="small-12 medium-5 cell">
+        <label>Factura
+          <input type="text" name="number" value="{{object.number}}" disabled>
+        </label>
+      </div>
+      <div class="small-12 medium-5 cell">
+        <label>Codigo Interno:
+          {{form.number_interno}}
+          {% for error in form.number_interno.errors %}
+            <div class="small-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </label>
+
+      </div>
+      <div class="small-12 medium-5 cell">
+        <label>Fecha de Emision:
+          {{form.date_emition}}
+          {% for error in form.date_emition.errors %}
+            <div class="small-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </label>
+
+      </div>
+      <div class="small-12 medium-5 cell">
+        <label>Total:
+          {{form.amount}}
+          {% for error in form.amount.errors %}
+            <div class="small-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </label>
+
+      </div>
+      <div class="small-12 medium-3 cell">
+        <label>FACTURA CON IGV:
+          {{form.igv}}
+        </label>
+      </div>
+    </div>
+
+    <div class="grid-x grid-margin-x align-center callout">
+      <div class="cell small-12 large-3 grid-x align-center">
+        <input type="submit" class="cell button success" value="Guardar">
+      </div>
+      <div class="cell small-12 large-3 grid-x align-center">
+        <a href="{% url 'reportes_app:delete-voucher' object.pk %}" class="cell button alert">Eliminar</a>
+      </div>
+      <div class="cell small-12 large-3 grid-x align-center">
+        <a href="{% url 'reportes_app:add-voucher' %}" class="cell button">Nuevo</a>
+      </div>
+    </div>
+
+  </div>
+</form>
+<!-- FIN FORMULARIO DE DATOS DE FACTURA-->
+
+<!-- FILTRO Y LISTA DE GUIAS DE UNA FACTURA -->
+  <div class="callout" ng-app="DppApp" ng-controller="FacturaUpdateCtrl as self" ng-init="self.items_agregado_factura({{object.pk}})">
+    <div class="grid-x">
+      <div class="cell small-12 large-6 callout">
+          <div class="grid-x grid-padding-x align-center align-bottom">
+            <p class="cell"style="color:blue;">(*) primero siempre empezar por fecha..., por ultimo nombre de item</p>
+            <div class="small-12 medium-5 cell">
+              <label>Fecha Recepcion
+                <input type="date" ng-model="self.fecha" ng-change="self.listar_items_date()">
+              </label>
+            </div>
+            <div class="small-12 medium-5 cell">
+              <label>Proveedor
+                <select ng-model="self.provider" ng-change="self.seleccionar_by_provider()">
+                  <option ng-repeat="p in self.providers" value="{$ p.name $}">{$ p.name $}</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="small-12 medium-5 cell">
+              <label>Departamento
+                <select ng-model="self.departamento" ng-change="self.seleccionar_by_departamento()">
+                  <option ng-repeat="d in self.departamentos" value="{$ d.name $}">{$ d.name $}</option>
+                </select>
+              </label>
+            </div>
+            <div class="small-12 medium-5 cell">
+              <label>Item de Guia:
+                <input type="text" ng-model="self.magazine" ng-change="self.limpiar_seleccion()" placeholder="Nombre del diario o prod...">
+              </label>
+            </div>
+            <div class="small-12 cell grid-container grid-x grid-margin-x">
+              <div class="cell small-12 medium-6 grid-x">
+                <div class="cell samll-12 medium-6">
+                  <button type="button" ng-click="self.agregar_item({{object.pk}})"class="primary button">Agregar Seleccion</button>
+                </div>
+                <div class="cell samll-12 medium-6">
+                  <button type="button" class="secondary button" ng-click="self.limpiar_seleccion()">Limpiar Seleccion</button>
+                </div>
+              </div>
+              <div class="cell samll-12 medium-6 grid-x">
+                <div class="cell samll-12 medium-6">
+                  <h4 style="font-size:1em;"><strong>Monto: S/. {$ self.monto_seleccion $}</strong> </h4>
+                </div>
+                <div class="cell samll-12 medium-6">
+                  <h4 style="font-size:1em;"><strong>Canti: {$ self.count_seleccion $}</strong> </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="grid-x">
+          <table class="unstriped">
+            <thead>
+              <thead>
+                <tr>
+                  <th>PROVE</th>
+                  <th>DEPAR</th>
+                  <th>FECHA</th>
+                  <th>ITEM</th>
+                  <th>CAN</th>
+                  <th>GUIA</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+            </thead>
+            <tbody>
+              <tr ng-repeat="i in self.items | filter:self.magazine |filter:{provider:self.provider} |filter:{departamento:self.departamento}">
+                <td ng-if="i.facturado" style="font-size:0.7em;color:#3F51B5;">{$ i.provider $}</td>
+                <td ng-if="i.facturado" style="font-size:0.7em;color:#3F51B5;">{$ i.departamento $}</td>
+                <td ng-if="i.facturado" style="font-size:0.7em;color:#3F51B5;">{$ i.date $}</td>
+                <td ng-if="i.facturado" style="font-size:0.7em;color:#3F51B5;">{$ i.magazine_day $}</td>
+                <td ng-if="i.facturado" style="font-size:0.7em;color:#3F51B5;" title="precio: {$ i.precio_guia $}">{$ i.count $}</td>
+                <td ng-if="i.facturado" style="font-size:0.7em;color:#3F51B5;">{$ i.guide $}</td>
+                <td ng-if="i.facturado"><input type="checkbox" ng-model="i.state" ng-click="self.calcular_montos_seleccion()"></td>
+
+                <td ng-if="!i.facturado" style="font-size:0.7em;">{$ i.provider $}</td>
+                <td ng-if="!i.facturado" style="font-size:0.7em;">{$ i.departamento $}</td>
+                <td ng-if="!i.facturado" style="font-size:0.7em;">{$ i.date $}</td>
+                <td ng-if="!i.facturado" style="font-size:0.7em;">{$ i.magazine_day $}</td>
+                <td ng-if="!i.facturado" style="font-size:0.7em;" title="precio: {$ i.precio_guia $}">{$ i.count $}</td>
+                <td ng-if="!i.facturado" style="font-size:0.7em;">{$ i.guide $}</td>
+                <td ng-if="!i.facturado"><input type="checkbox" ng-model="i.state" ng-click="self.calcular_montos_seleccion()"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="cell small-12 large-6 callout" id="guias">
+        <div class="cell small-12 grid-x">
+          <div class="cell small-12 medium-6">
+            <h4>Monto: S/. {$ self.monto_items_voucher $}</h4>
+          </div>
+          <div class="cell small-12 medium-6">
+            <h4>Cantidad: {$ self.count_items_voucher $}</h4>
+          </div>
+        </div>
+        <table class="unstriped">
+          <thead>
+            <thead>
+              <tr>
+                <th>GUIA</th>
+                <th>FECHA</th>
+                <th>ITEM</th>
+                <th>CANTIDAD</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+          </thead>
+          <tbody>
+            <tr ng-repeat="ia in self.items_agregados">
+              <td style="font-size:0.7em;">{$ ia.guide $}</td>
+              <td style="font-size:0.7em;">{$ ia.date $}</td>
+              <td style="font-size:0.7em;">{$ ia.magazine_day $}</td>
+              <td style="font-size:0.7em;" title="precio: {$ ia.precio_guia $}">{$ ia.count $}</td>
+              <td><button type="button" name="button" class="alert button" ng-click="self.delete_item(ia.pk, {{object.pk}})">X</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<!-- FIN DE LISTA GUIAS -->
+
+<!-- FILTRO Y LISTA DE NOTAS DE CREDITO -->
+  <h5 class="factura-titulo">Notas de Credito</h5>
+  <div class="grid-x align-center">
+    <div class="cell shrink">
+      <a href="{% url 'reportes_app:add-nota_credito' object.pk %}" class="button secondary">Nueva nota de credito</a>
+    </div>
+  </div>
+  <div class="grid-x align-center">
+    <div class="cell small-12 large-10 callout">
+        <table class="stack">
+          <thead>
+            <th>Numero</th>
+            <th>Numero Factura</th>
+            <th>Fecha Emision</th>
+            <th>Total</th>
+            <th>Accion</th>
+          </thead>
+          <tbody>
+            {% for n in notas_credito %}
+            <tr>
+              <td>{{n.number}}</td>
+              <td>{{n.voucher}}</td>
+              <td>{{n.date_emition}}</td>
+              <td>{{n.amount}}</td>
+              <td>
+                <a href="{% url 'reportes_app:delete-nota_credito' n.pk %}" class="button alert">X</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- FIN LISTA DE NOTAS DE CREDITO -->
+{% endblock content %}

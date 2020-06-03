@@ -1,0 +1,27 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Eliminar Entrega {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Eliminar<span class="fw-semi-bold"> Entrega</span></h1>
+<div class="col-md-6">
+    <section class="widget">
+        <div class="widget-body">
+            <form class="form-horizontal" role="form" action="{% url 'asignacion_app:entrega-pauta_delete' detailpauta.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-actions">
+                    <div class="row center">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <div class="alert alert-danger">
+                                ¿Esta seguro de Eliminar La Entrega: <span class="fw-semi-bold">{{detailpauta.pk}}</span>?.
+                            </div>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a href="{% url 'asignacion_app:entrega-prod_add' %}" class="btn btn-inverse">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock main %}

@@ -1,0 +1,50 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Ultimas Devoluciones {% endblock title %}
+
+
+{% block main %}
+<h2 class="col-sm-offset-2 page-title">Boletas Anuladas Durante el Dia</h2>
+<div class="row">
+  <div class="col-md-12">
+      <section class="widget widget-chart-stats-simple">
+          <div class="widget-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td>
+                      Canilla
+                    </td>
+                    <td>
+                      Boleta
+                    </td>
+                    <td>
+                      Hora
+                    </td>
+                    <td>
+                      Detalle
+                    </td>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for l in list_invoce  %}
+                  <tr>
+                    <td><span class="text-primary"><strong>{{l.vendor}}</strong></span></td>
+                    <td>{{l.pk}}</td>
+                    <td>{{l.created}}</td>
+                    <td>
+                      <a href="{% url 'pagos_app:pagos-anulado-detalle' l.pk %}" class="btn btn-success"><i class="fa fa-search"></i></a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </section>
+  </div>
+</div>
+{% endblock main %}

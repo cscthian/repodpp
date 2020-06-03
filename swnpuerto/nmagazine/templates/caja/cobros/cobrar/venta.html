@@ -1,0 +1,91 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Cobrar {% endblock title %}
+
+
+{% block main %}
+<div class="row widget" ng-app="MagazineApp" ng-controller="VentaTiendaCtrl as vm">
+
+  <div class="row"><!-- seleccion de producto -->
+    Seleccione y Agregue Producto a Vender
+    <legend></legend>
+    <div class="col-md-7">
+      <div class="form-group">
+          <div class="col-sm-4">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                <input type="text" ng-model="vm.buscar" class="form-control" placeholder="Buscar Prod...">
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <select class="form-control" ng-model="vm.producto">
+                <option ng-repeat="p in vm.productos | filter:vm.buscar" value="{$p.pk$}">{$ p.pk $}--{$ p.magazine $}</option>
+            </select>
+          </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="input-group">
+          <span class="input-group-addon">CAN</span>
+          <input type="number" ng-model="vm.cantidad" class="form-control" placeholder="0">
+      </div>
+    </div>
+    <div class="col-md-2">
+      <button type="button" ng-click="vm.agregar_producto()" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    </div>
+  </div>
+  <br>
+
+  <div ng-show="vm.valido" class="alert alert-danger" role="alert">{$ vm.mensaje $}</div>
+
+  <div class="row"><!-- lista de productos agregados-->
+    Lista de Productos a Vender
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Total</th>
+          <th>Accion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="p in vm.productos_en_venta">
+          <td><h4>{$ p.pk $}</h4></td>
+          <td><h4>{$ p.magazine $}</h4></td>
+          <td><h4>{$ p.precio_unitario $}</h4></td>
+          <td><h4>{$ p.count $}</h4></td>
+          <td><h4>{$ p.total $}</h4></td>
+          <td>
+            <button type="button" ng-click="vm.quitar_producto(p.pk)" class="btn btn-danger">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <div class="row"> <!-- lista de productos agregados -->
+    <div class="col-md-6">
+      <div class="col-xs-6 bg-success btlr bblr">
+          <p class="value1 text-center text-white mt-sm mr-n-xs mb-n-xs">
+            {$ vm.sub_total | currency:'S/. '  $}
+          </p>
+          <p class="text-center text-white display-inline-block fw-normal display-inline-block mb">Monto Total</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <button ng-click="vm.enviar_data()" class="btn btn-primary btn-lg" role="button">
+          Guardar Venta
+      </button>
+    </div>
+    <div class="3">
+      <a href="{% url 'pagos_app:venta-list' %}" class="btn btn-danger btn-lg" role="button">
+          Anular Ventas
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock main %}

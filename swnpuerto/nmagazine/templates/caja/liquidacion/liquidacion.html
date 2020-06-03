@@ -1,0 +1,82 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Liquidacion de Guias {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="LiquidacionCtrl as vm">
+
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <section class="search-result-item">
+    <h4 class="search-result-item-heading">
+        <span class="text-primary">Liquidacion Provedores</span>
+    </h4>
+    <legend></legend>
+      <div class="search-result-item-body">
+          <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <fieldset>
+                    <legend>
+                        Fecha Inicio
+                    </legend>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha1" ng-change="vm.rango_fecha()">
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <fieldset>
+                    <legend>
+                        Fecha fin
+                    </legend>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha2" ng-change="vm.rango_fecha()">
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <fieldset>
+                    <legend>
+                        Proveedor
+                    </legend>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <select id="provide" name="provider" class="form-control" ng-model="vm.provider" required>
+                                <option ng-repeat="p in vm.providers" value="{$p.pk$}">{$ p.name $}</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6">
+                  <section class="widget">
+                      <div class="widget-body">
+                          <p class="text-align-center">
+                            <br>
+                              <button class="btn btn-inverse" ng-click="vm.liquidacion_rango(vm.fecha1,vm.fecha2)">
+                                  Generar
+                              </button>
+                      </div>
+                  </section>
+            </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="widget">
+       <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid"></div>
+  </section>
+  <section class="widget">
+    <button class="btn btn-sm btn-warning" ng-click="vm.exportar_pdf()">PDF</button>
+    <button class="btn btn-sm btn-success" ng-click="vm.exportarExcel()">Excel</button>
+  </section>
+
+</div>
+</div>
+{% endblock main %}

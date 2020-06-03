@@ -1,0 +1,23 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Dias {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+
+  <legend>Seleccione un Dia a Editar</legend>
+  {% for key,value in days %}
+  <div class="col-md-3 widget-container">
+      <section class="widget">
+          <header>
+              <h3>
+              <a href="{% url 'recepcion_app:magazine-update' key pk tipo %}"><span class="badge bg-grey">{{value}}</span></a>
+              </h3>
+              <a href="{% url 'recepcion_app:magazine-update' key pk tipo %}"><span class="text-primary">editar</span></a>
+          </header>
+      </section>
+  </div>
+  {% endfor %}
+</div>
+{% endblock main %}

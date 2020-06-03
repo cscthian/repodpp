@@ -1,0 +1,57 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Confirmar Monto {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title text-center">Confirmar <span class="fw-semi-bold">Monto</span></h1>
+<div class="col-sm-offset-3 col-md-6">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="."><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+            <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <fieldset>
+                    <legend><strong>Ingrese</strong> Los Datos</legend>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Monto Calculado</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                              <input id="invoce" name="invoce" class="form-control" size="16" type="text" placeholder="S./ {{monto}}" disabled="True"/>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Monto Contabilizado</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                              <span class="input-group-addon">S/.</span>
+                              {{form.real_amount}}
+                          </div>
+                          {% for error in form.real_amount.errors %}
+                            <div class="col-xs-12">
+                              <p class="text-danger">
+                                  {{ error|escape }}
+                              </p>
+                            </div>
+                          {% endfor %}
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-7">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="#" class="btn btn-inverse">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock main %}

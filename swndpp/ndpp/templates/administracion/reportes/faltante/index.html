@@ -1,0 +1,62 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reporte Control de Facturas{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+<div ng-app="DppApp" ng-controller="FaltanteCtrl as self" ng-init="self.cargar_items()">
+  <div class="grid-x grid-margin-x align-center">
+    <div class="cell shrink">
+      <a class="button secondary" ng-click="self.cargar_items()">Todo</a>
+    </div>
+    <div class="cell shrink">
+      <a class="button primary" ng-click="self.filtrar_responsabilidad('0')">Admin</a>
+    </div>
+    <div class="cell shrink">
+      <a class="button warning" ng-click="self.filtrar_responsabilidad('1')">Almacen</a>
+    </div>
+    <div class="cell shrink">
+      <a class="button success" ng-click="self.filtrar_responsabilidad('2')">Caja</a>
+    </div>
+    <div class="cell shrink">
+      <a class="button secondary" ng-click="self.filtrar_responsabilidad('3')">Otros</a>
+    </div>
+  </div>
+
+  <h3 style="text-align:center"> Perdidas Registradas en Cada Area</h3>
+  <div class="grid-container grid-container-padded">
+    <div class="grid-x align-center">
+      <h4>Monto Total: <b>S/. {$ self.total  $} </b></h4>
+      <table class="hover" style="border:2px solid;">
+        <thead>
+          <th style="border:1px solid;">GUIA</th>
+          <th style="border:1px solid;">Items</th>
+          <th style="border:1px solid;">Fecha Factura</th>
+          <th style="border:1px solid;">Area</th>
+          <th style="border:1px solid;">MONTO</th>
+        <tbody>
+          <tr ng-repeat="i in self.items">
+            <td>
+              <ul>
+                <li ng-repeat="g in i.guia track by $index">{$ g $}</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li ng-repeat="m in i.items track by $index">{$ m $}</li>
+              </ul>
+            </td>
+            <td>{$ i.date_facture $}</td>
+            <td>{$ i.responsabilidad $}</td>
+            <td>{$ i.monto_deuda $}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="cell shrink">
+        <a class="button primary" ng-click="self.saldar_perdidas()">Reiniciar</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

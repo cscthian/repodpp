@@ -1,0 +1,48 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Guias en Devolucion {% endblock title %}
+
+{% load filters %}
+
+{% block main %}
+<div class="row">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Guias no Devueltas</span></h3>
+          <br>
+          <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#Registro</th>
+                  <th>Guia</th>
+                  <th>Proveedor</th>
+                  <th>Fecha de Recepcion</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                  {% for guia in  form.guide %}
+                    <tr>
+                        {% for label in guia.choice_label|split_label_devolution %}
+                          <td>
+                            {{label}}
+                          </td>
+                        {% endfor %}
+                          <td>
+                            {{guia.tag}}
+                          </td>
+                    </tr>
+                  {% empty %}
+                    <td colspan="7">Parece que no hay guias por devovler:(</td>
+                  {% endfor %}
+              </tbody>
+            </table>
+            <div class="col-sm-offset-5 col-sm-7">
+              <button type="submit" class="btn btn-primary">Confirmar</button>
+            </div>
+          </div>
+        </form>
+        </section>
+    </dvi>
+{% endblock main %}

@@ -1,0 +1,56 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Detalle Movimientos {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Movimientos Diarios Devuletos</h1>
+<div class="col-md-12">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="#"><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+          <div class="alert alert-success" role="alert">
+            <span class="fw-semi-bold">{{magazine}}</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Reg.</th>
+                  <th>Boleta</th>
+                  <th>Canilla</th>
+                  <th>Catntidad</th>
+                  <th>Hora</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for l in  list_vendor %}
+
+                    <tr>
+                      {% if l.count_return > 0 %}
+                        <td>{{l.payment.pk}}</td>
+                        <td>{{l.payment.invoce.pk}}</td>
+                        <td>{{l.payment.invoce.vendor}}</td>
+                        <td><span class="text-primary"><strong>{{l.count_return}}</strong></span></td>
+                        <td>{{l.payment.created}}</td>
+                      {% endif %}
+                      {% empty %}
+                          <td colspan="7">No se Registro Pagos El Dia de Hoy</td>
+                    </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+            <div class="col-sm-offset-4 col-md-4">
+              <a href="{% url 'pagos_app:pagos-devoluciones' %}" type="button" class="btn btn-default btn-block">Volver</i></a>
+            </div>
+
+          </div>
+        </div>
+    </section>
+</div>
+{% endblock main %}

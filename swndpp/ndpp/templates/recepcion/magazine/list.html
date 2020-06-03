@@ -1,0 +1,51 @@
+{% extends "recepcion/base_recepcion.html" %}
+
+{% block title %}login DPP{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <!-- <div class="callout">
+    <a href="{% url 'recepcion_app:add-magazine' %}" class="button">Nuevo Diiario</a>
+    <a href="{% url 'recepcion_app:add-prod' %}" class="button">Nuevo Producto</a>
+  </div>-->
+
+  <div class="list" ng-app="DppApp" ng-controller="MagazineCtrl as self">
+    <h1 class="list__title">Lista de Diarios y Productos</h1>
+    <div class="list__search grid-x grid-padding-x align-left">
+      <div class="list__search__form small-12 medium-6 large-4 cell">
+        <input type="text" ng-model="self.buscar" placeholder="Buscar...">
+      </div>
+      <div class="list__search__btns small-12 medium-6 large-4">
+        <a href="{% url 'recepcion_app:add-magazine' %}" class="list__search__btn list__search__btn__d">+D</a>
+        <a href="{% url 'recepcion_app:add-prod' %}" class="list__search__btn list__search__btn__p">+P</a>
+      </div>
+    </div>
+    <table class="stack">
+      <thead>
+        <th>Codigo</th>
+        <th>Proveedor</th>
+        <th>Diario</th>
+        <th>Accion</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="d in self.diarios | filter:self.buscar">
+          <td>{$ d.pk $}</td>
+          <td>{$ d.provider $}</td>
+          <td><strong>{$ d.name $}</strong></td>
+          <td>
+            <a ng-if="self.tipo_diario(d.tipo)" ng-href="/almacen/recepcion/Diario/day/list/{$ d.pk $}/1" class="magazine-btn btn-principal"><span class="icon-search"></span></a>
+            <a ng-if="self.tipo_producto(d.tipo)" ng-href="/almacen/recepcion/Diario/update/{$ d.pk $}/1" class="magazine-btn btn-principal"><span class="icon-search"></span></a>
+
+            <a ng-if="self.tipo_diario(d.tipo)" ng-href="/almacen/recepcion/Diario/day/list/{$ d.pk $}/0" class="magazine-btn btn-secundario"><span class="icon-pencil"></span></a>
+            <a ng-if="self.tipo_producto(d.tipo)" ng-href="/almacen/recepcion/Diario/update/{$ d.pk $}/0" class="magazine-btn btn-secundario"><span class="icon-pencil"></span></a>
+
+            <a ng-if="self.tipo_diario(d.tipo)" ng-href="#" class="magazine-btn btn-tercero"><span class="icon-copy"></span></a>
+            <a ng-if="self.tipo_producto(d.tipo)" ng-href="/almacen/recepcion/producto/add/plantilla/{$ d.pk $}" class="magazine-btn btn-tercero"><span class="icon-copy"></span></a>
+
+            <a ng-href="/almacen/recepcion/Diario/delete/{$ d.pk $}" class="magazine-btn btn-cuarto"><span class="icon-close"></span></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

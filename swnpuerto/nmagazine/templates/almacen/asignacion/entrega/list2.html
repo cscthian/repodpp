@@ -1,0 +1,110 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Diarios Productos por Entregar{% endblock title %}
+
+
+{% block main %}
+<div class="row widget" ng-app="MagazineApp" ng-controller="ListMagazineEntregaCtrl as vm">
+    <legend><h3>Lista de Diarios por Entregar</h3></legend>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <span class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></span>
+          </span>
+          <input ng-model="vm.buscar"type="text" class="form-control" placeholder="Buscar Por...">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="input-group">
+          <select class="form-control" ng-model="vm.estado">
+            <option value="">Todo</option>
+            <option value="true">Entregado</option>
+            <option value="false">No Entregado</option>
+          </select>
+        </div>
+      </div>
+    </div><!-- seccion de filtros -->
+    <div class="panel panel-default">
+
+      <div class="panel-body">
+        <span class="label label-primary">Azul: Habilitado a Reparto</span>
+        <span class="label label-warning">Amarillo: Deshabilitado</span>
+        <table class="table">
+          <thead>
+            <tr>
+              <td>
+                <a href="#" ng-click="order_by = 'pk'; not_order = !not_order">
+                  Num
+                  <span ng-show="order_by == 'pk' && !not_order" </span>
+                  <span ng-show="order_by == 'pk' && not_order"</span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'magazine_day'; not_order = !not_order">
+                  Nombre
+                  <span ng-show="order_by == 'magazine_day' && !not_order" </span>
+                  <span ng-show="order_by == 'magazine_day' && not_order"</span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'count'; not_order = !not_order">
+                  Cantidad
+                  <span ng-show="order_by == 'count' && !not_order" </span>
+                  <span ng-show="order_by == 'count' && not_order"</span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'created'; not_order = !not_order">
+                  Fecha Recepcion
+                  <span ng-show="order_by == 'created' && !not_order" </span>
+                  <span ng-show="order_by == 'created' && not_order"</span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'discount'; not_order = !not_order">
+                  Tipo
+                  <span ng-show="order_by == 'discount' && !not_order" </span>
+                  <span ng-show="order_by == 'discount' && not_order"</span>
+                </a>
+              </td>
+              <td>
+                  Accion
+              </td>
+            <tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="m in vm.magazins | orderBy:order_by:not_order |filter:{asignado:vm.estado} | filter:vm.buscar">
+              <td>
+                <span ng-show="m.asignado" class="text-danger">{$ m.pk $}</span>
+                <span ng-show="!m.asignado">{$ m.pk $}</span>
+              </td>
+              <td>
+                <span ng-show="m.asignado" class="text-danger">{$ m.magazine_day $}</span>
+                <span ng-show="!m.asignado">{$ m.magazine_day $}</span>
+              </td>
+              <td>
+                <span ng-show="m.asignado" class="text-danger">{$ m.count $}</span>
+                <span ng-show="!m.asignado">{$ m.count $}</span>
+              </td>
+              <td>
+                <span ng-show="m.asignado" class="text-danger">{$ m.created|date $}</span>
+                <span ng-show="!m.asignado">{$ m.created|date $}</span>
+              </td>
+              <td>
+                <span ng-show="m.discount">Nota de Credito</span>
+                <span ng-show="!m.discount">Guia de Remision</span>
+              </td>
+              <td>
+                <a ng-href="/almacen/recepcion/entrega/registro/1/{$m.pk$}" class="btn btn-success"><i class="fa fa-sign-out"></i></a>
+                <a ng-show="m.en_reparto" ng-href="/entrega/diario/pauta-diario/{$m.pk$}" class="btn btn-primary"><i class="fa fa-table" aria-hidden="true"></i></a>
+                <a ng-show="!m.en_reparto" ng-href="/entrega/diario/pauta-diario/{$m.pk$}" class="btn btn-warning"><i class="fa fa-table" aria-hidden="true"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+
+{% endblock main %}

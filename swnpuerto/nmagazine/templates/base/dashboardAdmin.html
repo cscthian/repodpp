@@ -1,0 +1,96 @@
+{% extends "base/base_admin.html" %}
+{% block title %}  DPP S.A.C {% endblock title %}
+
+        {% block rightmenu %}
+        <!-- main notification links are placed inside of .sidebar-nav -->
+        <ul class="sidebar-nav">
+            <li class="active">
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-database"></i>
+                    </span>
+                    CATALOGOS
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-dashboard" class="collapse">
+                    <li><a href="{% url 'entidad_app:vendor-list' %}">Canillas</a></li>
+                    <li><a href="{% url 'entidad_app:provider-list' %}">Proveedores</a></li>
+                    <li><a href="{% url 'users_app:user-list' %}" class="action-link">Usuarios</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="sidebar-nav">
+            <li class="active">
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="#sidebar-dashboard2" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-cog"></i>
+                    </span>
+                    Procesos
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-dashboard2" class="collapse">
+                    <li><a href="{% url 'reportes_app:cierre-list' %}">Cierre Ventas</a></li>
+                    <li><a href="{% url 'administrador_app:contabilidad-list' %}">Emitir boleta</a></li>
+                    <li><a href="{% url 'administrador_app:contabilidad-emitidos' %}">Boletas Emitidas</a></li>
+                    <li><a href="{% url 'administrador_app:control-list' %}">Control Diarios-Productos</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- every .sidebar-nav may have a title -->
+        <h5 class="sidebar-nav-title">Reportes <a class="action-link" href="#"><i class="glyphicon glyphicon-refresh"></i></a></h5>
+        <ul class="sidebar-nav">
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a class="collapsed" href="#sidebar-forms" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-money"></i>
+                    </span>
+                    Ventas
+                    <i class="toggle fa fa-angle-down"></i>
+                </a>
+                <ul id="sidebar-forms" class="collapse">
+                    <li><a href="{% url 'liquidacion_app:liquidacion-guia' %}">Liquidacion Proveedor</a></li>
+                    <li><a href="{% url 'liquidacion_app:liquidacion-por_proveedor' %}">Liquidacion por Dia</a></li>
+                    <li><a href="{% url 'liquidacion_app:liquidacion-deudas_vendor' %}">Movimientos Caja</a></li>
+                    <li><a href="{% url 'reportes_app:ventas-neta' %}">Reporte Ingresos</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="collapsed" href="#sidebar-ui" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-table"></i>
+                    </span>
+                    Reportes
+                    <i class="fa fa-angle-sign-in"></i>
+                </a>
+                <ul id="sidebar-ui" class="collapse">
+                  <li><a href="{% url 'reportes_app:diarios-report' %}">Diarios</a></li>
+                    <li><a href="{% url 'reportes_app:product-report' %}">Productos</a></li>
+                    <li><a href="{% url 'reportes_app:vendor-report' %}">Canillas</a></li>
+                    <li><a href="{% url 'reportes_app:reporte-guias' %}">Guias</a></li>
+                </ul>
+            </li>
+        </ul>
+        <h5 class="sidebar-nav-title">Consultas <a class="action-link" href="#"><i class="fa fa-search"></i></a></h5>
+        <ul class="sidebar-nav">
+            <li>
+                <a class="collapsed" href="#sidebar-almacen" data-toggle="collapse" data-parent="#sidebar">
+                    <span class="icon">
+                        <i class="fa fa-list-alt"></i>
+                    </span>
+                    Almacen
+                    <i class="fa fa-angle-sign-in"></i>
+                </a>
+                <ul id="sidebar-almacen" class="collapse">
+                  <li><a href="{% url 'administrador_app:admin-nota' %}">Nota de Credito</a></li>
+                  <li><a href="{% url 'reportes_app:almacen-missing' %}">Prod Diar Perdidos</a></li>
+                </ul>
+            </li>
+
+        </ul>
+{% endblock rightmenu %}
+
+{% block main %}
+{% endblock main %}

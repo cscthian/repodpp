@@ -1,0 +1,55 @@
+{% extends "base/base_users.html" %}
+
+{% block title %}login DPP{% endblock title %}
+
+{% block content %}
+
+<body class="login-page">
+
+<div class="container">
+    <main id="content" class="widget-login-container" role="main">
+        <div class="row">
+            <div class="col-lg-4 col-sm-6 col-xs-10 col-lg-offset-4 col-sm-offset-3 col-xs-offset-1">
+                <h4 class="widget-login-logo animated fadeInUp">
+                    <i class="fa fa-circle text-gray"></i>
+                    DPP S.A.C
+                    <i class="fa fa-circle text-warning"></i>
+                </h4>
+                <section class="widget widget-login animated fadeInUp">
+
+                    <div class="widget-body">
+                        <p class="widget-login-info">
+                            DISTRIBUIDORA DE PUBLICACIONES PERU S.A.C.
+                        </p>
+                        <form method="post" class="login-form mt-lg">{% csrf_token %}
+                          {% if form.errors %}
+                            <spam class="text-danger">username o password incorrectos.</spam>
+                          {% endif %}
+                            <div class="form-group">
+                                {{ form.username }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password }}
+                            </div>
+                            <div class="clearfix">
+                                <div class="btn-toolbar pull-right">
+                                    <button type="button" class="btn btn-default btn-sm">Volver</button>
+                                    <button type="submit" class="btn btn-inverse btn-sm">Ingresar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer">
+        2016 &copy; Neunapp.
+    </footer>
+</div>
+<!-- The Loader. Is shown when pjax happens -->
+<div class="loader-wrap hiding hide">
+    <i class="fa fa-circle-o-notch fa-spin-fast"></i>
+</div>
+</body>
+{% endblock content %}

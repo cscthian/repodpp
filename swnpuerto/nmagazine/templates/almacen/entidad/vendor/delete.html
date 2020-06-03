@@ -1,0 +1,27 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Eliminar Canilla {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Eliminar<span class="fw-semi-bold"> Canilla</span></h1>
+<div class="col-md-6">
+    <section class="widget">
+        <div class="widget-body">
+            <form class="form-horizontal" role="form" action="{% url 'entidad_app:vendor-delete' vendor.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-actions">
+                    <div class="row center">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <div class="alert alert-danger">
+                                ¿Esta seguro de Eliminar al Canilla: <span class="fw-semi-bold">{{vendor.name}}</span>?.
+                            </div>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a href="{% url 'entidad_app:vendor-list' %}" class="btn btn-inverse">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock main %}

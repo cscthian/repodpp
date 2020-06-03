@@ -1,0 +1,23 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Eliminar Boleta {% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <div class="callout">
+    <form action="{% url 'administracion_app:administracion-proceso_boletas_eliminar' boleta.pk %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="card">
+          <div class="card-divider">
+            Eliminar Boleta
+          </div>
+          <div class="card-section">
+            <h4>¿Esta seguro de Eliminar Boleta: {{boleta.number}}?.</h4>
+            <p>
+              <button type="submit" class="button alert">Eliminar</button>
+              <a href="{% url 'administracion_app:administracion-proceso_boletas_emitidas' %}" class="button secondary">Cancel</a>
+            </p>
+          </div>
+        </div>
+    </form>
+  </div>
+{% endblock content %}

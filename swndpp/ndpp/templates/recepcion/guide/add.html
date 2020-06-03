@@ -1,0 +1,100 @@
+{% extends "recepcion/base_recepcion.html" %}
+
+{% block title %}Registrar Guia{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <!-- *************** REGISTRO DE GUIA **************** -->
+  <div class="guide-main" ng-app="DppApp" ng-controller="GuideCtrl as self" ng-init="self.cagar_agentes()">
+    <h1 class="guide-title">Registro de guia de remision</h1>
+    <div class="guide-card">
+      <div class="guide-data">
+        <h2 class="guide-card__title">Datos de Guia</h2>
+        <div class="guide-card__form grid-x grid-padding-x">
+          <div class="small-12 medium-10 large-6 cell">
+            <label>Destinatario
+              <select ng-model="self.guide.addressee">
+                <option value="0">DPP</option>
+                <option value="1">MAX CARGO</option>
+              </select>
+            </label>
+          </div>
+          <div class="small-12 medium-10 large-6 cell">
+            <label>Numero de guia:
+              <input type="text" ng-model="self.guide.number" placeholder="Numero de guia">
+            </label>
+          </div>
+          <div class="small-12 medium-10 large-6 cell">
+            <label>Departamento
+              <select ng-model="self.guide.departamento">
+                <option ng-repeat="d in self.departamentos" value="{$d.pk$}">{$ d.name $}</option>
+              </select>
+            </label>
+          </div>
+          <div class="small-12 medium-10 large-6 cell">
+            <label>Proveedor
+              <select ng-model="self.guide.provider">
+                <option ng-repeat="p in self.providers" value="{$p.pk$}">{$ p.name $}</option>
+              </select>
+            </label>
+          </div>
+          <div class="small-12 medium-10 large-6 cell">
+            <label>Fecha de Recepcion
+              <input type="date" ng-model="self.date">
+            </label>
+          </div>
+          <div class="small-12 medium-10 large-6 cell">
+            <label>Inicio de Cobranza
+              <input type="date" ng-model="self.date_cobranza">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="guide-data">
+        <h2 class="guide-card__title">Datos de Producto</h2>
+        <div class="guide-card__form">
+          <div ng-repeat="c in self.cantidad" class="grid-x grid-padding-x align-center">
+            <div class="small-12 medium-3 large-2 cell">
+              <input type="text" ng-model="self.buscar.item[c.id]" placeholder="Buscar...">
+            </div>
+            <div class="small-12 medium-4 large-4 cell">
+              <select ng-model="self.prod.item[c.id]">
+                <option ng-repeat="d in self.diarios | filter:self.buscar.item[c.id]" value="{$d.pk$}">
+                  {$ d.magazine $}--{$ d.day $}
+                </option>
+              </select>
+            </div>
+            <div class="small-12 medium-2 large-2 cell">
+              <input type="text" ng-model="self.count.item[c.id]" placeholder="Cantidad...">
+            </div>
+            <div class="small-12 medium-2 large-2 cell">
+              <input type="text" ng-model="self.dev.item[c.id]" placeholder="Devo...">
+            </div>
+            <div class="small-10 medium-3 large-2 cell">
+              <button type="button" class="success button" ng-click="self.addNewChoice()">+</button>
+              <button type="button" class="button guide-main-btn__secondary" ng-click="self.removeChoice()">-</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="guide-data">
+        <h2 class="guide-card__title">Datos de Entrega</h2>
+        <div class="guide-card__form grid-x grid-padding-x align-center">
+          <div class="small-12 medium-3 large-3 cell">
+            <input type="text" ng-model="self.buscar_agente" placeholder="Buscar...">
+          </div>
+          <div class="small-12 medium-9 large-9 cell">
+            <select ng-model="self.guide.agente">
+              <option ng-repeat="a in self.agentes|filter:self.buscar_agente" value="{$a.pk$}">{$ a.name $}--{$ a.seudonimo $}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p>{$ self.msj $}</p>
+    <button class="button guide-main-btn__primary" ng-click="self.enviar()" ng-disabled="self.bloqueo">
+      Guardar
+    </button>
+  </div>
+{% endblock content %}

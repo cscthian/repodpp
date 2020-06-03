@@ -1,0 +1,148 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Asignacion Nueva {% endblock title %}
+
+
+{% block main %}
+<div>
+  <h3> <toast></toast></h3>
+<h2 class="col-sm-offset-2 page-title">Modificar Guia de Remision</h2>
+<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<div class="col-md-12">
+    <section class="widget">
+        <header>
+            <div class="widget-controls">
+                <a href="."><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+                <fieldset>
+                    <legend><strong>Datos Guia</strong></legend>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="number">Numero de Guia: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                                <input id="number" class="form-control" size="16" type="text" value="{{object.number}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="invoce">Numero de Interno: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list-alt"></i></span>
+                                {{form.number_invoce}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="provider">
+                            Proveedor:
+                        </label>
+                        <div class="col-sm-4">
+                            {{form.provider}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="invoce">Dias Vencimiento: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list-alt"></i></span>
+                                {{form.plazo_return}}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    </fieldset>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-sm-offset-5 col-sm-7">
+                              <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <legend></legend>
+
+            {% if pagos < 1 %}
+
+                  <div class="row" ng-app="MagazineApp" ng-controller="GuideUpdateCtrl as vm">
+                      <div class="col-md-12">
+                          <div class="panel-group mb-lg" id="accordion" data-toggle="collapse">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading collapsed">
+                                      <h5 class="panel-title">
+                                          <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" ng-click="vm.lista_items({{object.pk}})">
+                                              <strong>Lista de Items</strong>
+                                              <i class="fa fa-angle-down pull-right"></i>
+                                          </a>
+                                      </h5>
+                                  </div>
+                                  <div id="collapseOne" class="panel-collapse collapse">
+                                      <div class="panel-body">
+                                        <div class="table-responsive">
+                                          <table class="table">
+                                            <thead>
+                                              <tr>
+                                                <th>Item</th>
+                                                <th>Cantidad</th>
+                                                <th>Accion</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                  <td>
+                                                    <select class="selectpicker" ng-model="vm.guide_day">
+                                                      <option value="" selected="selected"></option>
+                                                      <option ng-repeat="d in vm.diarios" value="{$d.pk$}">{$ d.magazine $}--{$ d.day $}</option>
+                                                    </select>
+                                                  </td>
+                                                  <td>
+                                                        <input type="number" name="name" ng-model="vm.guide_cantidad" class="form-control">
+                                                  </td>
+                                                  <td>
+                                                        <button class="btn btn-primary" ng-click="vm.add_items({{object.pk}})"><i class="fa fa-plus"></i></button>
+                                                  </td>
+                                              </tr>
+
+                                                <tr data-ng-repeat="g in vm.guide_items">
+                                                    <td>
+                                                      <select class="selectpicker" disabled>
+                                                        <option ng-repeat="d in vm.diarios" ng-selected="d.pk==g.magazine_day" value="{$d.pk$}">{$ d.magazine $}--{$ d.day $}</option>
+                                                      </select>
+                                                    </td>
+                                                    <td>
+                                                          <input type="number" name="name" class="form-control" value="{$ g.count $}" disabled>
+                                                    </td>
+                                                    <td>
+                                                          <button class="btn btn-danger" ng-dblclick="vm.delete_items(g.pk,{{object.pk}})" title="Eliminar"><i class="fa fa-remove"></i></button>
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="form-actions">
+                      <div class="row">
+                          <div class="col-sm-offset-5 col-sm-7">
+                              <a href="{% url 'recepcion_app:guide-list' %}" class="btn btn-inverse">Cancel</a>
+                          </div>
+                      </div>
+                  </div>
+            {% else %}
+              <div class="alert alert-info" role="alert">No se Puede Modificar los Items de una guia que tiene Pagos</div>
+            {% endif %}
+
+        </div>
+    </section>
+</div>
+</form>
+</div>
+{% endblock main %}

@@ -1,0 +1,27 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Eliminar Venta {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Eliminar<span class="fw-semi-bold"> Venta</span></h1>
+<div class="col-md-6">
+    <section class="widget">
+        <div class="widget-body">
+            <form class="form-horizontal" role="form" action="{% url 'pagos_app:venta-delete' venta.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-actions">
+                    <div class="row center">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <div class="alert alert-danger">
+                                ¿Esta seguro de Eliminar la Venta: <span class="fw-semi-bold">{{venta.detail_guide}}</span>?.
+                            </div>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a href="{% url 'pagos_app:pagos-tienda' %}" class="btn btn-inverse">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock main %}

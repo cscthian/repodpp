@@ -1,0 +1,170 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Reporte Guias {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="ListGuideCtrl as vm">
+
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Historial Guia</h5>
+                        <a href="{% url 'reportes_app:reporte-guias' %}" class="h3 no-margin fw-normal">Historia</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+      </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-success text-white">
+              <div class="widget-body clearfix">
+                  <div class="row">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-life-ring" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Estado Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_estado' %}" class="h3 no-margin fw-normal">Estado</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+        </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-primary text-white">
+              <div class="widget-body clearfix">
+                  <div class="row center">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Resumen Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_resumen' %}" class="h3 no-margin fw-normal">Resumen</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+  </div>
+
+  <section class="widget">
+    <div class="row">
+      <div class="row">
+          <div class="col-sm-4">
+              <div class="form-group">
+                  <div class="input-group">
+                      <input type="text" ng-model="vm.numero" ng-keypress="vm.enter($event)" class="form-control" id="bar" placeholder="Ingrese Numero-Serie">
+                      <div class="input-group-btn">
+                          <button type="button" class="btn btn-primary" ng-click="vm.buscar_guias()"><i class="fa fa-search"></i></button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- lista de guias -->
+    <section class="widget">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>
+                <a href="#" ng-click="order_by = 'number'; not_order = !not_order">
+                  Numero
+                  <span ng-show="order_by == 'number' && !not_order"</span>
+                  <span ng-show="order_by == 'number' && not_order"</span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'provider'; not_order = !not_order">
+                  <strong>Proveedor</strong>
+                  <span ng-show="order_by == 'provider' && !not_order" </span>
+                  <span ng-show="order_by == 'provider' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'created'; not_order = !not_order">
+                  <strong>Fecha Registro</strong>
+                  <span ng-show="order_by == 'created' && !not_order" </span>
+                  <span ng-show="order_by == 'created' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'user_created'; not_order = !not_order">
+                  <strong>Registrado Por</strong>
+                  <span ng-show="order_by == 'user_created' && !not_order" </span>
+                  <span ng-show="order_by == 'user_created' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'returned'; not_order = !not_order">
+                  <strong>Devuleto a Proveedor</strong>
+                  <span ng-show="order_by == 'returned' && !not_order" </span>
+                  <span ng-show="order_by == 'returned' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#">
+                  Accion
+                </a>
+              </td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr ng-repeat="g in vm.guias | orderBy:order_by:not_order | filter:vm.buscar">
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.number $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.number $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.provider $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.provider $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.created | date $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.created | date $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.user_created $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.user_created $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.returned"class="text-danger">SI</span></strong>
+                <strong><span ng-show="!g.returned">NO</span></strong>
+              </td>
+              <td>
+                    <a ng-href="/reportes/guias-items/{$ g.pk $}" class="btn btn-success" title="Ver"><i class="fa fa-eye" aria-hidden="true"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </section>
+  <section class="widget">
+    <button class="btn btn-sm btn-warning" ng-click="vm.exportar_pdf()">PDF</button>
+    <button class="btn btn-sm btn-success" ng-click="vm.exportarExcel()">Excel</button>
+  </section>
+</div>
+</div>
+{% endblock main %}

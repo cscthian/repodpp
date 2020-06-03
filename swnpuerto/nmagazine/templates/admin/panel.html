@@ -1,0 +1,178 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} DPP {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-success text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-money"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Venta Neta</h5>
+                        <a href="{% url 'reportes_app:ventas-neta' %}" class="h3 no-margin fw-normal">Venta Neta</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-primary text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-balance-scale"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Liquidacion Diaria</h5>
+                        <a href="{% url 'liquidacion_app:liquidacion' %}" class="h3 no-margin fw-normal">Liquidacion</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Control Diar/Prod</h5>
+                        <a href="{% url 'administrador_app:control-add' %}" class="h3 no-margin fw-normal">Control</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <section class="widget">
+            <!-- .widget>header is generally a place for widget title and widget controls. see .widget in _base.scss -->
+            <header>
+                <h5>
+                    RESUMEN DE VENTAS
+                </h5>
+            </header>
+            <div class="widget-body">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h6 class="name">Ventas del Dia</h6>
+                        <p class="value">S/. {{resumen.ventas_dia}}</p>
+                    </div>
+                    <!--<div class="stat-item">
+                        <h6 class="name">Deuda</h6>
+                        <p class="value">S/. {{resumen.deuda}}</p>
+                    </div>-->
+                </div>
+                <p>
+                    <small><span class="circle bg-warning"><i class="fa fa-chevron-down"></i></span></small>
+                    <span class="fw-semi-bold">{{resumen.devuelto}}</span>
+                    Diarios/Productos Devueltos
+                </p>
+            </div>
+        </section>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <section class="widget">
+            <!-- .widget>header is generally a place for widget title and widget controls. see .widget in _base.scss -->
+            <header>
+                <h5>
+                    RESUMEN ALMACEN
+                </h5>
+            </header>
+            <div class="widget-body">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h6 class="name">Prod/Diar Registrados</h6>
+                        <p class="value">{{resumen.magazine_registrado}}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h6 class="name">Prod/Diar Asignado</h6>
+                        <p class="value">{{resumen.magazine_asignado}}</p>
+                    </div>
+                </div>
+                <p>
+                    <small><span class="circle bg-warning"><i class="fa fa-chevron-down"></i></span></small>
+                    <span class="fw-semi-bold">{{resumen.guias_anuladas}}</span>
+                    Guia Anulada
+                </p>
+            </div>
+        </section>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <section class="widget">
+            <!-- .widget>header is generally a place for widget title and widget controls. see .widget in _base.scss -->
+            <header>
+                <h5>
+                    RESUMEN CAJA
+                </h5>
+            </header>
+            <div class="widget-body">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h6 class="name">Canillas en Tope</h6>
+                        <p class="value">{{resumen.canillas_tope}}</p>
+                    </div>
+                    <div class="stat-item">
+                        <h6 class="name">Boletas Anuladas</h6>
+                        <p class="value">{{resumen.boletas_anuladas}}</p>
+                    </div>
+                </div>
+                <p>
+                    <small><span class="circle bg-warning"><i class="fa fa-chevron-down"></i></span></small>
+                    <span class="fw-semi-bold">{{resumen.faltantes}}</span>
+                    Canillas Faltantes
+                </p>
+            </div>
+        </section>
+    </div>
+
+
+    <div class="row" ng-app="MagazineApp" ng-controller="PanelCtrl as vm" ng-init="vm.cargar_datos()">
+        <div class="col-xs-12">
+            <section class="widget">
+                <header>
+                    <h4>
+                        <span class="fw-semi-bold">Vista de Semana</span> Ventas
+                    </h4>
+                    <div class="widget-controls">
+                        <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </header>
+                <div class="widget-body">
+                    <p class="fs-mini text-muted">
+                      Representa las ventas del dia durante una semana</p>
+
+                      <fusioncharts
+                        width="800"
+                        height="400"
+                        type="column3d"
+                        datasource="{$ vm.myDataSource $}"
+                      >
+
+                      </fusioncharts>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+</div>
+{% endblock main %}

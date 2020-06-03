@@ -1,0 +1,233 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Reporte Guias {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="ListGuideEstadoCtrl as vm">
+
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Historial Guia</h5>
+                        <a href="{% url 'reportes_app:reporte-guias' %}" class="h3 no-margin fw-normal">Historia</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+      </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-success text-white">
+              <div class="widget-body clearfix">
+                  <div class="row">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-life-ring" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Estado Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_estado' %}" class="h3 no-margin fw-normal">Estado</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+        </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-primary text-white">
+              <div class="widget-body clearfix">
+                  <div class="row center">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Resumen Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_resumen' %}" class="h3 no-margin fw-normal">Resumen</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+  </div>
+
+  <section class="widget">
+    <div class="row">
+      <div class="col-md-4">
+          <fieldset>
+              <legend>
+                  Fecha Inicio
+              </legend>
+              <div class="input-group">
+
+                  <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha1">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+          </fieldset>
+      </div>
+      <div class="col-md-4">
+          <fieldset>
+              <legend>
+                  Fecha Fin
+              </legend>
+              <div class="input-group">
+
+                  <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha2" ng-change="vm.buscar_guias()">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+          </fieldset>
+      </div>
+      <div class="col-md-4">
+          <fieldset>
+              <legend>
+                  Filtrar Por:
+              </legend>
+              <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                  <select class="form-control" ng-model="vm.culminado">
+                    <option value="">Todo</option>
+                    <option value="true">Cerradas</option>
+                    <option value="false">No Cerradas</option>
+                  </select>
+              </div>
+          </fieldset>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-3">
+          <fieldset>
+              <div class="input-group">
+                <label class="radio-inline">
+                  <input type="checkbox" ng-model="vm.todo" ng-change="vm.reiniciar()"> Todo
+                </label>
+              </div>
+          </fieldset>
+      </div>
+      <div class="col-md-3">
+          <fieldset>
+              <div class="input-group">
+                <label class="radio-inline">
+                  <input type="checkbox" ng-model="vm.anulado" > Anulados
+                </label>
+              </div>
+          </fieldset>
+      </div>
+      <div class="col-md-3">
+          <fieldset>
+              <div class="input-group">
+                <label class="radio-inline">
+                  <input type="checkbox" ng-model="vm.devuelto" > Devueltos
+                </label>
+              </div>
+          </fieldset>
+      </div>
+    </div>
+
+    <!-- lista de guias -->
+    <div id="print-section">
+    <section class="widget">
+      <legend>Lista de Guias en Rango: {$ vm.fecha1|date $}/{$vm.fecha2|date$}</legend>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>
+                <a href="#" ng-click="order_by = 'number'; not_order = !not_order">
+                  Numero
+                  <span ng-show="order_by == 'number' && !not_order"</span>
+                  <span ng-show="order_by == 'number' && not_order"</span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'provider'; not_order = !not_order">
+                  <strong>Proveedor</strong>
+                  <span ng-show="order_by == 'provider' && !not_order" </span>
+                  <span ng-show="order_by == 'provider' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'created'; not_order = !not_order">
+                  <strong>Fecha Registro</strong>
+                  <span ng-show="order_by == 'created' && !not_order" </span>
+                  <span ng-show="order_by == 'created' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'user_created'; not_order = !not_order">
+                  <strong>Registrado Por</strong>
+                  <span ng-show="order_by == 'user_created' && !not_order" </span>
+                  <span ng-show="order_by == 'user_created' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'returned'; not_order = !not_order">
+                  <strong>Devuleto a Proveedor</strong>
+                  <span ng-show="order_by == 'returned' && !not_order" </span>
+                  <span ng-show="order_by == 'returned' && not_order" </span>
+                </a>
+              </td>
+              <td>
+                <a href="#" ng-click="order_by = 'culmined'; not_order = !not_order">
+                  <strong>Cerrada</strong>
+                  <span ng-show="order_by == 'culmined' && !not_order" </span>
+                  <span ng-show="order_by == 'culmined' && not_order" </span>
+                </a>
+              </td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr ng-repeat="g in vm.guias | orderBy:order_by:not_order|filter:{anulate:vm.anulado}|filter:{returned:vm.devuelto}|filter:{culmined:vm.culminado}">
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.number $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.number $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.provider $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.provider $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.created | date $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.created | date $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.anulate"class="text-danger">{$ g.user_created $}</span></strong>
+                <strong><span ng-show="!g.anulate">{$ g.user_created $}</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.returned"class="text-danger">SI</span></strong>
+                <strong><span ng-show="!g.returned">NO</span></strong>
+              </td>
+              <td>
+                <strong><span ng-show="g.culmined"class="text-danger">Cerrado</span></strong>
+                <strong><span ng-show="!g.culmined">No Cerrado</span></strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+    </div>
+
+  </section>
+  <section class="widget">
+    <button class="btn btn-sm btn-warning" ng-click="vm.imprimir()">Imprimir Lista</button>
+  </section>
+</div>
+</div>
+{% endblock main %}

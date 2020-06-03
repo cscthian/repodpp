@@ -1,0 +1,90 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reporte Control de Facturas{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-x grid-margin-x align-center">
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-reporte_liquidacion_proveedor' %}" class="button secondary">Compra Total</a>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-reporte_liquidacion_proveedor_factura' %}" class="button success">Compra Facturada</a>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-proceso_pagos_factura' %}" class="button warning">Pagar Facturas</a>
+    </div>
+  </div>
+
+  <div ng-app="DppApp" ng-controller="CompraTotalCtrl as self">
+    <h3 style="text-align:center"> Detalle Movimientos Guias por Pagar </h3>
+    <form>
+      <div class="grid-x align-center">
+        <div class="small-12 medium-2">
+          <label>Departamento
+            <select ng-model="self.rs">
+              <option value="0">DPP</option>
+              <option value="1">MAX</option>
+            </select>
+          </label>
+        </div>
+        <div class="small-12 medium-2">
+          <label>Proveedor
+            <select ng-model="self.proveedor">
+              <option ng-repeat="p in self.providers" value="{$ p.pk $}">{$ p.name $}</option>
+            </select>
+          </label>
+        </div>
+        <div class="small-12 medium-2">
+          <label>Departamento
+            <select ng-model="self.departamento">
+              <option ng-repeat="d in self.departamentos" value="{$ d.pk $}">{$ d.name $}</option>
+            </select>
+          </label>
+        </div>
+        <div class="small-12 medium-2">
+          <br>
+          <button type="button" class="button" ng-model="self.button" ng-click="self.cargar_consulta()">Consultar</button>
+        </div>
+      </div>
+    </form>
+    <div class="grid-container grid-container-padded">
+      <div class="grid-x align-center">
+        <h4>Monto Total: <b>S/. {$ self.total $} </b></h4>
+        <table class="hover" style="border:2px solid;">
+          <thead>
+            <th style="border:1px solid;">GUIA</th>
+            <th style="border:1px solid;">ITEM</th>
+            <th style="border:1px solid;">FECHA</th>
+            <th style="border:1px solid;">DEPA</th>
+            <th style="border:1px solid;">PROVE</th>
+            <th style="border:1px solid;">CAN</th>
+            <th style="border:1px solid;">PRECIO</th>
+            <th style="border:1px solid;">MON.</th>
+            <th style="border:1px solid;">VEN</th>
+            <th style="border:1px solid;">DEV</th>
+            <th style="border:1px solid;">DEU</th>
+            <th style="border:1px solid;">MON.VEN</th>
+          </thead>
+          <tbody>
+              <tr ng-repeat="l in self.consulta" >
+                <td style="border:1px solid;">{$ l.guia $}</td>
+                <td style="border:1px solid;">{$ l.magazine $}-{$ l.dia $}</td>
+                <td style="border:1px solid;">{$ l.date $}</td>
+                <td style="border:1px solid;">{$ l.departamento $}</td>
+                <td style="border:1px solid;">{$ l.proveedor $}</td>
+                <td style="border:1px solid;">{$ l.cantidad $}</td>
+                <td style="border:1px solid;">{$ l.precio $}</td>
+                <td style="border:1px solid;">{$ l.total $}</td>
+                <td style="border:1px solid;">{$ l.pagado $}</td>
+                <td style="border:1px solid;">{$ l.devuelto $}</td>
+                <td style="border:1px solid;">{$ l.deuda $}</td>
+                <td style="border:1px solid;">{$ l.subtotal $}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

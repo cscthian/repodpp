@@ -1,0 +1,61 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Liuidacion Dia {% endblock title %}
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="LiquidacionDiaCtrl as vm" ng-init="vm.liquidacion_por_dia(fecha)">
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <a ng-click="vm.imprimir()" class="btn btn-sm btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Exportar Liquidacion del Dia</a>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div id="print-section">
+    <section class="widget">
+      <div class="row">
+        <h3 class="text-center"><strong><u>Resumen Cobranzas Modulo Caja DPP</u></strong></h3>
+        <h5 class="text-center">Fecha: {$ vm.date|date $}</h5>
+      </div>
+    <div class="row">
+      <h3 class="text-center">  Monto Cobrado: <strong>S/. {$ vm.monto_cobrado $}</strong></h3>
+    </div>
+    <div class="row" ng-repeat="l in vm.liquidacion">
+      <h6>Proveedor: <strong>{$ l.name $}</strong></h6>
+      <legend></legend>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Guia</th>
+            <th>Fecha</th>
+            <th>Item</th>
+            <th>Precio</th>
+            <th>Dev</th>
+            <th>Pag</th>
+            <th>Monto</th>
+            <th>estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="i in l.lista_pagos">
+            <td>{$ i.guide $}</td>
+            <td>{$ i.date $}</td>
+            <td>{$ i.magazine $}-{$ i.dia $}</td>
+            <td> {$ i.precio $}</td>
+            <td>{$ i.devuelto $}</td>
+            <td> {$ i.pagado $}</td>
+            <td> {$ i.total $}</td>
+            <td> {$ i.estado $}</td>
+          </tr>
+        </tbody>
+      </table>
+      <legend></legend>
+      <h5 class="text-right"><strong>Sub Total: {$ l.sub_total $}</strong></h5>
+      <legend></legend>
+    </div>
+    </section>
+  </div>
+  <button ng-click="vm.imprimir()" class="btn btn-sm btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
+</div>
+</div>
+{% endblock main %}

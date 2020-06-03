@@ -1,0 +1,204 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Nuevo Producto {% endblock title %}
+
+
+{% block main %}
+<h2 class="page-title">Formulario <span class="fw-semi-bold">Producto</span></h2>
+<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<div class="col-xs-12 col-md-6">
+    <section class="widget">
+        <header>
+            <div class="widget-controls">
+                <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                <a href="#"><i class="fa fa-refresh"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body" ng-app="MagazineApp" ng-controller="ProdCtrl as vm" ng-init="vm.recuperar_magazine({{object.pk}})">
+                <fieldset>
+                    <legend><strong>Datos de Venta</strong></legend>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="provider">
+                            Tipo:
+                        </label>
+                        <div class="col-sm-7">
+                            <select id="provide" name="provider" class="form-control" ng-model="vm.tipo" required
+                              ng-change="vm.cargar_porcentaje(vm.tipo)">
+                                <option value="20">COMERCIO</option>
+                                <option value="25">TROME-PERU21-DEPOR</option>
+                                <option value="26">OJO</option>
+                                <option value="30">GESTION</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Precio Tapa:</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                            {{form.precio_tapa}}
+                            <span class="input-group-addon">.00</span>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="porciento">Procentaje: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">%</span>
+                                <input id="porciento" name="plazo" class="form-control" size="16" type="number"
+                                    ng-model="vm.porcentaje">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Precio Guia:</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                            {{form.precio_guia}}
+                            <span class="input-group-addon">.00</span>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Precio Venta:</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                            {{form.precio_venta}}
+                            <span class="input-group-addon">.00</span>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">AFECTO:</label>
+                        <div class="col-sm-7">
+                            {{form.afecto}}
+                        </div>
+                    </div>
+
+                </fieldset>
+        </div>
+    </section>
+</div>
+<!--  Segunda secion de formularios -->
+<div class="col-xs-12 col-md-6">
+    <section class="widget">
+        <header>
+            <div class="widget-controls">
+                <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                <a href="#"><i class="fa fa-refresh"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+                <fieldset>
+                  <legend><strong>Datos de Producto</strong></legend>
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Nombre:</label>
+                      <div class="col-sm-7">
+                          {{form.name}}
+                      </div>
+                      {% for error in form.name.errors %}
+                        <div class="col-xs-12">
+                          <p class="text-danger">
+                              {{ error|escape }}
+                          </p>
+                        </div>
+                      {% endfor %}
+                  </div>
+
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Proveedor:</label>
+                      <div class="col-sm-7">
+                          {{form.provider}}
+                      </div>
+                      {% for error in form.provider.errors %}
+                        <div class="col-xs-12">
+                          <p class="text-danger">
+                              {{ error|escape }}
+                          </p>
+                        </div>
+                      {% endfor %}
+                  </div>
+
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Descripcion:</label>
+                      <div class="col-sm-7">
+                          {{form.description}}
+                      </div>
+                      {% for error in form.description.errors %}
+                        <div class="col-xs-12">
+                          <p class="text-danger">
+                              {{ error|escape }}
+                          </p>
+                        </div>
+                      {% endfor %}
+                  </div>
+
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Dias de Expiracion:</label>
+                      <div class="col-sm-7">
+                          {{form.day_expiration}}
+                      </div>
+                      {% for error in form.day_expiration.errors %}
+                        <div class="col-xs-12">
+                          <p class="text-danger">
+                              {{ error|escape }}
+                          </p>
+                        </div>
+                      {% endfor %}
+                  </div>
+
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Codigo de Producto:</label>
+                      <div class="col-sm-7">
+                          {{form.code}}
+                      </div>
+                      {% for error in form.code.errors %}
+                        <div class="col-xs-12">
+                          <p class="text-danger">
+                              {{ error|escape }}
+                          </p>
+                        </div>
+                      {% endfor %}
+                  </div>
+
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Pertenece a:</label>
+                      <div class="col-sm-7">
+                          {{form.sponsor}}
+                      </div>
+                      {% for error in form.sponsor.errors %}
+                        <div class="col-xs-12">
+                          <p class="text-danger">
+                              {{ error|escape }}
+                          </p>
+                        </div>
+                      {% endfor %}
+                  </div>
+                </fieldset>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-7">
+                          {% if tipo != '1' %}
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                          {% endif %}
+                            <a href="{% url 'recepcion_app:magazine-list' %}" class="btn btn-inverse">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+</div>
+</form>
+{% endblock main %}

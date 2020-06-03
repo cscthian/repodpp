@@ -1,0 +1,56 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %}Constatar {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="ConstatarCtrl as vm">
+<div class="col-md-12">
+  <toast></toast>
+    <section class="widget">
+        <div class="widget-body">
+            <form role="form">
+                <fieldset>
+                    <legend>Numero-Serie de Guia</legend>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="bar" placeholder="Ingrese Numero-Serie" ng-model="vm.number">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="vm.cargar_guia(vm.number)"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div ng-class="vm.class">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <span>  {$ vm.mensaje $} </span>
+                    </div>
+                </fieldset>
+                <section class="widget">
+                     <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid"></div>
+                </section>
+            </form>
+        </div>
+              <section class="widget">
+                  <div class="widget-body">
+                      <p class="text-align-center">
+                        <br>
+                          <span class="text-danger" ng-show="!vm.validar">no puede existir una Diferencia negativa</span>
+                          <button ng-show="vm.validar" ng-click="vm.enviar_data()" class="btn btn-primary" role="button">
+                              Confirmar
+                          </button>
+
+                          <button class="btn btn-default" role="button">
+                              Cancelar
+                          </button>
+                      </p>
+                  </div>
+              </section>
+    </section>
+</div>
+</div>
+{% endblock main %}

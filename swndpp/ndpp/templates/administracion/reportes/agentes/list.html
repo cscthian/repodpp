@@ -1,0 +1,35 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Seguimiento de Agentes{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-x align-center">
+    <h3>Lista de Agentes con Deuda</h3>
+  </div>
+  <div class="grid-x align-center">
+    <div class="cell small-12 large-10 callout">
+      <table class="stack">
+        <thead>
+          <th>Codigo</th>
+          <th>Nombre</th>
+          <th>Total</th>
+          <th>Accion</th>
+        </thead>
+        <tbody>
+          {% for a in agentes %}
+            <tr>
+              <td>{{a.detail_asignation__vendor__cod}}</td>
+              <td>{{a.name}}</td>
+              <td>{{a.total}}</td>
+              <td>
+                <a target="_blank" href="{% url 'administracion_app:administracion-deuda_agentes' a.detail_asignation__vendor__cod %}" class="button warning">ver</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

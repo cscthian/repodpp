@@ -1,0 +1,28 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Detalle Canilla{% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Detalle de <span class="fw-semi-bold">Canilla</span></h1>
+<div class="col-md-6">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="."><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+            <h4><span class="fw-semi-bold text-info">Dni: </span> {{vendor.dni}}</h4>
+            <h4><span class="fw-semi-bold text-info">Nombre: </span> {{vendor.name}}</h4>
+            <h4><span class="fw-semi-bold text-info">Seuodonimo: </span> {{vendor.seudonimo}}</h4>
+            <h4><span class="fw-semi-bold text-info">Tipo: </span> {{vendor.get_type_vendor_display}}</h4>
+            <h4><span class="fw-semi-bold text-info">Limite Credito: </span> {{vendor.line_credit}}</h4>
+            <br>
+            <a href="#" class="btn btn-success"><i class="fa fa-print"></i></a>
+            <a href="{% url 'entidad_app:vendor-list' %}" class="btn btn-inverse"><i class="fa fa-home"></i></a>
+        </div>
+    </section>
+</div>
+{% endblock main %}

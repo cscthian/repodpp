@@ -1,0 +1,86 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %}Movimientos Caja{% endblock title %}
+
+{% block main %}
+<script type="text/javascript">
+var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || '', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+</script>
+
+<div ng-app="MagazineApp" ng-controller="MovimientosCtrl as vm">
+<div class="panel panel-default">
+  <div class="panel-heading">Movimientos Caja Por Dia</div>
+  <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4">
+          <label for="datetimepicker1">Fecha</label>
+          <div class="input-group">
+            <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha" ng-change="vm.generar_movimientos()">
+            <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <br>
+          <button class="btn btn-primary btn-lg active" onclick="tableToExcel('testTable')">Imprimir (Excel)</button>
+        </div>
+      </div>
+  </div>
+</div>
+
+<!-- Tabla de Resultados -->
+<div class="row">
+  <table class="table table-bordered" id="testTable">
+    <caption><h4>DPP Reporte de Movimientos Caja Para Fecha: {$ vm.fecha|date $}</h4></caption>
+    <thead>
+      <th>Canilla</th>
+      <th>Movimientos</th>
+      <th>Cobrado</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="md in vm.movimientos_dia">
+        <td><strong>{$ md.cod $}-{$ md.name $}({$ md.seudonimo $})</strong></td>
+        <td>
+          <table class="table">
+            <tr>
+              <td>Item</td>
+              <td>Hora</td>
+              <td>Ent</td>
+              <td>Dev</td>
+              <td>Pag</td>
+              <td>Deb</td>
+              <td>Precio</td>
+              <td>Monto</td>
+            </tr>
+            <tr ng-repeat="m in md.movimientos">
+              <td>{$ m.magazine $}[{$ vm.devolver_dia(m.dia) $}]</td>
+              <td>{$ m.created | date : 'h:mm a' $}</td>
+              <td>{$ m.entregado $}</td>
+              <td>{$ m.count_return $}</td>
+              <td>{$ m.count_payment $}</td>
+              <td>{$ m.debe $}</td>
+              <td>{$ m.precio $}</td>
+              <td>{$ m.amount $}</td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          {$ md.total $}
+        </td>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+{% endblock main %}

@@ -1,0 +1,59 @@
+{% extends "caja/base_caja.html" %}
+
+{% block title %}Anular boleta por agente{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="card">
+    <div class="card-divider">
+      <h4>Anular Boleta Para <strong>{{object}}</strong></h4>
+    </div>
+    <div class="card-section">
+      <p>Monto Cobrado: <strong>S/.{{monto}}</strong></p>
+      <p>Cantidad Devuelta: <strong> {{devuelto}} unidades</strong></p>
+      <br>
+      <table class="stack">
+        <thead>
+          <tr>
+            <th>Reg.</th>
+            <th>Diario</th>
+            <th>Devuelto</th>
+            <th>Cantidad</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in  pagos %}
+            <tr>
+                <td>{{ p.pk }}</td>
+                <td>{{ p.detail_asignation.asignation.detail_guide }}</td>
+                <td>
+                  {% if p.count_return > 0 %}
+                      {{ p.count_return }}*
+                  {% else %}
+                      {{ p.count_return }}
+                  {% endif %}
+                </td>
+                <td>{{ p.count_payment }}</td>
+                <td>{{ p.amount }}</td>
+                {% empty %}
+                    <td>No se Registro Pagos El Dia de Hoy</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="grid-x grid-padding-x align-center">
+        <form action="{% url 'caja_app:pagos-anular' vendor.cod %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+          <div>
+            <div>
+              <button type="submit" class="button alert">Eliminar</button>
+              <a href="{% url 'caja_app:add-payment' %}" class="button secondary">Cancelar</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

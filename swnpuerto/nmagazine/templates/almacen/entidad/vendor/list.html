@@ -1,0 +1,95 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Lista Canillas {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="EntidadCtrl as vm">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Canillas</span></h3>
+          <br>
+          <div class="form-group">
+            <div class="input-group col-sm-4">
+                <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                <div class="input-group-btn">
+                    <a href="{% url 'entidad_app:vendor-add' %}" class="btn btn-primary" title="Nuevo Canilla"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+            <legend></legend>
+            <select id="tipo" class="select" ng-model="vm.tipo">
+                <option value="0">Canilla</option>
+                <option value="1">Agente</option>
+                <option value="">Todo</option>
+            </select>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <a href="#" ng-click="order_by = 'cod'; not_order = !not_order">
+                      Codigo
+                      <span ng-show="order_by == 'cod' && !not_order" </span>
+                      <span ng-show="order_by == 'cod' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'dni'; not_order = !not_order">
+                      Dni
+                      <span ng-show="order_by == 'dni' && !not_order"</span>
+                      <span ng-show="order_by == 'dni' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'name'; not_order = !not_order">
+                      <strong>Nombre</strong>
+                      <span ng-show="order_by == 'name' && !not_order" </span>
+                      <span ng-show="order_by == 'name' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'seudonimo'; not_order = !not_order">
+                      <strong>Seudonimo</strong>
+                      <span ng-show="order_by == 'seudonimo' && !not_order" </span>
+                      <span ng-show="order_by == 'seudonimo' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'line_credit'; not_order = !not_order">
+                      <strong>Limite Credito</strong>
+                      <span ng-show="order_by == 'line_credit' && !not_order" </span>
+                      <span ng-show="order_by == 'line_credit' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#">
+                      Accion
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="c in vm.canillas | orderBy:order_by:not_order |filter:{type_vendor:vm.tipo} | filter:vm.buscar">
+                  <td>{$ c.cod $}</td>
+                  <td>{$ c.dni $}</td>
+                  <td><strong>{$ c.name $}</strong></td>
+                  <td><strong>{$ c.seudonimo $}</strong></td>
+                  <td>{$ c.line_credit $}</td>
+                  <td>
+                        <a ng-href="/almacen/entidad/canilla/detail/{$ c.pk $}" class="btn btn-success" title="Ver"><i class="fa fa-search"></i></a>
+                        <a ng-href="/almacen/entidad/canilla/update/{$ c.pk $}" class="btn btn-warning" title="Modificar"><i class="fa fa-pencil"></i></a>
+                        <a ng-href="/almacen/entidad/canilla/delete/{$ c.pk $}" class="btn btn-danger" title="Eliminar"><i class="fa fa-remove"></i></a>
+                        <a ng-show="!{$ c.disable $}"ng-href="/almacen/entidad/canilla/disable/{$ c.pk $}" class="btn btn-info" title="Desabilitar"><i class="fa fa-user-times" aria-hidden="true"></i></a>
+                        <a ng-show="{$ c.disable $}"ng-href="/almacen/entidad/canilla/enabled/{$ c.pk $}" class="btn btn-default" title="Habilitar"><i class="fa fa-check-circle" aria-hidden="true"></i></a>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </div>
+
+{% endblock main %}

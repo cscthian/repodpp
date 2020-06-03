@@ -1,0 +1,40 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Liuidacion Modulo Caja{% endblock title %}
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="VoucherAddCtrl as vm">
+<div class="panel panel-primary">
+  <div class="panel-heading">Liquidacion Diaria</div>
+  <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4">
+          <label for="datetimepicker1">Fecha</label>
+          <div class="input-group">
+            <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha" ng-change="vm.liquidacion_dia(vm.fecha)">
+            <span class="input-group-addon" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <section class="widget">
+         <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid_voucher"></div>
+    </section>
+    <section class="widget">
+      <button class="btn btn-sm btn-success" ng-disabled = "vm.no_valido" ng-click="vm.enviar_data()">Guardar</button>
+      <button class="btn btn-sm btn-defaul" ng-click="vm.guardar_data()">Guardar Forzado</button>
+      <button class="btn btn-sm btn-info" ng-click="vm.cargar_data()">Cargar</button>
+      <button class="btn btn-sm btn-warning" ng-click="vm.exportar_pdf()">PDF</button>
+      <button class="btn btn-sm btn-primary" ng-click="vm.exportarExcel()">Excel</button>
+      <p>
+        <span class="text-danger" ng-show="vm.no_valido">{$ vm.mensaje $}</span>
+      </p>
+    </section>
+  </div>
+</div>
+</div>
+{% endblock main %}

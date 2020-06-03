@@ -1,0 +1,87 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Margen de Ganancia {% endblock title %}
+
+{% block main %}
+<div class="content-wrap" ng-app="MagazineApp" ng-controller="MargenCtrl as vm" ng-init="vm.cargar_datos()">
+        <div class="row">
+            <div class="col-xs-12 col-lg-pull-2">
+                <section class="search-result-item">
+                  <h4 class="search-result-item-heading">
+                      <span class="text-primary">Reporte Margen de Ganancia (precio venta-precio guia)</span>
+                  </h4>
+                  <legend></legend>
+                    <div class="search-result-item-body">
+                        <div class="row">
+                          <div class="col-xs-12 col-md-6">
+                              <fieldset>
+                                  <legend>
+                                      Fecha Inicio
+                                  </legend>
+                                  <div class="input-group">
+                                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                      <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha1" ng-change="vm.rango_fecha()">
+                                  </div>
+                              </fieldset>
+                          </div>
+                          <div class="col-xs-12 col-md-6">
+                              <fieldset>
+                                  <legend>
+                                      Fecha fin
+                                  </legend>
+                                  <div class="input-group">
+                                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                      <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha2" ng-change="vm.rango_fecha()">
+                                  </div>
+                              </fieldset>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12 col-md-6">
+                                <section class="widget">
+                                    <div class="widget-body">
+                                        <p class="text-align-center">
+                                          <br>
+                                            <button class="btn btn-inverse" ng-click="vm.margen_ganancia(vm.fecha1,vm.fecha2)">
+                                                Generar
+                                            </button>
+                                    </div>
+                                </section>
+                                <p class="text-danger" ng-show="vm.error2">
+                                  {$ vm.mensaje2 $}
+                                </p>
+                          </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="search-result-item">
+                  <section class="widget">
+                      <header>
+                          <h4>
+                              <span class="fw-semi-bold">Ultimos meses</span> Margen de Ganancia
+                          </h4>
+                          <div class="widget-controls">
+                              <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+                          </div>
+                      </header>
+                      <div class="widget-body">
+                          <p class="fs-mini text-muted">
+                            Representa las ganancias netas de los 5 ultimos meses</p>
+
+                            <fusioncharts
+                              width="600"
+                              height="400"
+                              type="column2d"
+                              datasource="{$ vm.myDataSource $}"
+                            >
+
+                            </fusioncharts>
+                      </div>
+                  </section>
+                </section>
+            </div>
+        </div>
+</div>
+{% endblock main %}

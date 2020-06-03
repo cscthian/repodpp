@@ -1,0 +1,156 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Cobrar {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="CobrosCtrl as vm" ng-init="vm.cargar_usuario('{{user.type_user}}')">
+<div class="col-md-12">
+  <toast></toast>
+    <section class="widget">
+        <div class="widget-body">
+            <form role="form">
+                <fieldset>
+                    <legend>Codigo Vendedor</legend>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" ng-keypress="vm.enter($event)" class="form-control" id="bar" placeholder="codigo de vendedor" ng-model="vm.codigo">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" ng-click="vm.cargar_movimientos(vm.codigo, '{{user.type_user}}')"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <a ng-href="/caja/cobros/cobrar/anular/{$ vm.codigo $}" class="btn btn-danger" title="Anular"><i class="fa fa-remove"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div ng-class="vm.class">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <span class="fw-semi-bold">Vendedor:</span> {$ vm.vendedor $}
+                    </div>
+                </fieldset>
+                <section class="widget">
+                     <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid"></div>
+                     <legend></legend>
+                     <div class="row">
+                       <div class="col-md-4">
+                         <div class="input-group">
+                           <span class="input-group-btn">
+                             <button class="btn btn-default" type="button">Paga Con:</button>
+                           </span>
+                           <input type="text" ng-model="vm.pago_con" ng-change="vm.calcular_vuelto()"  class="form-control" placeholder="0.00">
+                         </div>
+                       </div>
+                       <div class="col-md-4">
+                         <div class="input-group">
+                           <span class="input-group-btn">
+                             <button class="btn btn-default" type="button">Cobrar:</button>
+                           </span>
+                           <input type="text" ng-model="vm.cobrar" ng-change="vm.calcular_vuelto()"class="form-control" placeholder="0.00">
+                         </div>
+                       </div>
+                       <div class="col-md-4">
+                         <div class="input-group">
+                           <span class="input-group-btn">
+                             <button class="btn btn-default" type="button">Vuelto:</button>
+                           </span>
+                           <input type="text" ng-model="vm.vuelto" disabled="true"class="form-control" placeholder="0.00">
+                         </div>
+                       </div>
+                     </div>
+                </section>
+            </form>
+        </div>
+    </section>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <section class="widget no-padding text-align-center">
+                        <div class="row no-margin">
+                            <div class="col-xs-6 bg-success btlr bblr">
+                                <p class="value1 text-white mt-sm mr-n-xs mb-n-xs">
+                                    S/. {$ vm.pago $}
+                                </p>
+                                <p class="text-white display-inline-block fw-normal display-inline-block mb">Por Cobrar</p>
+                            </div>
+
+                            <div class="col-sm-offset-1 col-xs-5 bg-danger btlr bblr">
+                                <p class="value1 text-white mt-sm mr-n-xs mb-n-xs">
+                                    S/. {$ vm.deuda $}
+                                </p>
+                                <p class="text-white display-inline-block fw-normal display-inline-block mb">Deuda</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-sm-6">
+                      <section class="widget">
+                          <div class="widget-body">
+                              <p class="text-align-center">
+                                <br>
+                                  <button ng-disabled="vm.vencido" ng-show ="!vm.not_orden" ng-click="vm.guardar_print()" class="btn btn-inverse" role="button">
+                                      Guardar e Imprimir
+                                  </button>
+                                  <button ng-disabled="vm.vencido" ng-click="vm.enviar_data()" class="btn btn-grey" role="button">
+                                      Guardar
+                                  </button>
+
+                                  <button class="btn btn-default" ng-click="vm.printDiv('print-section')" role="button">
+                                      Cancelar
+                                  </button>
+                              </p>
+                              <span ng-show="vm.vencido" class="text-danger">{$ vm.mensaje $}</span>
+                              <span ng-show="vm.not_orden" class="text-warning">{$ vm.alerta $}</span>
+                          </div>
+                      </section>
+                </div>
+            </div>
+
+<!-- seccion que genera el recibo a imprimir-->
+          <div id="print-section" ng-show="false">
+            <h4>N°:{$ vm.boleta $}</h4>
+            <h4><p><strong>{$ vm.codCanilla $}</strong> -- {$ vm.vendedor $}<br/>
+            <u>{$ vm.fecha|date $}</u></p></h4>
+            <table class="table_voucher">
+              <thead>
+                <tr>
+                  <th><h4>Diario/Prod|</h4></th>
+                  <th><h4>Dev|</h4></th>
+                  <th><h4>Pag|</h4></th>
+                  <th><h4>Pre.U|</h4></th>
+                  <th><h4>Total</h4></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="i in vm.items">
+                  <td><h4>{$ i.item $}</h4></td>
+                  <td><h4>{$ i.dev $}</h4></td>
+                  <td><h4>{$ i.pag $}</h4></td>
+                  <td><h4>{$ i.pu $}</h4></td>
+                  <td><h4> {$ i.sub $}</h4></td>
+                </tr>
+              </tbody>
+            </table>
+            <p>----------------------------</p>
+            <h4> Deuda:S/ {$ vm.deuda $} &ensp;Total:S/ {$ vm.pago $} </h4>
+            <p>----------------------------</p>
+            <table>
+              <tr ng-repeat="d in vm.deudas">
+                <td>
+                  <h4>{$ d.name $}</h4>
+                </td>
+              </tr>
+            </table>
+            <h4><p>----Mañana se Cobra----</p></h4>
+            <ul>
+              <li ng-repeat="v in vm.por_vencer"><h4>{$ v $}</h4></li>
+            </ul>
+          </div>
+
+</div>
+</div>
+{% endblock main %}

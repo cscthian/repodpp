@@ -1,0 +1,109 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reporte Control de Facturas{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-x grid-margin-x align-center">
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-reporte_liquidacion_proveedor' %}" class="button secondary">Compra Total</a>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-reporte_liquidacion_proveedor_factura' %}" class="button success">Compra Facturada</a>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-proceso_pagos_factura' %}" class="button warning">Pagar Facturas</a>
+    </div>
+  </div>
+
+  <h3 style="text-align:center"> Liquidacion Proveedor Guias con Factura </h3>
+  <form>
+    <div class="grid-x align-center">
+      <div class="small-12 medium-2">
+        <label>Departamento
+          <select ng-model="self.rs">
+            <option value="0">DPP</option>
+            <option value="1">MAX</option>
+          </select>
+        </label>
+      </div>
+      <div class="small-12 medium-2">
+        <label>Proveedor
+          <select ng-model="self.proveedor">
+            <option ng-repeat="p in self.providers" value="{$ p.pk $}">{$ p.name $}</option>
+          </select>
+        </label>
+      </div>
+      <div class="small-12 medium-2">
+        <label>Departamento
+          <select ng-model="self.departamento">
+            <option ng-repeat="d in self.departamentos" value="{$ d.pk $}">{$ d.name $}</option>
+          </select>
+        </label>
+      </div>
+      <div class="small-12 medium-2">
+        <label>Fecha
+          <input type="date" ng-model="self.date">
+        </label>
+      </div>
+      <div class="small-12 medium-2">
+        <br>
+        <button type="button" class="button" ng-model="self.button" ng-click="self.cargar_consulta()">Consultar</button>
+      </div>
+    </div>
+  </form>
+  <div class="grid-container grid-container-padded">
+    <div class="grid-x align-center">
+      <h4>
+        Monto Total: <b>S/. {{lista.total}} </b>
+        <span id="imprimir" onclick="imprimir_liquidacion('Liquidacion-Facturada')" style="color:#1565c0;cursor:pointer;">Imprimir</span>
+      </h4>
+      <table id="lista-facturas" class="hover" style="border:2px solid;">
+        <thead>
+          <th style="border:1px solid;">GUIA</th>
+          <th style="border:1px solid;">FACTURA</th>
+          <th style="border:1px solid;">COD.INTER</th>
+          <th style="border:1px solid;">ITEM</th>
+          <th style="border:1px solid;">FECHA</th>
+          <th style="border:1px solid;">DEPA</th>
+          <th style="border:1px solid;">RS</th>
+          <th style="border:1px solid;">PROVE</th>
+          <th style="border:1px solid;">CAN</th>
+          <th style="border:1px solid;">PRECIO</th>
+          <th style="border:1px solid;">MON.</th>
+          <th style="border:1px solid;">VEN</th>
+          <th style="border:1px solid;">DEV</th>
+          <th style="border:1px solid;">MON.VEN</th>
+          <th style="border:1px solid;">SUB.TOT</th>
+        </thead>
+        <tbody>
+          {% for l in lista.consulta  %}
+            <tr >
+              <td style="border:1px solid;font-size:0.8em;">{{l.number}}</td>
+              <td style="border:1px solid;">{{l.factura}}</td>
+              <td style="border:1px solid;">{{l.number_interno}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.magazine}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.date|date:"d-m-Y"}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.departamento}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.razon_social}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.proveedor}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.cantidad}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.precio}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.monto}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.vendido}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.devuelto}}</td>
+              <td style="border:1px solid;font-size:0.8em;">{{l.monto_vendido}}</td>
+              {% if l.subtotal != '' %}
+                <td style="border-top:2px solid; background:#e0e0e0;">{{l.subtotal}}</td>
+              {% else %}
+                  <td style="border:1px solid; background:#e0e0e0;">{{l.subtotal}}</td>
+              {% endif %}
+
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

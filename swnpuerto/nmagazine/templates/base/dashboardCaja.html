@@ -1,0 +1,86 @@
+{% extends "base/base_caja.html" %}
+{% block title %}  DPP S.A.C {% endblock title %}
+
+        {% block rightmenu %}
+        <!-- main notification links are placed inside of .sidebar-nav -->
+        <h5 class="sidebar-nav-title">Procesos <a class="action-link" href="#"><i class="fa fa-area-chart"></i></a></h5>
+        <ul class="sidebar-nav">
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'pagos_app:pagos-cobrar' %}">
+                    <span class="icon">
+                        <i class="fa fa-money"></i>
+                    </span>
+                    Cobros
+                </a>
+            </li>
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'pagos_app:pagos-cudarar' %}">
+                    <span class="icon">
+                        <i class="fa fa-balance-scale"></i>
+                    </span>
+                    Cuadrar Caja
+                </a>
+            </li>
+            <li class="active">
+                <a href="{% url 'pagos_app:pagos-tienda' %}">
+                    <span class="icon">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </span>
+                    Venta de Productos
+                </a>
+            </li>
+        </ul>
+        <h5 class="sidebar-nav-title">Reportes <a class="action-link" href="#"><i class="fa fa-area-chart"></i></a></h5>
+        <ul class="sidebar-nav">
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'pagos_app:pagos-faltantes' %}">
+                    <span class="icon">
+                        <i class="fa fa-dollar"></i>
+                    </span>
+                    Faltantes
+                </a>
+            </li>
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'pagos_app:pagos-anulados' %}">
+                    <span class="icon">
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                    </span>
+                    Anulados
+                </a>
+            </li>
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'liquidacion_app:liquidacion-provider_day' %}">
+                    <span class="icon">
+                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                    </span>
+                    Liquidacion
+                </a>
+            </li>
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'pagos_app:pagos-devoluciones' %}">
+                    <span class="icon">
+                        <i class="fa fa-reply" aria-hidden="true"></i>
+                    </span>
+                    Devoluciones
+                </a>
+            </li>
+            <li>
+                <!-- an example of nested submenu. basic bootstrap collapse component -->
+                <a href="{% url 'pagos_app:guias-pendientes' %}">
+                    <span class="icon">
+                        <i class="fa fa-list" aria-hidden="true"></i>
+                    </span>
+                    Guias Pendientes
+                </a>
+            </li>
+        </ul>
+{% endblock rightmenu %}
+
+{% block main %}
+{% endblock main %}

@@ -1,0 +1,44 @@
+{% extends "users/base_users.html" %}
+
+{% block title %}DPP{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-container grid-container-padded">
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <i class="fa fa-list-alt fa-3x report-icon" aria-hidden="true"></i>
+            <p>
+              <a href="{% url 'reportes_app:voucher_sin-credito' %}" class="report_card__link">Factura/Nota credito</a>
+              <p style="color:#C62828;">( {{num_facturas}} facturas sin nota de credito)</p>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <span class="fa fa-address-book-o fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-seguimiento_agentes' %}" class="report_card__link">Seguimento Agentes</a>
+              <p style="color:#C62828;">( {{num_agentes}} Agentes deben)</p>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <span class="fa fa-battery-quarter fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-reporte_buscar-guia' %}" class="report_card__link">Guias</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

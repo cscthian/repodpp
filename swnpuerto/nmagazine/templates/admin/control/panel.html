@@ -1,0 +1,62 @@
+{% extends "base/dashboardControl.html" %}
+
+{% block title %} DPP - Control {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-success text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-money"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Liquidacion</h5>
+                        <a href="{% url 'liquidacion_app:liquidacion' %}" class="h3 no-margin fw-normal">Liquidacion</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-primary text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-balance-scale"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Comprobantes</h5>
+                        <a href="#" class="h3 no-margin fw-normal">Boleta/Facturas</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-dollar"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Diarios/Productos</h5>
+                        <a href="#" class="h3 no-margin fw-normal">Almacen</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock main %}

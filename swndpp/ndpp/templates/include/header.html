@@ -1,0 +1,38 @@
+<div class="header">
+  <div id="togle-menu" class="fa fa-bars fa-2x icon-menu">
+
+  </div>
+  <div id="nav-menu" class="nav-menu">
+    <ul class="menu-main">
+      <li class="menu-item">
+        <a href="{% url 'users_app:home' %}" class="menu-item__link">Home</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url 'recepcion_app:list-magazine' %}" class="menu-item__link">Registro Diario</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url 'recepcion_app:add-guide' %}" class="menu-item__link">Registro Guia</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url 'reportes_app:reporte-search_voucher' %}" class="menu-item__link">Registro Factura</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url 'caja_app:add-payment' %}" class="menu-item__link">Cobranza</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url 'caja_app:liquidacion_dia-payment' %}" class="menu-item__link">Liquidacion</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url 'administracion_app:administracion-reporte_index' %}" class="menu-item__link">Administracion</a>
+      </li>
+      <li class="menu-item">
+        <a href="{% url 'users_app:logout' %}" class="menu-item__link__active">Salir</a>
+      </li>
+    </ul>
+  </div>
+  <a href="{% url 'users_app:home' %}" class="nav-menu___logo">DPP</a>
+  <a href="{% url 'users_app:logout' %}" class="icon-logout"></a>
+</div>
+<div class="space_head">
+
+</div>

@@ -1,0 +1,166 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Registro {% endblock title %}
+
+
+{% block main %}
+<h2 class="page-title">Nuevo <span class="fw-semi-bold">Registro</span></h2>
+<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<div class="col-md-6">
+    <section class="widget">
+        <header>
+            <div class="widget-controls">
+                <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                <a href="#"><i class="fa fa-refresh"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+                <fieldset>
+                    <legend><strong>Datos de Producto/Diario</strong></legend>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Nombre:</label>
+                        <div class="col-sm-7">
+                            {{form.name}}
+                        </div>
+                        {% for error in form.name.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Proveedor:</label>
+                        <div class="col-sm-7">
+                            {{form.provider}}
+                        </div>
+                        {% for error in form.provider.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Descripcion:</label>
+                        <div class="col-sm-7">
+                            {{form.description}}
+                        </div>
+                        {% for error in form.description.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Dias de Reparto:</label>
+                        <div class="col-sm-7">
+                            {{form.day_expiration}}
+                        </div>
+                        {% for error in form.day_expiration.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+        </div>
+    </section>
+</div>
+<!--  Segunda secion de formularios -->
+<div class="col-md-6">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                <a href="#"><i class="fa fa-refresh"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+                <fieldset>
+                  <legend><strong>Precios Lunes-Sabado</strong></legend>
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Precio Tapa:</label>
+                      <div class="col-sm-7">
+                        <div class="input-group">
+                          <span class="input-group-addon">S/.</span>
+                          {{form.precio_tapa}}
+                          <span class="input-group-addon">.00</span>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Precio Guia:</label>
+                      <div class="col-sm-7">
+                        <div class="input-group">
+                          <span class="input-group-addon">S/.</span>
+                          {{form.precio_guia}}
+                          <span class="input-group-addon">.00</span>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="normal-field" class="col-sm-4 control-label">Precio Venta:</label>
+                      <div class="col-sm-7">
+                        <div class="input-group">
+                          <span class="input-group-addon">S/.</span>
+                          {{form.precio_venta}}
+                          <span class="input-group-addon">.00</span>
+                        </div>
+                      </div>
+                  </div>
+                    <legend><strong>Precio Domingos</strong></legend>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Precio Tapa:</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                              {{form.precio_tapad}}
+                              <span class="input-group-addon">.00</span>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Precio Guia:</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                            {{form.precio_guiad}}
+                            <span class="input-group-addon">.00</span>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Precio Venta:</label>
+                        <div class="col-sm-7">
+                          <div class="input-group">
+                            <span class="input-group-addon">S/.</span>
+                              {{form.precio_ventad}}
+                            <span class="input-group-addon">.00</span>
+                          </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-7">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="{% url 'recepcion_app:magazine-list' %}" class="btn btn-inverse">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+</div>
+</form>
+{% endblock main %}

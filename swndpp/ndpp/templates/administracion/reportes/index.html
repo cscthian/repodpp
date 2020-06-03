@@ -1,0 +1,81 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reportes de Administracion{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <div class="grid-container grid-container-padded">
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout secondary">
+          <div class="report_card">
+            <span class="fa fa-print fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-emitir_boleta' %}" class="report_card__link">Emitir Boletas</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <span class="fa fa-shopping-cart fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-ventas_por_fecha' %}" class="report_card__link">Ventas</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout secondary">
+          <div class="report_card">
+            <span class="fa fa-book fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-reporte_liquidacion_proveedor' %}" class="report_card__link">Liquidacion Proveedor</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <span class="fa fa-user fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-seguimiento_agentes' %}" class="report_card__link">Seguimiento de Agentes</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <span class="fa fa-calculator fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-reporte_faltantes' %}" class="report_card__link">Perdida por Area</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <span class="fa fa-th-list fa-3x report-icon"></span>
+            <p>
+              <a href="{% url 'administracion_app:administracion-reporte_buscar-guia' %}" class="report_card__link">Seguimiento de guias</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <div class="callout success">
+          <div class="report_card">
+            <span class="fa fa-user-circle fa-3x report-icon"></span>
+            <p>
+              <a href="#" class="report_card__link">Gestion de Usuarios</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

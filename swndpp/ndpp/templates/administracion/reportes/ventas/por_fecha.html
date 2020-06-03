@@ -1,0 +1,62 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reporte Ventas por fecha{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-container" ng-app="DppApp" ng-controller="VentasCtrl as self">
+    <h4>Reporte de Ventas</h4>
+    <div class="grid-x grid-margin-x align-center">
+
+      <div class="cell small-12 medium-6 large-4">
+        <label>Fecha Inicio:
+          <input type="date" name="fecha" ng-model="self.fecha_inicio">
+        </label>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <label>Fecha Fin:
+          <input type="date" name="facha fin" ng-model="self.fecha_fin" ng-change="self.cargar_items()">
+        </label>
+      </div>
+      <div class="cell small-12 medium-6 large-4">
+        <label>Aplicar Descuento de:
+          <input type="text" name="facha boleta" placeholder="0.001" ng-model="self.descuento" ng-change="self.calcular_montos()">
+        </label>
+      </div>
+    </div>
+    <br>
+    <h5>Resultados de la consulta: <strong>S/. {$ self.total $}</strong></h5>
+    <div class="grid-x align-center" style="margin-top:2em;">
+      <table>
+        <thead>
+          <th>Guia</th>
+          <th>Fecha</th>
+          <th>Diario</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Devuelto</th>
+          <th>Vendido</th>
+          <th>Total</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="i in self.items">
+              <td>{$ i.guia $}</td>
+              <td>{$ i.date $}</td>
+              <td>{$ i.magazine $}</td>
+              <td><strong>{$ i.count $}</strong></td>
+              <td><strong>{$ i.precio $}</strong></td>
+              <td><strong>{$ i.devuelto $}</strong></td>
+              <td><strong>{$ i.pagado $}</strong></td>
+              <td>{$ i.total $}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid-x grid-margin-x align-center">
+      <div class="cell shrink">
+        <button type="button" class="button warning" name="button" ng-click="self.imprimir()">Imprimir</button>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

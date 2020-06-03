@@ -1,0 +1,100 @@
+{% extends "recepcion/base_recepcion.html" %}
+
+{% block title %}Agregar Producto{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <!-- *************** REGISTRO DE MAGAZINE plantilla**************** -->
+  <div class="callout">
+    <h4>Formulario Producto</h4>
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="callout grid-x grid-padding-x" ng-app="DppApp" ng-controller="ProdCtrl as self" ng-init="self.recuperar_magazine({{object.pk}})">
+          <div class="medium-6 cell">
+            <label>Proveedor:
+              <select id="provide" name="provider" ng-model="self.tipo" required
+                        ng-change="self.cargar_porcentaje(self.tipo)">
+                  <option value="20">COMERCIO</option>
+                  <option value="25">TROME-PERU21-DEPOR</option>
+                  <option value="26">OJO</option>
+                  <option value="30">GESTION</option>
+
+              </select>
+            </label>
+          </div>
+
+          <div class="medium-6 cell">
+            <label>Porcentaje:
+              <input id="porciento" size="16" type="number"
+                ng-model="self.porcentaje">
+              </label>
+            </div>
+
+          <div class="small-12 medium-6 cell">
+            <label>Precio Tapa:
+              {{form.precio_tapa}}
+            </label>
+          </div>
+          <div class="small-12 medium-6 cell">
+            <label>Precio Guia:
+              {{form.precio_guia}}
+            </label>
+          </div>
+
+          <div class="small-12 medium-6 cell">
+            <label>Precio Venta:
+              {{form.precio_venta}}
+            </label>
+          </div>
+
+          <div class="small-12 medium-6 cell">
+            <label>Afecto:
+              {{form.afecto}}
+            </label>
+          </div>
+      </div>
+
+
+      <div class="grid-x grid-padding-x">
+        <div class="small-12 medium-6 cell">
+          <label>Nombre:
+            {{form.name}}
+          </label>
+          {% for error in form.name.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="small-12 medium-6 cell">
+          <label>Proveedor
+            {{form.provider}}
+          </label>
+          {% for error in form.provider.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="small-12 medium-8 cell">
+          <label>Descripcion:
+            {{form.description}}
+          </label>
+          {% for error in form.description.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <input type="submit" class="button" value="Guardar">
+    </form>
+  </div>
+{% endblock content %}

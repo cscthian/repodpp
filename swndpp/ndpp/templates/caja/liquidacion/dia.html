@@ -1,0 +1,139 @@
+{% extends "caja/base_caja.html" %}
+
+{% block title %}Registrar Pago{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-x align-center-middle">
+    <div class="grid-x cell small-10 medium-4 large-2 cuadre-head cuadre-principal">
+      <div class="grid-x cell small-4 align-center-middle">
+        <span class="cell shrink icon-money"></span>
+      </div>
+      <div class="grid-y cell small-8 align-center-middle">
+        <span class="cuadre-head__monto-calculado">S/.{{resumen.monto_cal}}</span>
+        <span class="cuadre-head__monto-calculado-text">Monto Calculado</span>
+      </div>
+    </div>
+
+    <div class="grid-x cell small-10 medium-4 large-2 cuadre-head cuadre-secundario">
+      <div class="grid-x cell small-4 align-center-middle">
+        <span class="cell shrink icon-cal"></span>
+      </div>
+      <div class="grid-y cell small-8 align-center-middle">
+        <span class="cuadre-head__monto-calculado">S/. {{resumen.deuda_tot}}</span>
+        <span class="cuadre-head__monto-calculado-text">Deuda Total</span>
+      </div>
+    </div>
+
+    <div class="grid-x cell small-10 medium-4 large-2 cuadre-head cuadre-tercero">
+      <div class="grid-x cell small-4 align-center-middle">
+        <span class="cell shrink icon-check"></span>
+      </div>
+      <div class="grid-y cell small-8 align-center-middle">
+        <span class="cuadre-head__monto-calculado">S/. {{resumen.cerradas}}</span>
+        <span class="cuadre-head__monto-calculado-text">G. cerradas</span>
+      </div>
+    </div>
+
+    <div class="grid-x cell small-10 medium-4 large-2 cuadre-head cuadre-cuarto">
+      <div class="grid-x cell small-4 align-center-middle">
+        <span class="cell shrink icon-attention"></span>
+      </div>
+      <div class="grid-y cell small-8 align-center-middle">
+        <span class="cuadre-head__monto-calculado">S/. {{resumen.no_cerradas}}</span>
+        <span class="cuadre-head__monto-calculado-text">G. no cerradas</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="print-section" class="cuadre-result">
+    <h3 class="cuadre-result__title">Liquidacion: {{fecha}}</h3>
+    <form method="get">{% csrf_token %}
+      <div class="grid-x align-center">
+        <div class="cell small-12 medium-4">
+          {{form.date}}
+        </div>
+        <div class="cell shrink cell">
+          <input type="submit" class="button secondary" value="Consultar">
+        </div>
+      </div>
+    </form>
+    <div class="callout">
+      <table class="stack">
+        <thead>
+          <tr>
+            <th>Monto</th>
+            <th>Deuda</th>
+            <th>Guias Cerradas</th>
+            <th>Guias No Cerradas</th>
+            <th>Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S/. {{resumen.monto_cal}}</td>
+            <td>S/. {{resumen.deuda_tot}}</td>
+            <td>{{resumen.cerradas}}</td>
+            <td>{{resumen.no_cerradas}}</td>
+            <td>
+              <button type="button" name="button" class="button" onclick="printDiv('print-section')">Imprimir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {% for r in resultados  %}
+      <div class="cuadre-result__table">
+        <p class="cuadre-result__provider">proveedor: {{r.name}}</p>
+        <table class="stack">
+          <thead>
+            <tr>
+              <td>GUIA</td>
+              <td>FECHA</td>
+              <td>ITEM</td>
+              <td>DEU</td>
+              <td>PRECIO</td>
+              <td>DEV</td>
+              <td>PAG</td>
+              <td>ESTADO</td>
+              <td>MONTO</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in r.lista_pagos %}
+              <tr>
+                <td><strong>{{p.guide}}</strong></td>
+                <td>{{p.date}}</td>
+                <td>{{p.magazine}}</td>
+                <td>{{p.debe}}</td>
+                <td>{{p.precio}}</td>
+                <td>{{p.devuelto}}</td>
+                <td>{{p.pagado}}</td>
+                <td>{{p.estado}}</td>
+                <td>{{p.total}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="cuadre-result__total"><span style="font-weight:400;">deuda total: S/. {{r.monto_deuda}}</span> | sub total: S/. {{r.sub_total}}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script type="text/javascript">
+    function printDiv(divName) {
+       var printContents = document.getElementById(divName).innerHTML;
+       var originalContents = document.body.innerHTML;
+
+       document.body.innerHTML = printContents;
+
+       window.print();
+
+       document.body.innerHTML = originalContents;
+    }
+  </script>
+
+{% endblock content %}

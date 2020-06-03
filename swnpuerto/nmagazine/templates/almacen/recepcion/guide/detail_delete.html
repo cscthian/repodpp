@@ -1,0 +1,5 @@
+<form role="form" action="{% url 'recepcion_app:detail_guide-delete' detailguide.pk %}" method="POST">{% csrf_token %}
+                            <h6 class="subheader">¿Desea eliminar <strong>{{ DetailGuide.magazine }}</strong>?</h6>
+                            <button type="submit" class="tiny radius bg-rojo button">Si</button>
+                            <a href="{% url 'recepcion_app:guide-update' object.guide.pk %}" class="tiny radius bg-blanco border-grey button">No</a>
+                          </form>

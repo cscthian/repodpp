@@ -1,0 +1,113 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Nota de Credito {% endblock title %}
+
+
+{% block main %}
+
+<h2 class="col-sm-offset-2 page-title">Regitro Nota de Credito</h2>
+<form name="formGuia" class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<div class="col-sm-offset-1 col-md-10">
+    <section class="widget">
+        <header>
+            <div class="widget-controls">
+                <a href="."><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+                    <legend><strong>Datos Guia</strong></legend>
+
+                <div ng-app="MagazineApp" ng-controller="NotaCtrl as vm">
+                    <div class="form-group">
+                      <div class="col-sm-6">
+                        <label class="col-sm-6 control-label">Numero Guia: </label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                                {{form.guide}}
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <label class="col-sm-4 control-label">Item: </label>
+                        <div class="col-sm-6">
+                            <select id="provide" name="item" class="form-control" ng-model="vm.magazine" ng-change="vm.recuperar_objeto(vm.magazine)">
+                                <option ng-repeat="i in vm.items" value="{$i.pk$}">{$ i.name $}</option>
+                            </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group" ng-show="false">
+                      <label class="col-sm-4 control-label">Cod </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">cod</span>
+                                {{form.magazine_day}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Nombre: </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                                <input name="name" class="form-control" size="16" ng-model="vm.name" disabled="True">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Precio Guia: </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">S/.</span>
+                                {{form.precio_guia}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Precio Venta: </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">S/.</i></span>
+                                {{form.precio_venta}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Cantidad: </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list" aria-hidden="true"></i></span>
+                                <input id="invoce" name="count" class="form-control" size="16" ng-model="vm.count" disabled="True">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Fecha: </label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input id="invoce" name="fecha" class="form-control" size="16" type="text" ng-model="vm.date" disabled="True">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+            </div>
+
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-sm-offset-5 col-sm-7">
+                          <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+</div>
+</form>
+{% endblock main %}

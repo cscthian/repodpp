@@ -1,0 +1,116 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Cierres Mes {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="CierreCtrl as vm">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Cierres Realizados</span></h3>
+          <br>
+          <div class="form-group">
+            <div class="input-group col-sm-4">
+                <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                <div class="input-group-btn">
+                    <a href="{% url 'reportes_app:cierre-add' %}" class="btn btn-primary" title="Nuevo Cierre"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <a href="#" ng-click="order_by = 'pk'; not_order = !not_order">
+                      Codigo
+                      <span ng-show="order_by == 'pk' && !not_order" </span>
+                      <span ng-show="order_by == 'pk' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'mes'; not_order = !not_order">
+                      Mes
+                      <span ng-show="order_by == 'mes' && !not_order"</span>
+                      <span ng-show="order_by == 'mes' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'date_start'; not_order = !not_order">
+                      <strong>Fecha Inicio</strong>
+                      <span ng-show="order_by == 'date_start' && !not_order" </span>
+                      <span ng-show="order_by == 'date_start' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'date_end'; not_order = !not_order">
+                      <strong>Fecha Fin</strong>
+                      <span ng-show="order_by == 'date_end' && !not_order" </span>
+                      <span ng-show="order_by == 'date_end' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'venta_neta'; not_order = !not_order">
+                      <strong>Venta Cal.</strong>
+                      <span ng-show="order_by == 'venta_neta' && !not_order" </span>
+                      <span ng-show="order_by == 'venta_neta' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'ingreso_neto'; not_order = !not_order">
+                      <strong>Ingreso Cal.</strong>
+                      <span ng-show="order_by == 'ingreso_neto' && !not_order" </span>
+                      <span ng-show="order_by == 'ingreso_neto' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'venta_neta_real'; not_order = !not_order">
+                      <strong>Venta Real.</strong>
+                      <span ng-show="order_by == 'venta_neta_real' && !not_order" </span>
+                      <span ng-show="order_by == 'venta_neta_real' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'ingreso_neto_real'; not_order = !not_order">
+                      <strong>Ingreso Real.</strong>
+                      <span ng-show="order_by == 'ingreso_neto_real' && !not_order" </span>
+                      <span ng-show="order_by == 'ingreso_neto_real' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'user_created'; not_order = !not_order">
+                      <strong>Registrado Por</strong>
+                      <span ng-show="order_by == 'user_created' && !not_order" </span>
+                      <span ng-show="order_by == 'user_created' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#">
+                      Accion
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="c in vm.cierres | orderBy:order_by:not_order | filter:vm.buscar">
+                  <td>{$ c.pk $}</td>
+                  <td>{$ c.mes $}</td>
+                  <td><strong>{$ c.date_start $}</strong></td>
+                  <td><strong>{$ c.date_end $}</strong></td>
+                  <td><strong>{$ c.venta_neta $}</strong></td>
+                  <td><strong>{$ c.ingreso_neto $}</strong></td>
+                  <td><strong>{$ c.venta_neta_real $}</strong></td>
+                  <td><strong>{$ c.ingreso_neto_real $}</strong></td>
+                  <td>{$ c.user_created $}</td>
+                  <td>
+                        <a ng-href="/reportes/cierre/delete/{$ c.pk $}" class="btn btn-danger" title="Eliminar"><i class="fa fa-remove"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </div>
+
+{% endblock main %}

@@ -1,0 +1,50 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Venta Neta {% endblock title %}
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="NetaCtrl as vm" ng-init="vm.cargar_venta_neta()">
+  <div class="row" ng-init="vm.cargar_margen_ganacia()">
+    <div class="col-xs-12 col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Reporte Venta Neta</div>
+        <div class="panel-body">
+          <div class="widget-body">
+              <p class="fs-mini text-muted">
+                Representa las Ventas de los 5 ultimos meses</p>
+                <fusioncharts
+                  width="500"
+                  height="400"
+                  type="column2d"
+                  events="vm.events"
+                  datasource="{$ vm.myDataSource $}"
+                >
+
+                </fusioncharts>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Reporte Margen Ganancia</div>
+        <div class="panel-body">
+          <div class="widget-body">
+              <p class="fs-mini text-muted">
+                Representa las Ganancias de los 5 ultimos meses</p>
+                <fusioncharts
+                  width="500"
+                  height="400"
+                  type="column2d"
+                  datasource="{$ vm.myDataSource2 $}"
+                >
+                </fusioncharts>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock main %}

@@ -1,0 +1,94 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Home {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-success text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Registrar Guia</h5>
+                        <a href="{% url 'recepcion_app:guide-add' %}" class="h3 no-margin fw-normal">Registro</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-primary text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Entrega Diarios</h5>
+                        <a href="{% url 'asignacion_app:entrega-list_magazzine' %}" class="h3 no-margin fw-normal">Entrega</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-table"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Pauta Multiple</h5>
+                        <a href="{% url 'asignacion_app:entrada-pauta_dinamica' %}" class="h3 no-margin fw-normal">Pauta</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-gray text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-list-alt" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Inventario</h5>
+                        <a href="{% url 'kardex_app:guide-kardex' %}" class="h3 no-margin fw-normal">Inventario</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget widget-chart-stats-simple">
+            <header>
+              <h3 class="text-center">DPP Modulo Almacen</h3>
+            </header>
+            <div class="widget-body">
+
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock main %}

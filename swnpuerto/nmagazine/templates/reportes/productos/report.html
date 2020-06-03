@@ -1,0 +1,58 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Rankin Productos {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="ProductCtrl as vm">
+
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <section class="widget">
+        <h3 class="text-primary text-center"><strong>Ranking Productos</strong></h3>
+        <section class="search-result-item">
+          <h4 class="search-result-item-heading">
+              <span class="text-primary">Selecciones las Fechas</span>
+          </h4>
+          <legend></legend>
+            <div class="search-result-item-body">
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                      <fieldset>
+                          <legend>
+                              Fecha Inicio
+                          </legend>
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                              <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha1" ng-change="vm.rango_fecha()">
+                          </div>
+                      </fieldset>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                      <fieldset>
+                          <legend>
+                              Fecha fin
+                          </legend>
+                          <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                              <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha2" ng-change="vm.generar_ranking(vm.fecha1,vm.fecha2)">
+                          </div>
+                      </fieldset>
+                  </div>
+
+                </div>
+            </div>
+        </section>
+  </section>
+
+  <section class="widget">
+       <div id="grid1" ui-grid="vm.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter class="grid"></div>
+  </section>
+    <section class="widget">
+      <button class="btn btn-sm btn-warning" ng-click="vm.exportar_pdf()">PDF</button>
+      <button class="btn btn-sm btn-success" ng-click="vm.exportarExcel()">Excel</button>
+    </section>
+
+</div>
+</div>
+{% endblock main %}

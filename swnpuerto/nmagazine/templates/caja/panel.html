@@ -1,0 +1,94 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Home {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-success text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-money"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Registrar Cobros</h5>
+                        <a href="{% url 'pagos_app:pagos-cobrar' %}" class="h3 no-margin fw-normal">Cobros</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-primary text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-balance-scale"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Cuadrar Caja</h5>
+                        <a href="{% url 'pagos_app:pagos-cudarar' %}" class="h3 no-margin fw-normal">Cuadrar</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-dollar"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Ver Lista Faltantes</h5>
+                        <a href="{% url 'pagos_app:pagos-faltantes' %}" class="h3 no-margin fw-normal">Faltantes</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="col-md-3 col-sm-6">
+        <section class="widget bg-gray text-white">
+            <div class="widget-body clearfix">
+                <div class="row center">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-chevron-circle-left"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Ultimas Devoluciones</h5>
+                        <a href="{% url 'pagos_app:pagos-devoluciones' %}" class="h3 no-margin fw-normal">Devoluciones</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget widget-chart-stats-simple">
+            <header>
+              <h3 class="text-center">Max Cargo Modulo Caja</h3>
+            </header>
+            <div class="widget-body">
+
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock main %}

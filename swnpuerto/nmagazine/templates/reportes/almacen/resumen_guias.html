@@ -1,0 +1,200 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Reporte Guias {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="ListGuideResumenCtrl as vm">
+
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Historial Guia</h5>
+                        <a href="{% url 'reportes_app:reporte-guias' %}" class="h3 no-margin fw-normal">Historia</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+      </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-success text-white">
+              <div class="widget-body clearfix">
+                  <div class="row">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-life-ring" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Estado Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_estado' %}" class="h3 no-margin fw-normal">Estado</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+        </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-primary text-white">
+              <div class="widget-body clearfix">
+                  <div class="row center">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Resumen Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_resumen' %}" class="h3 no-margin fw-normal">Resumen</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+  </div>
+
+  <section class="widget">
+    <div class="row">
+      <div class="col-md-4">
+          <fieldset>
+              <legend>
+                  Fecha Inicio
+              </legend>
+              <div class="input-group">
+
+                  <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha1">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+          </fieldset>
+      </div>
+      <div class="col-md-4">
+          <fieldset>
+              <legend>
+                  Fecha Fin
+              </legend>
+              <div class="input-group">
+
+                  <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha2" ng-change="vm.buscar_guias()">
+                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+          </fieldset>
+      </div>
+      <div class="col-md-4">
+          <fieldset>
+              <legend>
+                  Filtrar Por:
+              </legend>
+              <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                  <select class="form-control" ng-model="vm.culminado">
+                    <option value="">Todo</option>
+                    <option value="true">Cerradas</option>
+                    <option value="false">No Cerradas</option>
+                  </select>
+              </div>
+          </fieldset>
+      </div>
+    </div>
+    <br>
+
+    <!-- lista de guias -->
+    <div id="print-section">
+    <section class="widget">
+      <legend>Resumen Guias en Rango Fechas: {$ vm.fecha1|date $}/{$vm.fecha2|date$}</legend>
+      <div class="row" ng-repeat="g in vm.guias|filter:{culmined:vm.culminado}">
+        <table class="table table-bordered">
+          <tr>
+            <th>Numero</th>
+            <th>Proveedor</th>
+            <th>Fecha Recepcion</th>
+            <th>Monto Perdida</th>
+            <th>Estado</th>
+          </tr>
+          <tr>
+            <th>{$ g.number $}</th>
+            <th>{$ g.provider $}</th>
+            <th>{$ g.date|date $}</th>
+            <th>{$ g.amount_perdida $}</th>
+            <th>
+              <strong><span ng-show="g.culmined" class="text-danger">Cerrado</span></strong>
+              <strong><span ng-show="!g.culmined" class="text-success">No Cerrado</span></strong>
+            </th>
+          </tr>
+        </table>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Diario</th>
+                <th>C.Recp</th>
+                <th>C.Entr</th>
+                <th>Pre.Ven</th>
+                <th>Can.Dev</th>
+                <th>Can.Ven</th>
+                <th class="info">Can.Deu</th>
+                <th>Can.Alm</th>
+                <th>Can.Per</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="dg in g.itmes">
+                <th>{$ dg.magazine  $}</th>
+                <th>{$ dg.count_reception  $}</th>
+                <th>{$ dg.count_deliver  $}</th>
+                <th>{$ dg.precio_venta  $}</th>
+                <th>
+                  {$ dg.count_devuelto  $}
+                </th>
+                <th>
+                  {$ dg.count_vendido  $}
+                  <p>
+                    <strong><span class="text-primary">S/.{$ dg.total_vendido  $}</span></strong>
+                  </p>
+                </th>
+
+                <th class="info">
+                  {$ dg.count_deuda  $}
+                  <p>
+                    <strong><span class="text-primary">S/.{$ dg.total_deuda  $}</span></strong>
+                  </p>
+                </th>
+                <th>
+                  {$ dg.count_almacen  $}
+                  <p>
+                    <strong><span class="text-primary">S/.{$ dg.total_almacen  $}</span></strong>
+                  </p>
+                </th>
+                <th>
+                  {$ dg.count_perdida  $}
+                  <p>
+                    <strong><span class="text-primary">S/.{$ dg.amount_perdida  $}</span></strong>
+                  </p>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <legend></legend>
+      </div>
+
+    </section>
+    </div>
+
+  </section>
+  <section class="widget">
+    <button class="btn btn-sm btn-warning" ng-click="vm.imprimir()">Imprimir Resumen</button>
+  </section>
+</div>
+</div>
+{% endblock main %}

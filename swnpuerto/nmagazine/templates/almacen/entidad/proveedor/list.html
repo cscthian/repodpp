@@ -1,0 +1,47 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Lista Proveedores {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Proveedores</span></h3>
+          <br>
+          <div class="form-group">
+            <div class="input-group col-sm-4">
+                <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                <div class="input-group-btn">
+                    <a href="{% url 'entidad_app:provider-add' %}" class="btn btn-info" title="nuevo"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Telefono</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in  provider_list %}
+                  <tr>
+                      <td>{{ p.name }}</td>
+                      <td>{{ p.phone }}</td>
+                      <td>
+                            <a href="{% url 'entidad_app:provider-detail' p.pk %}" class="btn btn-success"><i class="fa fa-search"></i></a>
+                            <a href="{% url 'entidad_app:provider-update' p.pk %}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                            <a href="{% url 'entidad_app:provider-delete' p.pk %}" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                      </td>
+                      {% empty %}
+                          <td colspan="7">no hay proveedores :( <a href="{% url 'entidad_app:provider-add' %}">Agregar Nueva</a></td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </dvi>
+{% endblock main %}

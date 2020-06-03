@@ -1,0 +1,67 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Itmes Boleta {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="EmitidosCtrl as vm">
+    <div class="row">
+        <section class="widget">
+          <h3>Lista de items por boleta N° {{boleta.number}}</h3>
+          <form class="form-horizontal" role="form" action="{% url 'administrador_app:contabilidad-detalle_boleta' boleta.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+              <div class="form-actions">
+                  <div class="row center">
+                      <div class="col-sm-offset-3 col-sm-6">
+                          <button type="submit" class="btn btn-danger">Anular Boleta</button>
+                      </div>
+                  </div>
+              </div>
+          </form>
+
+        </section>
+        <section class="widget">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    Boleta
+                  </td>
+                  <td>
+                    item
+                  </td>
+                  <td>
+                    fecha
+                  </td>
+                  <td>
+                    cantidad
+                  </td>
+                  <td>
+                    Precio Venta
+                  </td>
+                  <td>
+                    Precio Sunat
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for i in list_item_boleta %}
+                  <tr>
+                    <td>{{i.boleta.number}}</td>
+                    <td>{{i.magazine}}</td>
+                    <td>{{i.boleta.date_emition}}</td>
+                    <td>{{i.count}}</td>
+                    <td>{{i.precio_venta}}</td>
+                    <td>{{i.precio_sunat}}</td>
+                  </tr>
+                {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </div>
+  </div>
+
+{% endblock main %}

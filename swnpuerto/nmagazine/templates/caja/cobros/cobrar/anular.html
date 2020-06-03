@@ -1,0 +1,70 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Anular Boleta {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Anular Boleta Para <span class="fw-semi-bold">{{object}}</span></h1>
+<div class="col-md-12">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="#"><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+          <div class="alert alert-success" role="alert">
+            <span class="fw-semi-bold">Monto Cobrado:</span> <span class="label label-danger">S/.{{monto}}</span>
+            <span class="col-sm-offset-3 fw-semi-bold">Cantidad Devuelta:</span> <span class="label label-warning">{{devuelto}} unidades</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Reg.</th>
+                  <th>Diario</th>
+                  <th>Devuelto</th>
+                  <th>Cantidad</th>
+                  <th>Monto</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in  pagos %}
+                  <tr>
+                      <td>{{ p.pk }}</td>
+                      <td><span class="label label-primary">{{ p.detail_asignation.asignation.detail_guide }}</span></td>
+                      <td>
+                        {% if p.count_return > 0 %}
+                            <span class="label label-warning">{{ p.count_return }}</span>
+                        {% else %}
+                            {{ p.count_return }}
+                        {% endif %}
+
+                      </td>
+                      <td>{{ p.count_payment }}</td>
+                      <td>{{ p.amount }}</td>
+
+                      {% empty %}
+                          <td colspan="7">No se Registro Pagos El Dia de Hoy</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </section>
+    <div class="col-sm-offset-3 col-sm-6">
+            <form class="form-horizontal" role="form" action="{% url 'pagos_app:pagos-anular' vendor.cod %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-actions">
+                    <div class="row center">
+                        <div class="col-sm-offset-3 col-sm-6">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a href="{% url 'pagos_app:pagos-cobrar' %}" class="btn btn-inverse">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
+{% endblock main %}

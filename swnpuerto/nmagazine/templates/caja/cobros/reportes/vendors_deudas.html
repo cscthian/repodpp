@@ -1,0 +1,45 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %}Guias Pendientes - deudores{% endblock title %}
+
+{% block main %}
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 style="text-align:center;">Items por cobrar para guia: <b> {{guia}} </b></h3>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div id="print-section">
+    <section class="widget">
+      <div class="row">
+        <legend></legend>
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Canilla</th>
+              <th>Fecha. Entr</th>
+              <th>Item</th>
+              <th>Deuda</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for v in vendors  %}
+              <tr>
+                <td>{{v.cod}}</td>
+                <td>{{v.vendor}}</td>
+                <td>{{v.date}}</td>
+                <td>{{v.magazine}}</td>
+                <td>{{v.deuda}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <legend></legend>
+        <legend></legend>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock main %}

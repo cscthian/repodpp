@@ -1,0 +1,10 @@
+<h1>Modificar Diarios</h1>
+<form role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                                {{form.as_p}}
+                                <div class="row">
+                                    <div class="medium-12 columns">
+                                        <button type="submit" class="">Guardar</button>
+                                        <a href="#" class="button">Cancelar</a>
+                                    </div>
+                                </div>
+</form>

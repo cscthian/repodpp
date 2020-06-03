@@ -1,0 +1,80 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Control Registrar{% endblock title %}
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="AddLostCtrl as vm">
+
+<div class="panel panel-primary">
+  <div class="panel-heading">Registro de Diarios y Productos Perdidos</div>
+  <div class="panel-body">
+
+    <div class="row">
+        <div class="col-lg-4">
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon1">Modulo</span>
+            <select id="tipo" class="form-control" size="1" ng-model="vm.module">
+              <option value="0">Almacen</option>
+              <option value="1">Caja</option>
+              <option value="3">Trasporte</option>
+            </select>
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+        <div class="col-lg-8">
+          <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon1">Descripcion</span>
+            <input type="text" class="form-control" placeholder="Descripcion ..." ng-model="vm.descripcion">
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </div>
+
+  </div>
+</div>
+
+      <fieldset data-ng-repeat="c in vm.cantidad">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                </th>
+                <th>Diario/Producto</th>
+                <th>Cantidad</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+                <td>
+                  <input class="form-control" name="buscar" type="text"
+                      placeholder="buscar..." ng-model="vm.buscar.item[c.id]"
+                  >
+                </td>
+                <td>
+                  <select class="form-control" ng-model="vm.prod.item[c.id]">
+                      <option ng-repeat="d in vm.diarios | filter:vm.buscar.item[c.id]" value="{$d.pk$}">{$ d.guide $}--{$ d.magazine_day $} -- {$ d.created |date$}</option>
+                  </select>
+                </td>
+                <td>
+                  <input class="form-control" name="cantidad" size="16" type="number"
+                      placeholder="Cantidad" ng-model="vm.count.item[c.id]">
+
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success" ng-show="$last" ng-click="vm.addNewChoice()"><i class="fa fa-plus"></i></button>
+                  <button type="button" class="btn btn-danger" ng-click="vm.removeChoice()"><i class="fa fa-minus"></i></button>
+                </td>
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+      <div class="form-actions">
+          <div class="row">
+              <div class="col-sm-offset-5 col-sm-7">
+                <button type="submit" class="btn btn-primary" ng-disabled="vm.check" ng-click="vm.enviar()">Guardar</button>
+                <button type="submit" class="btn btn-danger" ng-disabled="vm.check" ng-click="vm.enviar()">Cancelar</button>
+                <span ng-show="vm.check" class="text-danger">Corrija los datos</span>
+              </div>
+          </div>
+      </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,149 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Movimientos{% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="InventarioCtrl as vm" ng-init="vm.cargar_detalle({{object.pk}})">
+    <div class="row">
+        <section class="widget">
+          <h3>Ultimo Movimientos <span class="fw-semi-bold">{{object}}</span></h3>
+
+
+          <div class="row">
+              <div class="col-md-12">
+                  <section class="widget">
+                      <header>
+                          <h5>
+                              Filtrar <strong>Por:</strong>
+                          </h5>
+                          <div class="widget-controls">
+                              <a href="."><i class="fa fa-refresh"></i></a>
+                          </div>
+                      </header>
+                      <div class="widget-body">
+                          <form role="form">
+                              <div class="row">
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Numero de Guia:
+                                          </legend>
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                            <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Fecha de Registro
+                                          </legend>
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                              <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD"
+                                              ng-model="vm.fecha1" ng-change="vm.search_fecha()">
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                              </div>
+                          </form>
+                      </div>
+                  </section>
+              </div>
+          </div>
+
+
+        </section>
+        <section class="widget">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <a href="#" ng-click="order_by = 'guia'; not_order = !not_order">
+                      Guia
+                      <span ng-show="order_by == 'guia' && !not_order" </span>
+                      <span ng-show="order_by == 'guia' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'fecha'; not_order = !not_order">
+                      Fecha
+                      <span ng-show="order_by == 'fecha' && !not_order"</span>
+                      <span ng-show="order_by == 'fecha' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'registrado'; not_order = !not_order">
+                      <strong>Registrado</strong>
+                      <span ng-show="order_by == 'registrado' && !not_order" </span>
+                      <span ng-show="order_by == 'registrado' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'entregado'; not_order = !not_order">
+                      <strong>Entregado</strong>
+                      <span ng-show="order_by == 'entregado' && !not_order" </span>
+                      <span ng-show="order_by == 'entregado' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'devuelto'; not_order = !not_order">
+                      <strong>Devuelto</strong>
+                      <span ng-show="order_by == 'devuelto' && !not_order" </span>
+                      <span ng-show="order_by == 'devuelto' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'lost_almacen'; not_order = !not_order">
+                      <strong>Per. Almacen</strong>
+                      <span ng-show="order_by == 'lost_almacen' && !not_order" </span>
+                      <span ng-show="order_by == 'lost_almacen' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'lost_caja'; not_order = !not_order">
+                      <strong>Per. Caja</strong>
+                      <span ng-show="order_by == 'lost_caja' && !not_order" </span>
+                      <span ng-show="order_by == 'lost_caja' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'lost_trasporte'; not_order = !not_order">
+                      <strong>Per. Trasp</strong>
+                      <span ng-show="order_by == 'lost_trasporte' && !not_order" </span>
+                      <span ng-show="order_by == 'lost_trasporte' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'total'; not_order = !not_order">
+                      <strong>Total</strong>
+                      <span ng-show="order_by == 'total' && !not_order" </span>
+                      <span ng-show="order_by == 'total' && not_order" </span>
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="d in vm.diarios | orderBy:order_by:not_order | filter:vm.buscar">
+                  <td>{$ d.guia $}</td>
+                  <td><strong>{$ d.fecha|date $}</strong></td>
+                  <td><strong>{$ d.registrado $}</strong></td>
+                  <td><strong>{$ d.entregado $}</strong></td>
+                  <td><strong>{$ d.devuelto $}</strong></td>
+                  <td><strong>{$ d.lost_almacen $}</strong></td>
+                  <td><strong>{$ d.lost_caja $}</strong></td>
+                  <td><strong>{$ d.lost_trasporte $}</strong></td>
+                  <td><strong>{$ d.total $}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </div>
+  </div>
+
+{% endblock main %}

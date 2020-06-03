@@ -1,0 +1,216 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Reporte Guias {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="DetalleHistoryCtrl as vm" ng-init="vm.cargar_detalle({{object.pk}})">
+
+<h3> <toast></toast></h3>
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+        <section class="widget bg-info text-white">
+            <div class="widget-body clearfix">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="widget-icon">
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 class="no-margin">Historial Guia</h5>
+                        <a href="{% url 'reportes_app:reporte-guias' %}" class="h3 no-margin fw-normal">Historia</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+      </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-success text-white">
+              <div class="widget-body clearfix">
+                  <div class="row">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-life-ring" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Estado Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_estado' %}" class="h3 no-margin fw-normal">Estado</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+        </div>
+
+      <div class="col-xs-12 col-md-4">
+          <section class="widget bg-primary text-white">
+              <div class="widget-body clearfix">
+                  <div class="row center">
+                      <div class="col-xs-3">
+                          <span class="widget-icon">
+                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                          </span>
+                      </div>
+                      <div class="col-xs-9">
+                        <h5 class="no-margin">Resumen Guias</h5>
+                          <a href="{% url 'reportes_app:reporte-guias_resumen' %}" class="h3 no-margin fw-normal">Resumen</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+  </div>
+
+  <section class="widget">
+  <div id="print-section" >
+    <legend><h3>NUMERO DE GUIA: <strong>{{object.number}}</strong></h3> Fecha Registro:{{object.created}}</legend>
+    <div class="row" ng-repeat="i in vm.historial">
+      <div class="panel panel-primary">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Diario/Producto: <strong>{$ i.magazine $}</strong><a class="alternativo"href="/reportes/guias-items-detalle/{$ i.pk $}" target="_blank">Ver Detalle</a></div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">Datos Recepcion</div>
+                <div class="panel-body">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <td>
+                          Cantidad Recepcionada
+                        </td>
+                        <td>
+                          Cantidad Entregada
+                        </td>
+                        <td>
+                          Cantidad Devuelta
+                        </td>
+                        <td>
+                          Precio Venta
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <strong>{$ i.count_reception $}</strong>
+                        </td>
+                        <td>
+                          <span class="text-primary"><strong>{$ i.count_deliver $}</strong></span>
+                        </td>
+                        <td>
+                          <strong><span class="text-warning">{$ i.count_devuelto $}</span></strong>
+                        </td>
+                        <td>
+                          {$ i.precio_venta $}
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="panel panel-default">
+                <div class="panel-heading">Resumen General</div>
+                <div class="panel-body">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <td>
+                          UnidadMedida
+                        </td>
+                        <td>
+                          Total Cobrado
+                        </td>
+                        <td>
+                          Total por Cobrar
+                        </td>
+                        <td>
+                          Total Almacen
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          Soles(monto)
+                        </td>
+                        <td >
+                          {$ i.total_vendido $}
+                        </td>
+                        <td>
+                          {$ i.total_deuda $}
+                        </td>
+                        <td>
+                          {$ i.total_almacen $}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          unidades
+                        </td>
+                        <td class="success">
+                          {$ i.count_vendido $}
+                        </td>
+                        <td>
+                          {$ i.count_deuda $}
+                        </td>
+                        <td class="warning">
+                          <h3><span class="text-primary"><strong>{$ i.count_almacen $}</strong></span></h3>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="3">
+                          <strong>
+                            (Cant.Rec - <span class="text-primary">Cant.Ent</span>) + (<span class="text-warning">Cant.Dev</span> - <span class="text-success">Cant.Tien</span>)
+                          </strong>
+                        </td>
+                        <td>
+                          <input type="text" name="name" ng-model="vm.count_reales.item[i.pk]" ng-value="0">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="col-md-offset-4"> <strong>LISTA DE MOVIMIENTOS EN CAJA</span></p>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Fecha Proceso</th>
+              <th>Cant. Devuelta</th>
+              <th>Cant. Vendida</th>
+              <th>Cant. Tienda</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="h in i.historia">
+              <td>{$ h.date $}</td>
+              <td>{$ h.count_dev $}</td>
+              <td>{$ h.count_ven $}</td>
+              <td> {$ h.count_tie $}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <legend></legend>
+    </div>
+  </div>
+  </section>
+  <section class="widget">
+    <button class="btn btn-sm btn-warning" ng-click="vm.imprimir()">Imprimir</button>
+    <button class="btn btn-sm btn-primary" ng-click="vm.enviar_data()">Gurdar</button>
+
+  </section>
+</div>
+</div>
+{% endblock main %}

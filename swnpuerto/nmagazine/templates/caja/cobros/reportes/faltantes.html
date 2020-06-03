@@ -1,0 +1,27 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Cuadrar Caja {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+
+  <legend>Lista de Vendedores Faltantes hoy</legend>
+  {% for l in list_vendors  %}
+  <div class="col-md-12 widget-container">
+      <section class="widget" id="news-widget" data-widgster-load="demo/ajax/widgets/news.php">
+          <header>
+              <h3>
+                  {{l.cod}}-{{l.name}} <span class="badge bg-success">Dni:{{l.dni}}</span>
+              </h3>
+              <span class="text-primary">Seudonimo:{{l.seudonimo}}</span>
+              <div class="widget-controls">
+                  <a data-widgster="load" title="Notificar" href="#"><i class="fa fa-refresh"></i></a>
+              </div>
+          </header>
+      </section>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock main %}

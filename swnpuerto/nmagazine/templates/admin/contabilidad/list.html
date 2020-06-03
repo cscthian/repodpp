@@ -1,0 +1,343 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Comprobante de Pago {% endblock title %}
+
+
+{% block main %}
+<script type="text/javascript">
+var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || '', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+</script>
+
+<div class="row" ng-app="MagazineApp" ng-controller="ListBoletaCtrl as vm">
+    <div class="row">
+        <section class="widget">
+          <h3>Emitir <span class="fw-semi-bold">Boleta</span></h3>
+          <div class="row">
+              <div class="col-md-12">
+                  <section class="widget">
+                      <div class="widget-body">
+                          <form role="form">
+                            <div class="row">
+                              <div class="col-md-4">
+                                  <fieldset>
+                                      <legend>
+                                          Filtrar Por:
+                                      </legend>
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                          <input type="text" class="form-control" placeholder="Buscar ..."ng-model="vm.buscar">
+                                      </div>
+                                  </fieldset>
+                              </div>
+                              <div class="col-md-4">
+                                  <fieldset>
+                                      <legend>
+                                          Cliente:
+                                      </legend>
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="fa fa-file-text" aria-hidden="true"></i></span>
+                                          <select id="agente" name="agente" class="form-control" ng-model="vm.agente" ng-change="vm.actualizar_cliente()"
+                                          >
+                                              <option ng-repeat="a in vm.agentes | filter:{type_vendor:1}| filter:vm.buscar" value="{$ a.cod $}">{$ a.cod $}--{$ a.name $}--{$ a.seudonimo $}</option>
+                                          </select>
+                                      </div>
+                                  </fieldset>
+                              </div>
+                              <div class="col-md-4">
+                                  <fieldset>
+                                      <legend>
+                                          Razon Social:
+                                      </legend>
+                                      <div class="input-group">
+                                          <span class="input-group-addon"><i class="fa fa-file-text" aria-hidden="true"></i></span>
+                                          <select class="form-control" ng-model="vm.rs" ng-change="vm.calcular_montos(vm.items)">
+                                            <option value="0">DPP</option>
+                                            <option value="1">MAX CARGO S.A.C.</option>
+                                          </select>
+                                      </div>
+                                  </fieldset>
+                              </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Numero:
+                                          </legend>
+                                          <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-barcode" aria-hidden="true"></i></span>
+                                            <input type="text" class="form-control" ng-model="vm.numero">
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Fecha Emision
+                                          </legend>
+                                          <div class="input-group">
+
+                                              <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha1">
+                                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              <span class="label label-primary">Fecha Venta</span>
+                                          </legend>
+                                          <div class="input-group">
+
+                                              <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha" ng-change="vm.cargar_magazine()">
+                                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Descuento(%)
+                                          </legend>
+                                          <div class="input-group">
+                                              <span class="input-group-addon">%</span>
+                                            <input type="number" class="form-control" placeholder="0.00" ng-model="vm.descuento" ng-change="vm.aplicar_descuento()">
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Impuesto
+                                          </legend>
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox2" type="checkbox" ng-model="vm.afecto" ng-change="vm.calcular_montos(vm.items)">
+                                                <label for="checkbox2">
+                                                    AFECTOS
+                                                </label>
+                                            </div>
+                                      </fieldset>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <fieldset>
+                                        <legend>
+                                            <span class="label label-info">Fecha Final(Agentes)</span>
+                                        </legend>
+                                        <div class="input-group">
+
+                                            <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha2" ng-change="vm.cargar_magazine()">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </fieldset>
+                                  </div>
+                            </div>
+                          </form>
+                      </div>
+                  </section>
+              </div>
+          </div>
+        </section>
+
+        <section class="widget">
+          <div class="table-responsive">
+            <a class="col-md-offset-8 btn btn-sm "><h4>Total: S/. {$ vm.total $}</h4></a>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <a href="#" ng-click="order_by = 'codigo'; not_order = !not_order">
+                      Codigo
+                      <span ng-show="order_by == 'codigo' && !not_order" </span>
+                      <span ng-show="order_by == 'codigo' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'magazine'; not_order = !not_order">
+                      Diario
+                      <span ng-show="order_by == 'magazine' && !not_order"</span>
+                      <span ng-show="order_by == 'magazine' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'count'; not_order = !not_order">
+                      <strong>Cantidad</strong>
+                      <span ng-show="order_by == 'count' && !not_order" </span>
+                      <span ng-show="order_by == 'count' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'precio_venta'; not_order = !not_order">
+                      <strong>Precio Unit</strong>
+                      <span ng-show="order_by == 'precio_sunat' && !not_order" </span>
+                      <span ng-show="order_by == 'precio_sunat' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'amount'; not_order = !not_order">
+                      <strong>Total</strong>
+                      <span ng-show="order_by == 'amount' && !not_order" </span>
+                      <span ng-show="order_by == 'amount' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                      <strong>Estado</strong>
+                  </td>
+                  <td>
+                    <a href="#">
+                      Accion
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+
+              <tbody>
+                <tr ng-repeat="i in vm.items |filter:{afecto:vm.afecto}|filter:{addressee:vm.rs} |filter:{vendor:vm.agente}">
+                  <td>{$ i.codigo $}</td>
+                  <td>{$ i.magazine $}</td>
+                  <td><strong>{$ i.count $}</strong></td>
+                  <td><strong>{$ i.precio_sunat $}</strong></td>
+                  <td>{$ i.amount $}</td>
+                  <td>
+                    <span ng-show="i.impreso" class="text-primary">Generado</span>
+                    <span ng-show="!i.impreso" class="text-danger">Nuevo</span>
+                  </td>
+                  <td>
+                    <input type='checkbox' ng-model="i.emitido" check-list='vm.items' ng-click="vm.recalcular_monto(i.amount, i.emitido, i.pk)">
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <section class="widget">
+            <button class="btn btn-sm btn-danger" ng-click="vm.quitar_item()">Quitar Items</button>
+            <button class="btn btn-sm btn-warning" ng-click="vm.generar_boleta()">Generar</button>
+            <button class="btn btn-sm btn-success" onclick="tableToExcel('testTable')" ng-click="vm.guardar_boleta()">Imprimir (Excel)</button>
+
+            <a class="btn btn-sm ">S/. {$ vm.total $}</a>
+          </section>
+        </section>
+
+      <!-- seccion tabla de impresion -->
+    <div ng-show="vm.flat">
+      <table id="testTable">
+        <tbody>
+            <td>
+              <table class="table">
+                <thead>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td> </td>
+                    <td></td>
+                    <td></td>
+                    <td>{$ vm.numero $}</td>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="3">{$ vm.cliente $}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{$ vm.fecha |date : 'dd/MM/yyyy' $}</td>
+                  </tr>
+                  <tr>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{$ vm.seudonimo $}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td> </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="i in vm.boletas">
+                    <td></td>
+                    <td>{$ i.codigo $}</td>
+                    <td></td>
+                    <td colspan="3">{$ i.magazine $}</td>
+                    <td><strong>{$ i.count $}</strong></td>
+                    <td><strong>{$ i.precio_sunat $}</strong></td>
+                    <td>{$ i.amount $}</td>
+                  </tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr>
+                    <td></td>
+                    <td colspan="8">{$ vm.total_letra $}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td> </td>
+                    <td></td>
+                  </tr>
+                  <tr></tr>
+                  <tr></tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>{$ vm.total_boleta| currency: "S/." $}</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+        </tbody>
+      </table>
+     </div>
+    </div>
+  </div>
+
+{% endblock main %}

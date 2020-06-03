@@ -1,0 +1,76 @@
+{% extends "caja/base_caja.html" %}
+
+{% block title %}Registrar Pago{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <div class="main-card" ng-app="DppApp" ng-controller="CobrosCtrl as self">
+    <div class="caja-search grid-x grid-padding-x">
+      <div class="small-8 medium-9 large-4 cell">
+        <input type="text" placeholder="Numero de guia"
+          ng-keypress="self.enter($event)" ng-model="self.codigo"
+        >
+      </div>
+      <div class="small-4 medium-3 large-2 cell">
+        <a type="button" name="button" class="search-button" ng-click="self.cargar_movimientos(self.codigo)">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </a>
+        <a href="/caja/cobros/cobrar/anular/{$ self.codigo $}" type="button" name="button" class="search-button search-button__delete">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+      </div>
+      <div class="small-11 medium-9 large-10 cell">
+        <div class="callout success search-agente">
+          <h5 class="search-agente__name">{$ self.vendedor $}</h5>
+        </div>
+      </div>
+      <div class="small-12 medium-3 large-2 cell">
+        <div class="callout secondary search-agente">
+          <h4 class="search-agente__name"  ng-click="self.all_acount()" style="text-align:center;cursor:pointer;">Todo a Cuenta</h4>
+        </div>
+      </div>
+    </div>
+
+    <div id="grid1" ui-grid="self.gridOptions" ui-grid-edit ui-grid-cellnav ui-grid-exporter
+      class="grid" style="margin:1em;">
+    </div>
+
+    <div class="grid-x grid-padding-x">
+      <div class="small-12 medium-4 cell">
+        <label>
+          <input type="text" placeholder="Numero de operacion"
+            ng-model="self.number_operation">
+        </label>
+      </div>
+      <div class="small-12 medium-4 cell">
+        <label>
+          <input type="date" placeholder="Fecha deposito"
+            ng-model=self.date_operation>
+        </label>
+      </div>
+    </div>
+
+    <div class="grid-x grid-padding-x">
+      <p class="text-error"> {$ self.error_msj $} </p>
+    </div>
+
+    <div class="caja-result">
+      <div class="caja-amount">
+        <h3 class="caja-amount__cobrar">S/. {$ self.pago $}</h3>
+        <h3 class="caja-amount__deuda">S/. {$ self.deuda $}</h3>
+      </div>
+      <div class="caja-btns">
+        <button type="button" name="button" class="caja-btn caja-btn__print"
+          ng-click="self.enviar_data()">
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+        </button>
+        <!--<button type="button" name="button" class="caja-btn caja-btn__save">
+          <span class="icon-save"></span>
+        </button>-->
+        <button type="button" name="button" class="caja-btn caja-btn__close">
+          <i class="fa fa-ban" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

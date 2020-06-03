@@ -1,0 +1,71 @@
+{% extends "reportes/base_reportes.html" %}
+
+{% block title %}Buscar guia{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+    <div class="callout">
+      <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="grid-x grid-padding-x align-center align-bottom">
+          <div class="small-12 medium-6 cell">
+            <label>Factura
+              {{form.number}}
+            </label>
+            {% for error in form.number.errors %}
+              <div class="small-12">
+                <p style="color:red;">
+                  {{ error|escape }}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="small-12 medium-6 cell">
+            <label>Fecha de Emision:
+              {{form.date_emition}}
+            </label>
+            {% for error in form.date_emition.errors %}
+              <div class="small-12">
+                <p style="color:red;">
+                  {{ error|escape }}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="small-12 medium-6 cell">
+            <label>Codigo Interno:
+              {{form.number_interno}}
+            </label>
+            {% for error in form.number_interno.errors %}
+              <div class="small-12">
+                <p style="color:red;">
+                  {{ error|escape }}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="small-12 medium-6 cell">
+            <label>Total:
+              {{form.amount}}
+            </label>
+            {% for error in form.amount.errors %}
+              <div class="small-12">
+                <p style="color:red;">
+                  {{ error|escape }}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="small-12 medium-6 cell">
+            <label>FACTURA CON IGV:
+              {{form.igv}}
+            </label>
+          </div>
+          <div class="small-12 medium-6 cell">
+            <input type="submit" class="button" value="Agregar">
+          </div>
+        </div>
+      </form>
+    </div>
+{% endblock content %}

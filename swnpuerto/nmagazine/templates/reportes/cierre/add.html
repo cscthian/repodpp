@@ -1,0 +1,108 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Nuevo Cierre{% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title text-center">Agregar <span class="fw-semi-bold">Nuevo Cierre Mes</span></h1>
+<div class="col-sm-offset-3 col-md-6">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+                <a href="#"><i class="fa fa-refresh"></i></a>
+                <a href="#" data-widgster="close"><i class="glyphicon glyphicon-remove"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+            <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <fieldset>
+                    <legend><strong>Ingrese</strong> Los Datos</legend>
+                    <div ng-app="MagazineApp" ng-controller="CierreCtrl as vm"><!-- controlado angular -->
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Fecha Inicio</label>
+                        <div class="col-sm-7">
+                            {{form.date_start}}
+                        </div>
+                        {% for error in form.date_start.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Fecha Fin</label>
+                        <div class="col-sm-7">
+                            {{form.date_end}}
+                        </div>
+                        {% for error in form.date_end.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Mes</label>
+                        <div class="col-sm-7">
+                            {{form.mes}}
+                        </div>
+                        {% for error in form.mes.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="normal-field" class="col-sm-4 control-label">Venta Neta</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <span class="input-group-addon">S/.</span>
+                                {{form.venta_neta_real}}
+                            </div>
+                        </div>
+                        {% for error in form.venta_neta_real.errors %}
+                          <div class="col-xs-12">
+                            <p class="text-danger">
+                                {{ error|escape }}
+                            </p>
+                          </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="prepended-input">Ingreso Neto</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                <span class="input-group-addon">S/.</span>
+                                {{form.ingreso_neto_real}}
+                            </div>
+                            {% for error in form.ingreso_neto_real.errors %}
+                              <div class="col-xs-12">
+                                <p class="text-danger">
+                                    {{ error|escape }}
+                                </p>
+                              </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div><!-- Fin controlado angular -->
+                </fieldset>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-7">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <a href="#" class="btn btn-inverse">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{% endblock main %}

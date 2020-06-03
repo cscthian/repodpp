@@ -1,0 +1,41 @@
+{% extends "reportes/base_reportes.html" %}
+
+{% block title %}Buscar guia{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-x align-center">
+    <h2>Facturas pendientes de nota de credito</h2>
+    <div class="cell small-12 large-10 callout">
+      <table class="stack">
+        <thead>
+          <th>Numero Factura</th>
+          <th>Fecha Emision</th>
+          <th>Numero Interno</th>
+          <th>Monto</th>
+          <th>Vendido</th>
+          <th>Monto NotaCredito</th>
+          <th>Diferencia</th>
+          <th>Accion</th>
+        </thead>
+        <tbody>
+          {% for f in facturas %}
+            <tr>
+              <td>{{f.facture.number}}</td>
+              <td>{{f.facture.date_emition}}</td>
+              <td>{{f.facture.number_interno}}</td>
+              <td>{{f.facture.amount}}</td>
+              <td>{{f.venta}}</td>
+              <td>{{f.nota}}</td>
+              <td><strong style="color:#C62828;">{{f.diferencia}}</strong></td>
+              <td>
+                <a href="{% url 'reportes_app:update-voucher' f.facture.pk %}" class="button warning">ver</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

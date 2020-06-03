@@ -1,0 +1,75 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reportes de Administracion{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <div class="grid-container grid-container-padded">
+    <form class="grid-x grid-margin-x aling-center callout" method="get">{% csrf_token %}
+      <div class="cell small-12 grid-x grid-margin-x aling-center">
+        <div class="cell small-12 medium-6">
+          <label>Fecha Inicio:
+            {{form.date_start}}
+          </label>
+        </div>
+        <div class="cell small-12 medium-6">
+          <label>Fecha Fin:
+            {{form.date_end}}
+          </label>
+        </div>
+        <div class="cell small-12 medium-6">
+          <label>Numero de Guia:
+            {{form.number}}
+          </label>
+        </div>
+        <div class="cell small-12 medium-6">
+          <label>Estado de Guia:
+            {{form.state}}
+          </label>
+        </div>
+      </div>
+      <div class="cell small-8 meiudm-3 large-3 small-offset-3 medium-offset-5 large-offset-5">
+        <button type="submit" name="button" class="button">Buscar Guia</button>
+      </div>
+    </form>
+
+    <div class="grid-x">
+      <table class="stack">
+        <thead>
+          <th>Numero</th>
+          <th>Fecha</th>
+          <th>Proveedor</th>
+          <th>Estado</th>
+          <th>Items</th>
+        </thead>
+        <tbody>
+          {% for g in guias  %}
+            <tr>
+              <td>
+                <a href="#">{{g.guide.number}}</a>
+              </td>
+              <td>
+                <a href="#">{{g.guide.date_emission}}</a>
+              </td>
+              <td>
+                <a href="#">{{g.guide.provider}}</a>
+              </td>
+              <td>
+                <a href="#">
+                  {% if g.guide.culmined == True %}
+                    <span style="color:green">Cerrada</span>
+                  {% else %}
+                    <span style="color:red">No Cerrada</span>
+                  {% endif %}
+                </a>
+              </td>
+              <td>
+                <a href="#">{{g.magazine_day}}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

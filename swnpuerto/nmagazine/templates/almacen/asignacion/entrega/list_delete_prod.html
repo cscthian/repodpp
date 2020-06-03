@@ -1,0 +1,46 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Anular Entrega {% endblock title %}
+
+
+{% block main %}
+<h1 class="page-title">Seleccione La Entrega que desea Anular</h1>
+<div class="col-md-12">
+    <section class="widget">
+        <header>
+
+            <div class="widget-controls">
+                <a href="#"><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Diario</th>
+                  <th>Cantidad</th>
+                  <th>Fecha</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for l in  lista_asignados %}
+                  <tr>
+                      <td>{{l.pauta.detail_guide}}</td>
+                      <td><span class="label label-primary">{{ l.count }}</span></td>
+                      <td>{{ l.modified }}</td>
+                      <td>
+                        <a href="{% url 'asignacion_app:entrega-pauta_delete' l.pk %}" class="btn btn-danger">X</a>
+                      </td>
+                      {% empty %}
+                          <td colspan="7">No se Registro Movimientos El Dia de Hoy</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </section>
+</div>
+{% endblock main %}

@@ -1,0 +1,68 @@
+{% extends "reportes/base_reportes.html" %}
+
+{% block title %}Buscar guia{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+    <div class="callout">
+      <form method="get">{% csrf_token %}
+        <div class="grid-x grid-padding-x align-center align-bottom">
+          <div class="small-12 medium-5 cell">
+            <label>Item de Guia:
+              {{form.item}}
+            </label>
+          </div>
+          <div class="small-12 medium-5 cell">
+            <label>Fecha Recepcion
+              {{form.date}}
+            </label>
+          </div>
+
+          <div class="small-12 medium-5 cell">
+            <label>Proveedor:
+              {{form.provider}}
+            </label>
+          </div>
+          <div class="small-12 medium-5 cell">
+            <label>Departamento:
+              {{form.departamento}}
+            </label>
+          </div>
+          <div class="medium-3 cell grid-x align-center">
+            <input type="submit" class="cell button" value="Buscar">
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="callout grid-x grid-padding-x align-center">
+      <div class="small-12 medium-11 large-10 cell">
+        <table class="stack">
+          <thead>
+            <tr>
+              <th>Proveedor</th>
+              <th>Departamento</th>
+              <th>Fecha recepcion</th>
+              <th>Nombre</th>
+              <th>Numero guia</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for g in items %}
+              <tr>
+                <td>{{g.guide.provider}}</td>
+                <td>{{g.guide.departamento}}</td>
+                <td>{{g.guide.date_emission}}</td>
+                <td>{{g.magazine_day.magazine.name}}</td>
+                <td><strong>{{g.guide.number}}</strong></td>
+                <td>
+                  <a href="{% url 'reportes_app:add-voucher' g.guide.pk %}" class="button warning" title="agrega factura">+</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,64 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Lista de Boletas{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <div class="grid-container grid-container-padded">
+    <form class="grid-x grid-margin-x aling-center callout" method="get">{% csrf_token %}
+      <h2 class="cell">Buscar Boletas ya emitidas</h2>
+      <div class="cell small-12 large-6">
+        <div class="input-group">
+          <span class="input-group-label"><i class="fa fa-calendar-o" aria-hidden="true"></i></span>
+          {{form.date_emition}}
+          <div class="input-group-button">
+            <input type="submit" class="button" value="Buscar">
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="grid-x">
+      <table class="stack">
+        <thead>
+          <th>Razon Social</th>
+          <th>Numero</th>
+          <th>Agente</th>
+          <th>Fecha Emsion</th>
+          <th>Fecha Venta</th>
+          <th>Monto</th>
+          <th>Accion</th>
+        </thead>
+        <tbody>
+          {% for b in boletas %}
+            <tr>
+              <td>
+                {{b.get_razon_social_display}}
+              </td>
+              <td>
+                {{b.number}}
+              </td>
+              <td>
+                {{b.client}}
+              </td>
+              <td>
+                {{b.date_emition}}
+              </td>
+              <td>
+                {{b.date_venta}}
+              </td>
+              <td>
+                {{b.amount}}
+              </td>
+              <td>
+                <a href="{% url 'administracion_app:administracion-proceso_boletas_eliminar' b.pk %}" class="button alert">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

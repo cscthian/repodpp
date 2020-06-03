@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load  staticfiles %}
+
+{% block css %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+
+{% endblock css %}
+
+{% block paceloader %}
+
+{% endblock paceloader %}
+
+{% block js %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/jquery.table2excel.js' %}"></script>
+  <script src="{% static 'js/scrips.js' %}"></script>
+  <script src="{% static 'js/functions.js' %}"></script>
+
+  <!--librerias angularjs -->
+  <script src="{% static 'js/angular.min.js' %}"></script>
+  <script src="{% static 'js/angular-cookies.js' %}"></script>
+  <script src="{% static 'js/angular-ui-router.min.js' %}"></script>
+
+  <!-- <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+  <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+  <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>-->
+  <link rel="stylesheet" href="{% static 'js/ui-grid/ui-grid.min.css' %}">
+  <script src="{% static 'js/ui-grid/ui-grid.min.js' %}"></script>
+
+  <!--  seccion de codigo angular js neunapp -->
+  <script src="{% static 'AngularApp/common/common.services.js' %}"></script>
+  <!-- controlador princiapl angularjs neunapp-->
+  <script src="{% static 'AngularApp/app.js' %}"></script>
+
+  <!-- controlaodr para guia de remision -->
+  <script src="{% static 'AngularApp/app/factura/facturaCtrl.js' %}"></script>
+  <script src="{% static 'AngularApp/app/admin/proceso/emitir_boletaCtrl.js' %}"></script>
+  <script src="{% static 'AngularApp/app/admin/reportes/ventasCtrl.js' %}"></script>
+  <script src="{% static 'AngularApp/app/admin/reportes/faltanteCtrl.js' %}"></script>
+  <script src="{% static 'AngularApp/app/admin/reportes/compratotalCtrl.js' %}"></script>
+  <script src="{% static 'AngularApp/app/admin/reportes/comprafacturadaCtrl.js' %}"></script>
+{% endblock js %}

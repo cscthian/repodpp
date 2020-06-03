@@ -1,0 +1,96 @@
+{% extends "recepcion/base_recepcion.html" %}
+
+{% block title %}Agregar Diario{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <!-- *************** REGISTRO DE MAGAZINE**************** -->
+  <div class="callout">
+    <p>Dia seleccionado: <strong>{{day}}</strong></p>
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+      <div class="grid-x grid-padding-x">
+        <div class="medium-6 cell">
+          <label>Nombre:
+            {{form.name}}
+          </label>
+          {% for error in form.name.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="medium-6 cell">
+          <label>Proveedor
+            {{form.provider}}
+          </label>
+          {% for error in form.provider.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="medium-8 cell">
+          <label>Descripcion:
+            {{form.description}}
+          </label>
+          {% for error in form.description.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <h3>Precios:</h3>
+      <div class="grid-x grid-padding-x align-center">
+
+        <div class="medium-4 cell">
+          <label> Precio Tapa:
+            {{form.precio_tapa}}
+          </label>
+          {% for error in form.precio_tapa.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="medium-4 cell">
+          <label>Precio Guia:
+            {{form.precio_guia}}
+          </label>
+          {% for error in form.precio_guia.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="medium-4 cell">
+          <label> Precio Venta:
+            {{form.precio_venta}}
+          </label>
+          {% for error in form.precio_venta.errors %}
+            <div class="col-xs-12">
+              <p class="text-alert">
+                {{ error|escape }}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="grid-x grid-padding-x align-center">
+        <input type="submit" class="button" value="Guardar">
+      </div>
+    </form>
+  </div>
+{% endblock content %}

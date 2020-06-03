@@ -1,0 +1,123 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reporte Control de Facturas{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+  <div class="grid-container grid-container-padded">
+    <form class="grid-x grid-margin-x aling-center callout" method="get">{% csrf_token %}
+      <div class="cell small-12 grid-x grid-margin-x aling-center">
+        <div class="cell small-12 medium-6">
+          <label>Fecha Inicio:
+            {{form.date_start}}
+          </label>
+        </div>
+        <div class="cell small-12 medium-6">
+          <label>Fecha Fin:
+            {{form.date_end}}
+          </label>
+        </div>
+        <div class="cell small-12 medium-6">
+          <label>Numero de Factura:
+            {{form.number}}
+          </label>
+        </div>
+        <div class="cell small-12 medium-6">
+          <label>Estado de Factura:
+            {{form.state}}
+          </label>
+        </div>
+      </div>
+      <div class="cell small-8 meiudm-3 large-3 small-offset-3 medium-offset-5 large-offset-5">
+        <button type="submit" name="button" class="button">Buscar</button>
+      </div>
+    </form>
+
+    <div class="grid-x">
+      <div class="cell small-12 medium-6">
+        <div class="callout success">
+          <h4>Factura: <span style="color:#2E7D32;">S/. {{consulta.facturas.monto}}</span></h4>
+        </div>
+      </div>
+      <div class="cell small-12 medium-6">
+        <div class="callout primary">
+          <h4>Nota Credito: <span style="color:#3F51B5;">S/. {{consulta.notas.monto}}</span></h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-x">
+      <table class="stack">
+        <thead>
+          <th>Numero</th>
+          <th>Guia</th>
+          <th>Fecha</th>
+          <th>Proveedor</th>
+          <th>Estado</th>
+          <th>Monto</th>
+        </thead>
+        <tbody>
+          {% for f in consulta.facturas.facturas  %}
+            <tr>
+              <td>
+                <a href="#">{{f.number}}</a>
+              </td>
+              <td>
+                <a href="#">{{f.guide.number}}</a>
+              </td>
+              <td>
+                <a href="#">{{f.date_emition}}</a>
+              </td>
+              <td>
+                <a href="#">{{f.guide.provider}}</a>
+              </td>
+              <td>
+                <a href="#">
+                  {% if f.state == True %}
+                    <span style="color:green">Cerrada</span>
+                  {% else %}
+                    <span style="color:red">No Cerrada</span>
+                  {% endif %}
+                </a>
+              </td>
+              <td>
+                <a href="#">{{f.amount}}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- lista de notas de credito -->
+    <div class="grid-x align-center" style="margin-top:4em;">
+      <h4 class="cell small-4"><a href="#" style="color:#3F51B5;">Notas de Credito</a></h4>
+      <table class="stack">
+        <thead>
+          <th>Numero</th>
+          <th>Factura</th>
+          <th>Fecha</th>
+          <th>Monto</th>
+        </thead>
+        <tbody>
+          {% for f in consulta.notas.notas  %}
+            <tr>
+              <td>
+                <a href="#">{{f.number}}</a>
+              </td>
+              <td>
+                <a href="#">{{f.voucher.number}}</a>
+              </td>
+              <td>
+                <a href="#">{{f.date_emition}}</a>
+              </td>
+              <td>
+                <a href="#">{{f.amount_igv}}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

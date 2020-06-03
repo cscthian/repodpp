@@ -1,0 +1,93 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Lista Perdidas {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="ListLostCtrl as vm">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Diarios Productos Perididos</span></h3>
+          <br>
+          <div class="form-group">
+            <div class="input-group col-sm-4">
+                <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                <div class="input-group-btn">
+                    <a href="{% url 'administrador_app:control-add' %}" class="btn btn-primary" title="Nuevo Registro"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+            <legend></legend>
+            <select id="tipo" class="select" ng-model="vm.tipo" ng-change="vm.calcular_monto(vm.tipo)">
+                <option value="Almacen">Alamcen</option>
+                <option value="Caja">Caja</option>
+                <option value="">Todo</option>
+            </select>
+          </div>
+
+          <div class="table-responsive">
+            <h3> Monto Calculado: S/.<span class="text-primary">{$ vm.monto $}</span></h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <a href="#" ng-click="order_by = 'cod'; not_order = !not_order">
+                      Codigo
+                      <span ng-show="order_by == 'cod' && !not_order" </span>
+                      <span ng-show="order_by == 'cod' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'module'; not_order = !not_order">
+                      Modulo
+                      <span ng-show="order_by == 'module' && !not_order"</span>
+                      <span ng-show="order_by == 'module' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'detail_guide'; not_order = !not_order">
+                      <strong>Diario Producto</strong>
+                      <span ng-show="order_by == 'detail_guide' && !not_order" </span>
+                      <span ng-show="order_by == 'detail_guide' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'count'; not_order = !not_order">
+                      <strong>Cantidad</strong>
+                      <span ng-show="order_by == 'count' && !not_order" </span>
+                      <span ng-show="order_by == 'count' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'precio_venta'; not_order = !not_order">
+                      <strong>Precio Venta</strong>
+                      <span ng-show="order_by == 'precio_venta' && !not_order" </span>
+                      <span ng-show="order_by == 'precio_venta' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#">
+                      Accion
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="l in vm.losts | orderBy:order_by:not_order |filter:{module:vm.tipo} | filter:vm.buscar">
+                  <td>{$ l.pk $}</td>
+                  <td>{$ l.module $}</td>
+                  <td><strong>{$ l.detail_guide $}</strong></td>
+                  <td><strong>{$ l.count $}</strong></td>
+                  <td>{$ l.precio_venta $}</td>
+                  <td>
+                        <a ng-href="/admin/control/delete/{$ l.pk $}" class="btn btn-danger" title="Eliminar"><i class="fa fa-remove"></i></a>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-success btn-xs col-md-offset-5" ng-dblclick="vm.close_duda()">Reiniciar Deudas</button>
+          </div>
+        </section>
+    </div>
+
+{% endblock main %}

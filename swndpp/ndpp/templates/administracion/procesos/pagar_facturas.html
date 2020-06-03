@@ -1,0 +1,83 @@
+{% extends "administracion/base_admin.html" %}
+
+{% block title %}Reporte Control de Facturas{% endblock title %}
+
+{% block content %}
+  {% include "include/header.html" %}
+
+  <div class="grid-x grid-margin-x align-center">
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-reporte_liquidacion_proveedor' %}" class="button secondary">Compra Total</a>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-reporte_liquidacion_proveedor_factura' %}" class="button success">Compra Facturada</a>
+    </div>
+    <div class="cell shrink">
+      <a href="{% url 'administracion_app:administracion-proceso_pagos_factura' %}" class="button warning">Pagar Facturas</a>
+    </div>
+  </div>
+
+  <h3 style="text-align:center"> Registra Pago de Facturas</h3>
+  <div class="grid-container" ng-app="DppApp" ng-controller="FacturaCtrl as self" ng-init="self.listar_factura()">
+    <div class="grid-x align-center">
+      <div class="cell small-12 medium-6 large-4">
+        <label>Filtrar por:
+          <input type="text" ng-model="self.buscar" placeholder="Buscar...">
+        </label>
+      </div>
+      <div class="cell small-12">
+        <table>
+          <thead>
+            <tr>
+              <th>Seleccion</th>
+              <th>CODIGO</th>
+              <th>FACTURA</th>
+              <th>FECHA-EMISION</th>
+              <th>MONTO FACT.</th>
+              <th>M. NotaCredito</th>
+              <th>M. Pagar</th>
+              <th>Responsabilidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="f in self.facturas | filter:self.buscar" style="color:#C62828;" ng-style="f.correcto && {'color':'#212121'}">
+              <td><input type='checkbox' ng-model="f.state" ng-click="self.recalcular_monto()"></td>
+              <td>{$ f.number_interno $}</td>
+              <td>{$ f.number $}</td>
+              <td>{$ f.date_emition $}</td>
+              <td style="font-size:1.3em;"><strong>{$ f.amount $}</strong></td>
+              <td>{$ f.amount_nota $}</td>
+              <td><input type='text' ng-model="f.monto_factura" value="f.monto_factura" ng-change="self.recalcular_monto()"></td>
+              <td>
+                <select ng-model="f.responsabilidad">
+                  <option value="0">---</option>
+                  <option value="1">Administracion</option>
+                  <option value="2">Almacen</option>
+                  <option value="3">Caja</option>
+                  <option value="4">Otros</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cell small-12 large-12">
+        <div class="grid-x grid-margin-x align-center callout">
+          <div class="cell small-12 large-4">
+            <h5><span style="text-align:center;">Monto Total Factura:</span> S/. {$ self.monto_total $}</h5>
+            <h5><span style="text-align:center;">Monto Total Pagar:</span> S/. {$ self.monto_real $}</h5>
+          </div>
+          <div class="cell small-12 large-3">
+            <input type="text" ng-model="self.codigo_pago" placeholder="codigo de pago">
+          </div>
+          <div class="cell small-12 large-3">
+            <input type="date" ng-model="self.date_pago">
+          </div>
+          <div class="shrink">
+            <button type="button" class="button" name="button" ng-click="self.registrar_pago()">Registrar Pago</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,74 @@
+{% extends "base/dashboardCaja.html" %}
+
+{% block title %} Cuadrar Caja {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="LiquidacionDiaCtrl as vm" ng-init="vm.liquidacion_por_dia(fecha)">
+  <div class="row">
+    <div class="col-md-12">
+        <section class="widget bg-success text-white">
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <h2 class="text-center">
+                        <span class="center"><strong>Monto Cobrado: <strong>S/. {$ vm.monto_cobrado $}</strong></span>
+                      </h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div id="print-section">
+      <section class="widget">
+        <div class="row">
+          <h3 class="text-center"><strong><u>Lista de Movimientos</u></strong></h3>
+        </div>
+      <div class="row" >
+        <legend></legend>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Fecha</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Monto Cobrado</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="l in vm.liquidacion">
+            <tr ng-repeat="i in l.lista_pagos">
+              <td>
+                <span ng-if="vm.venta_caja(i.dia)" class="text-primary">{$ i.magazine $}-{$ i.dia $}</span>
+                <span ng-if="!vm.venta_caja(i.dia)">{$ i.magazine $}-{$ i.dia $}</span>
+              </td>
+              <td>{$ i.date $}</td>
+              <td> {$ i.precio $}</td>
+              <td> {$ i.pagado $}</td>
+              <td> {$ i.total $}</td>
+            </tr>
+          </tbody>
+        </table>
+        <legend></legend>
+      </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <section class="widget">
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-sm-offset-5 col-sm-7">
+                      <a href="{% url 'pagos_app:pagos-confirmar'%}" class="btn btn-primary">Confirmar</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock main %}

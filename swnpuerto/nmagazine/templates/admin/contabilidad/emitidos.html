@@ -1,0 +1,210 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Guias Culminadas {% endblock title %}
+
+
+{% block main %}
+<div class="row" ng-app="MagazineApp" ng-controller="EmitidosCtrl as vm">
+    <div class="row">
+        <section class="widget">
+          <h3>Consulta de Guias <span class="fw-semi-bold">Cerradas</span></h3>
+
+
+          <div class="row">
+              <div class="col-md-12">
+                  <section class="widget">
+                      <header>
+                          <h5>
+                              Filtrar <strong>Por:</strong>
+                          </h5>
+                          <div class="widget-controls">
+                              <a href="."><i class="fa fa-refresh"></i></a>
+                          </div>
+                      </header>
+                      <div class="widget-body">
+                          <form role="form">
+                              <div class="row">
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Texto
+                                          </legend>
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                            <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Fecha Inicio
+                                          </legend>
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                              <input id="datetimepicker1" type="date" class="form-control" ata-date-format="YYYY MMMM DD" ng-model="vm.fecha1" ng-change="vm.rango_fecha()">
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <fieldset>
+                                          <legend>
+                                              Fecha Fin
+                                          </legend>
+                                          <div class="input-group">
+
+                                              <input id="datetimepicker" type="date" class="form-control" ng-model="vm.fecha2" ng-change="vm.cargar_boletas()">
+                                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                          </div>
+                                      </fieldset>
+                                  </div>
+                              </div>
+                          </form>
+                      </div>
+                  </section>
+              </div>
+          </div>
+
+
+        </section>
+        <section class="widget">
+          <div class="table-responsive">
+            <span class="label label-danger">Texto Rojo: Boletas Anuladas</span>
+            <select id="tipo" class="select" ng-model="vm.tipo">
+                <option value="">Todo</option>
+                <option value="true">Anulados</option>
+                <option value="false">No Anulados</option>
+            </select>
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <a href="#" ng-click="order_by = 'user_created'; not_order = !not_order">
+                      Creado Por
+                      <span ng-show="order_by == 'user_created' && !not_order" </span>
+                      <span ng-show="order_by == 'user_created' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'number'; not_order = !not_order">
+                      Numero
+                      <span ng-show="order_by == 'number' && !not_order"</span>
+                      <span ng-show="order_by == 'number' && not_order"</span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'client'; not_order = !not_order">
+                      <strong>Cliente</strong>
+                      <span ng-show="order_by == 'client' && !not_order" </span>
+                      <span ng-show="order_by == 'client' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'created'; not_order = !not_order">
+                      <strong>Fecha Registro</strong>
+                      <span ng-show="order_by == 'created' && !not_order" </span>
+                      <span ng-show="order_by == 'created' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'date_emition'; not_order = !not_order">
+                      <strong>Fecha Emision</strong>
+                      <span ng-show="order_by == 'date_emition' && !not_order" </span>
+                      <span ng-show="order_by == 'date_emition' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'date_venta'; not_order = !not_order">
+                      <strong>Fecha Venta</strong>
+                      <span ng-show="order_by == 'date_venta' && !not_order" </span>
+                      <span ng-show="order_by == 'date_venta' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'razon_social'; not_order = !not_order">
+                      <strong>Razon Social</strong>
+                      <span ng-show="order_by == 'razon_social' && !not_order" </span>
+                      <span ng-show="order_by == 'razon_social' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'amount'; not_order = !not_order">
+                      <strong>Monto</strong>
+                      <span ng-show="order_by == 'amount' && !not_order" </span>
+                      <span ng-show="order_by == 'amount' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'igv'; not_order = !not_order">
+                      <strong>IGV</strong>
+                      <span ng-show="order_by == 'igv' && !not_order" </span>
+                      <span ng-show="order_by == 'igv' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#" ng-click="order_by = 'afecto'; not_order = !not_order">
+                      <strong>Afecto</strong>
+                      <span ng-show="order_by == 'afecto' && !not_order" </span>
+                      <span ng-show="order_by == 'afecto' && not_order" </span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="#">
+                      Accion
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="g in vm.boletas | orderBy:order_by:not_order |filter:{anulate:vm.tipo} | filter:vm.buscar">
+                  <td>{$ g.user_created $}</td>
+                  <td><strong>
+                    <span ng-show="g.anulate"class="text-danger">{$ g.number $}</span>
+                    <span ng-show="!g.anulate">{$ g.number $}</span>
+                  </strong></td>
+                  <td>
+                    <span ng-show="g.anulate"class="text-danger">{$ g.client $}</span>
+                    <span ng-show="!g.anulate">{$ g.client $}</span>
+                  </td>
+                  <td>
+                    <span ng-show="g.anulate"class="text-danger">{$ g.created |date $}</span>
+                    <span ng-show="!g.anulate">{$ g.created |date $}</span>
+                  </td>
+                  <td>
+                    <span ng-show="g.anulate"class="text-danger">{$ g.date_emition |date $}</span>
+                    <span ng-show="!g.anulate">{$ g.date_emition |date $}</span>
+                  </td>
+                  <td>
+                      <span ng-show="g.anulate"class="text-danger">{$ g.date_venta |date $}</span>
+                      <span ng-show="!g.anulate">{$ g.date_venta |date $}</span>
+                  </td>
+                  <td>
+                    <span ng-show="g.anulate"class="text-danger">{$ g.razon_social $}</span>
+                    <span ng-show="!g.anulate">{$ g.razon_social $}</span>
+                  </td>
+                  <td>
+                    <span ng-show="g.anulate"class="text-danger">{$ g.amount $}</span>
+                    <span ng-show="!g.anulate">{$ g.amount $}</span>
+                  </td>
+                  <td>
+                    <span ng-show="g.anulate"class="text-danger">{$ g.igv $}</span>
+                    <span ng-show="!g.anulate">{$ g.igv $}</span>
+
+                  </td>
+                  <td>
+                    <span ng-show="!g.afecto" class="label label-primary">NO</span>
+                    <span ng-show="g.afecto"class="label label-warning">SI</span>
+                  </td>
+                  <td>
+                        <a ng-href="/contabilidad/detalle-boleta/{$ g.pk $}" class="btn btn-success" title="Detalle"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </div>
+  </div>
+
+{% endblock main %}

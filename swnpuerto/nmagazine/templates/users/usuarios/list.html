@@ -1,0 +1,46 @@
+{% extends "base/dashboardAdmin.html" %}
+
+{% block title %} Lista de usuarios {% endblock title %}
+
+
+{% block main %}
+<div class="row">
+        <section class="widget">
+          <h3>Lista de <span class="fw-semi-bold">Usuarios de Sistema</span></h3>
+          <br>
+          <div class="form-group">
+            <div class="input-group col-sm-4">
+                <input type="text" class="form-control" placeholder="Buscar..." ng-model="vm.buscar">
+                <div class="input-group-btn">
+                    <a href="{% url 'users_app:user-add' %}" class="btn btn-info" title="nuevo"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre de Usuario</th>
+                  <th>Tipo</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for u in  users_list %}
+                  <tr>
+                      <td>{{ u.username }}</td>
+                      <td>{{ u.get_type_user_display }}</td>
+                      <td>
+                            <a href="{% url 'users_app:user-update' u.pk %}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                            <a href="{% url 'users_app:user-delete' u.pk %}" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                      </td>
+                      {% empty %}
+                          <td colspan="7">no hay usuarios Registrados :( <a href="{% url 'users_app:user-add' %}">Agregar Nueva</a></td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+    </dvi>
+{% endblock main %}

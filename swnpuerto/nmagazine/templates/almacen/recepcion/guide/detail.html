@@ -1,0 +1,107 @@
+{% extends "base/dashboardAlmacen.html" %}
+
+{% block title %} Asignacion Nueva {% endblock title %}
+
+
+{% block main %}
+<div ng-app="MagazineApp" ng-controller="GuideUpdateCtrl as vm">
+  <h3> <toast></toast></h3>
+<h2 class="col-sm-offset-2 page-title">Modificar Guia de Remision</h2>
+<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<div class="col-md-12">
+    <section class="widget">
+        <header>
+            <div class="widget-controls">
+                <a href="."><i class="fa fa-refresh"></i></a>
+            </div>
+        </header>
+        <div class="widget-body">
+                <fieldset>
+                    <legend><strong>Datos Guia</strong></legend>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="number">Numero de Guia: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                                <input id="number" class="form-control" size="16" type="text" value="{{object.number}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="invoce">Numero de Interno: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list-alt"></i></span>
+                                <input id="number" class="form-control" size="16" type="text" value="{{object.number_invoce}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="invoce">Proveedor: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-plane"></i></span>
+                                <input id="number" class="form-control" size="16" type="text" value="{{object.provider.name}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="invoce">Fecha Registro: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input id="number" class="form-control" size="16" type="text" value="{{object.created}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="invoce">Registrado por: </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input id="number" class="form-control" size="16" type="text" value="{{object.user_created}}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    </fieldset>
+                    <legend>Lista de Items</legend>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Diario/Producto</th>
+                            <th>Dia</th>
+                            <th>Cantidad</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for g in  list_detail %}
+                            <tr>
+                                <td><span class="text-primary"><strong>{{ g.magazine_day.magazine }}</strong></span></td>
+                                <td><span class="text-primary"><strong>{{ g.magazine_day.get_day_display }}</strong></span></td>
+                                <td><strong>{{ g.count }}</strong></td>
+                                {% empty %}
+                                    <td colspan="7">No se Encontraron elementos</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-sm-offset-4 col-sm-7">
+                                <button type="submit" class="btn btn-warning">Exportar</button>
+                                <a href="{% url 'recepcion_app:guide-list' %}" class="btn btn-inverse">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </section>
+</div>
+</form>
+</div>
+{% endblock main %}
