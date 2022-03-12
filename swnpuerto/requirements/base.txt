@@ -1,5 +1,5 @@
 Django==1.11.3
-Pillow==2.8.2
+Pillow==9.0.1
 Unipath==1.1
 django-model-utils==3.0.0
 djangorestframework==3.6.3
